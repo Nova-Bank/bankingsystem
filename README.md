@@ -26,6 +26,27 @@ Account
 - Account Service
 - Account Storage
 
+# Design Patterns
+### Observer
+- Credit payments
+- Change in Policies
+- Overdraft
+- Payment notification (opinional)
+### Singleton
+### Decorator
+### Factory
+### Builder
+### Decorator
+- Logs
+### Composite
+### COR
+- Tech Support
+- Premission for big transactions
+### Iterator Pattern
+- Recent Transactions
+### Trie
+- Search up certain transactions
+### 
 
 ## Abstract Fiances
 - Interest Rate
