@@ -11,8 +11,10 @@ public class AdultAccount extends Account {
 
     public AdultAccount() {
         Random r = new Random();
-        int tmpUID = r.nextInt(100000);
-        super.setUID(tmpUID);
+        //TODO: make sure it is a unique randint
+        int UID = r.nextInt(100000);
+        super.setUID(UID);
+        //
     }
 
     public void addChild(ChildAccount child) throws Exception {

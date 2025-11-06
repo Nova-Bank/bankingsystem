@@ -9,6 +9,7 @@ public abstract class Account {
     private String fullName;
     private Date DOB;
     private int phoneNumber;
+    private long balanceCents;
 
     public String getEmail() {
         return this.email;
@@ -57,6 +58,11 @@ public abstract class Account {
     public void setPassword(String input) {
         this.password = input;
     }
+
+    public long getBalance() {
+        return this.balanceCents;
+    }
+
 
     public abstract boolean login(String str, String pass);
 

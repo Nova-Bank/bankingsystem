@@ -12,7 +12,6 @@ public class ChildAccount extends Account {
         Random r = new Random();
         int tmpUID = r.nextInt(100000);
         super.setUID(tmpUID);
-
     } 
 
     @Override
