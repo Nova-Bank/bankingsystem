@@ -1,7 +1,9 @@
 package main.model;
 public abstract class Finance {
-    private balance;
-    private total
+    private double balance;
+    private double total;
+
+
     void withdraw(double balance, double amount){
         if(amount < 0){
             throw new IllegalArgumentException("Amount cannot be negative");
