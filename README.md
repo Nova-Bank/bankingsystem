@@ -48,7 +48,7 @@ Account
 - Search up certain transactions
 ### 
 
-## Abstract Fiances
+# Abstract Fiances
 - Interest Rate
 - Monthly Fee
 - Limits
@@ -56,7 +56,13 @@ Account
 2. Daily Transfers
 3. Foreign Transfers
 
-## Abstract Account
+## Cheqing
+
+## Saving
+
+## Credit
+
+# Abstract Account
 - Subclass Youth & Adult
 - UID
 - Email
@@ -66,9 +72,11 @@ Account
 - SIN
 - ? Governemnt ID
 - Phone #
+- Card Number
 Method
 - Login(email, password)
-- Login(Full name, password)
+- login(phone Number, password)
+- login (card number, password)
 - void Log out()
 - Recover(email)
 - Register();
