@@ -56,6 +56,22 @@ public abstract class Account {
         return this.balanceCents / 100.0;
     }
 
+    void withdraw(double amount) {
+        if  (amount < 0) {
+            throw new IllegalArgumentException("Amount cannot be negative");
+        }
+        this.balanceCents -= amount;
+        System.out.println("Withdrawing $" + amount);
+    }
+
+    void deposit(double amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Amount cannot be negative");
+        }
+        this.balanceCents += amount;
+        System.out.println("Depositing $" + amount);
+    }
+
     /**
      * Verify login credentials.
      * @param email Email to verify
@@ -66,3 +82,4 @@ public abstract class Account {
         return this.email.equals(email) && this.password.equals(password);
     }
 }
+
