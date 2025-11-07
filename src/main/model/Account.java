@@ -1,69 +1,68 @@
 package main.model;
-import java.util.Date;
 
+import java.time.LocalDate;
+import java.util.Random;
+
+/**
+ * Abstract base class for all account types.
+ * Immutable after creation - no setters for critical fields.
+ */
 public abstract class Account {
 
-    private int UID;
-    private String email;
-    private String password;
-    private String fullName;
-    private Date DOB;
-    private int phoneNumber;
+    private final int UID;
+    private final String email;
+    private final String password;
+    private final String fullName;
+    private final LocalDate dateOfBirth;
+    private final String phoneNumber;
     private long balanceCents;
 
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String input) {
-        this.email = input;
-    }
-
-    public String getName() {
-        return this.fullName;
-    }
-
-    public void setName(String name) {
-        this.fullName = name;
-    }
-
-    public Date getDOB() {
-        return this.DOB;
-    }
-
-    public void setDOB(Date input) {
-        this.DOB = input;
-    }
-
-    public int getPhoneNumber() {
-        return this.phoneNumber;
-    }
-
-    public void setPhoneNumber(int input) {
-        this.phoneNumber = input;
+    protected Account(AccountInfo info) {
+        Random random = new Random();
+        this.UID = random.nextInt(900000) + 100000; // 6-digit random number
+        this.email = info.getEmail();
+        this.password = info.getPassword();
+        this.fullName = info.getFullName();
+        this.dateOfBirth = info.getDateOfBirth();
+        this.phoneNumber = info.getPhoneNumber();
+        this.balanceCents = 0;
     }
 
     public int getUID() {
         return this.UID;
     }
 
-    public void setUID(int input) {
-        this.UID = input;
+    public String getEmail() {
+        return this.email;
     }
 
-    public String getPassword() {
-        return this.password;
+    public String getFullName() {
+        return this.fullName;
     }
 
-    public void setPassword(String input) {
-        this.password = input;
+    public LocalDate getDateOfBirth() {
+        return this.dateOfBirth;
     }
 
-    public long getBalance() {
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public long getBalanceCents() {
         return this.balanceCents;
     }
 
+    public double getBalanceDollars() {
+        return this.balanceCents / 100.0;
+    }
 
-    public abstract boolean login(String str, String pass);
-
+    /**
+     * Verify login credentials.
+     * @param email Email to verify
+     * @param password Password to verify
+     * @return true if credentials match
+     */
+    public boolean login(String email, String password) {
+        return this.email.equals(email) && this.password.equals(password);
+    }
 }
