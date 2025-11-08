@@ -15,7 +15,6 @@ public abstract class Account {
     private final String fullName;
     private final LocalDate dateOfBirth;
     private final String phoneNumber;
-    private long balanceCents;
 
     protected Account(AccountInfo info) {
         Random random = new Random();
@@ -25,7 +24,6 @@ public abstract class Account {
         this.fullName = info.getFullName();
         this.dateOfBirth = info.getDateOfBirth();
         this.phoneNumber = info.getPhoneNumber();
-        this.balanceCents = 0;
     }
 
     public int getUID() {
@@ -48,29 +46,6 @@ public abstract class Account {
         return this.phoneNumber;
     }
 
-    public long getBalanceCents() {
-        return this.balanceCents;
-    }
-
-    public double getBalanceDollars() {
-        return this.balanceCents / 100.0;
-    }
-
-    void withdraw(double amount) {
-        if  (amount < 0) {
-            throw new IllegalArgumentException("Amount cannot be negative");
-        }
-        this.balanceCents -= amount;
-        System.out.println("Withdrawing $" + amount);
-    }
-
-    void deposit(double amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("Amount cannot be negative");
-        }
-        this.balanceCents += amount;
-        System.out.println("Depositing $" + amount);
-    }
 
     /**
      * Verify login credentials.
