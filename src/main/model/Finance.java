@@ -2,7 +2,16 @@ package main.model;
 import java.time.LocalDate;
 
 /**
- *
+ * Written By: Josef Geshelin
+ * Toufic if you want to change the name of Finance to be better/more accurate do it ASAP as it'll be much harder later
+ */
+
+ /**
+ * <-- -- [ADD DESCRIPTIONN ] -- -->
+ * 
+ * @author Toufic Fares
+ * @version 1.0
+ * @since 2025-11-07
  */
 public abstract class Finance {
 
@@ -15,7 +24,9 @@ public abstract class Finance {
     protected int dailySpendingLimit;
 
 
-
+    /*
+     * Add balance, and dailySpendingLimit as they are Undefined if not decalred here. 
+     */
     public Finance(int amountSpentToday, int dailyTransferLimit, int dailypurchaseLimit) {
         this.amountSpentToday = amountSpentToday;
         this.dailyTransferLimit = dailyTransferLimit;
@@ -47,7 +58,7 @@ public abstract class Finance {
         return balance;
     }
 
-    int withdraw(int amount, LocalDate date) {
+    public int withdraw(int amount, LocalDate date) {
         if (amount < 0) {
             throw new IllegalArgumentException("Amount cannot be negative");
         }
@@ -57,13 +68,13 @@ public abstract class Finance {
         if (amount + dailyWithdrawalLimit > balance) {
             throw new IllegalArgumentException("You have reached the daily withdrawl limit");
         }else{
-            balance += amount;
+            balance -= amount;
             amountSpentToday += amount;
         }
         return balance;
     }
 
-    int deposit(int amount) {
+    public int deposit(int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("Amount cannot be negative");
         }
@@ -71,7 +82,10 @@ public abstract class Finance {
         return balance;
     }
 
-    String transfer(Finance sender,Finance reciever ,int amount, LocalDate date) {
+    /*
+     * Josef: Change this to boolean then add logger for success/fail
+     */
+    public String transfer(Finance sender,Finance reciever ,int amount, LocalDate date) {
         if (amount < 0) {
             throw new IllegalArgumentException("Amount cannot be negative");
         }
@@ -86,8 +100,12 @@ public abstract class Finance {
         }
         return "Transfer of amount: " + amount + " is sent";
     }
+    /* 
+     * add abstract methods, 
+    */
+    public volatile abstract interest(){
 
-
+    }
 
 
 }
