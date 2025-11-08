@@ -31,6 +31,9 @@ public abstract class Finance {
         this.amountSpentToday = amountSpentToday;
         this.dailyTransferLimit = dailyTransferLimit;
         this.dailySpendingLimit = dailypurchaseLimit;
+        this.dailyPurchaseLimit = dailyPurchaseLimit;
+        this.balance = balance;
+        this.dailyWithdrawalLimit = dailyWithdrawalLimit;
     }
 
     void setAmountSpentToday(int amountSpentToday) {
@@ -45,6 +48,12 @@ public abstract class Finance {
     void setBalance(int balance) {
         this.balance = balance;
     }
+    void setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
+        this.dailyWithdrawalLimit = dailyWithdrawalLimit;
+    }
+    void setDailyPurchaseLimit(int dailyPurchaseLimit) {
+        this.dailyPurchaseLimit = dailyPurchaseLimit;
+    }
     public int getAmountSpentToday() {
         return amountSpentToday;
     }
@@ -54,7 +63,14 @@ public abstract class Finance {
     public int getDailySpendingLimit() {
         return dailySpendingLimit;
     }
-    public int getBalance() {
+    public int getDailyWithdrawalLimit() {
+        return dailyWithdrawalLimit;
+    }
+    public int getDailyPurchaseLimit() {
+         return dailyPurchaseLimit;
+     }
+
+     public int getBalance() {
         return balance;
     }
 
@@ -82,10 +98,7 @@ public abstract class Finance {
         return balance;
     }
 
-    /*
-     * Josef: Change this to boolean then add logger for success/fail
-     */
-    public String transfer(Finance sender,Finance reciever ,int amount, LocalDate date) {
+    public boolean transfer(Finance sender,Finance reciever ,int amount, LocalDate date) {
         if (amount < 0) {
             throw new IllegalArgumentException("Amount cannot be negative");
         }
@@ -97,15 +110,16 @@ public abstract class Finance {
         }else{
             sender.setBalance(sender.getBalance() - amount);
             reciever.setBalance(reciever.getBalance() + amount);
+            return true;
         }
-        return "Transfer of amount: " + amount + " is sent";
+
     }
     /* 
      * add abstract methods, 
     */
-    public volatile abstract interest(){
+    public abstract void interest();
 
-    }
+
 
 
 }
