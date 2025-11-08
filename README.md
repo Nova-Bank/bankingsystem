@@ -35,7 +35,9 @@ Account
 ### Singleton
 ### Decorator
 ### Factory
+- Decides to Create youth or adult account with one register interface 
 ### Builder
+- Creates Account and Finances 
 ### Decorator
 - Logs
 ### Composite
