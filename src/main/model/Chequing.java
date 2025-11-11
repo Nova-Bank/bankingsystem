@@ -18,6 +18,6 @@ public class Chequing extends Finance{
             balance = (int) Math.round(balance*(1+interestRate));
             lastSeen = now;
         }
-
     }
+
 }
