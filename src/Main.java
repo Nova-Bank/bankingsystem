@@ -1,5 +1,5 @@
-import main.model.AdultAccount;
-import main.model.ChildAccount;
+import main.java.com.github.novabank.model.AdultAccount;
+import main.java.com.github.novabank.model.ChildAccount;
 
 public class Main {
     public static void main(String[] args) {

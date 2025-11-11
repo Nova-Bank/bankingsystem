@@ -1,0 +1,9 @@
+main\java\com\github\novabank\model\AdultAccount.class
+main\java\com\github\novabank\model\Validator.class
+main\java\com\github\novabank\model\Chequing.class
+main\java\com\github\novabank\model\ValidatePassword.class
+main\java\com\github\novabank\model\AccountInfoValidator.class
+main\java\com\github\novabank\model\AccountInfo.class
+main\java\com\github\novabank\model\Account.class
+main\java\com\github\novabank\model\Finance.class
+main\java\com\github\novabank\model\ChildAccount.class
