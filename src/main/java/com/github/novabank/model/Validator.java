@@ -1,4 +1,4 @@
-package main.model;
+package main.java.com.github.novabank.model;
 
 /**
  * Generic validator interface using the Strategy pattern.

@@ -1,8 +1,9 @@
-package main.model;
+package main.java.com.github.novabank.model;
 
-import main.model.AccountInfo;
 import java.time.LocalDate;
 import java.time.Period;
+
+import main.java.com.github.novabank.model.AccountInfo;
 
 /**
  * Validates AccountInfo before creating an Account.

@@ -1,4 +1,6 @@
-package main.model;
+package main.java.com.github.novabank.model;
+import main.java.com.github.novabank.model.ChildAccount;
+import main.java.com.github.novabank.model.AccountInfo;
 
 import java.util.ArrayList;
 import java.util.List;

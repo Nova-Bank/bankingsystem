@@ -1,4 +1,4 @@
-# bankingsystem
+# Banking System
 
 ## Functions
 

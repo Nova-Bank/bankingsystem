@@ -1,4 +1,6 @@
-package main.model;
+package main.java.com.github.novabank.model;
+import main.java.com.github.novabank.model.AdultAccount;
+import main.java.com.github.novabank.model.AccountInfo;
 
 /**
  * Child account - must be under 18.
