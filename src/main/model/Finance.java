@@ -24,9 +24,7 @@ public abstract class Finance {
     protected int dailySpendingLimit;
 
 
-    /*
-     * Add balance, and dailySpendingLimit as they are Undefined if not decalred here. 
-     */
+
     public Finance(int amountSpentToday, int dailyTransferLimit, int dailypurchaseLimit) {
         this.amountSpentToday = amountSpentToday;
         this.dailyTransferLimit = dailyTransferLimit;
@@ -118,6 +116,7 @@ public abstract class Finance {
      * add abstract methods, 
     */
     public abstract void interest();
+
 
 
 
