@@ -1,6 +1,6 @@
 package main.java.com.github.novabank.model;
-import main.java.com.github.novabank.model.AdultAccount;
-import main.java.com.github.novabank.model.AccountInfo;
+
+import java.time.LocalDate;
 
 /**
  * Child account - must be under 18.
@@ -12,36 +12,43 @@ public class ChildAccount extends Account {
     
     private AdultAccount parent;
 
-    private ChildAccount(AccountInfo info) {
-        super(info);
+    private ChildAccount(String email, String password, String fullName, LocalDate dateOfBirth, String phoneNumber) {
+        super(email, password, fullName, dateOfBirth, phoneNumber);
     }
 
     /**
      * Factory method to create a ChildAccount with validation.
+     * This is where the validation happens - in the implementation layer.
      * 
      * @param info Account information to validate
      * @param parent Parent adult account
      * @return New ChildAccount instance
-     * @throws InvalidAccountException if validation fails or age >= 18
+     * @throws IllegalArgumentException if validation fails or age >= 18
      */
-    public static ChildAccount create(AccountInfo info, AdultAccount parent) throws IllegalArgumentException{
+    public static ChildAccount create(AccountInfo info, AdultAccount parent) throws IllegalArgumentException {
         
         if (parent == null) {
             throw new IllegalArgumentException("Child account must have a parent");
         }
         
         AccountInfoValidator validator = new AccountInfoValidator();
-        
-        if (!validator.validate(info)) {
-            throw new IllegalArgumentException("Invalid account information");
+        ValidationResult result = validator.validate(info);
+        if (!result.isValid()) {
+            throw new IllegalArgumentException("Invalid account information: " + result.getErrorMessage());
         }
         
         int age = AccountInfoValidator.getAge(info.getDateOfBirth());
         if (age > MAX_AGE) {
-            throw new IllegalArgumentException("Must be 17 or younger for child account");
+            throw new IllegalArgumentException("Must be 17 or younger for child account (current age: " + age + ")");
         }
         
-        ChildAccount child = new ChildAccount(info);
+        ChildAccount child = new ChildAccount(
+            info.getEmail(),
+            info.getPassword(),
+            info.getFullName(),
+            info.getDateOfBirth(),
+            info.getPhoneNumber()
+        );
         
         parent.addChild(child);
         
@@ -68,5 +75,4 @@ public class ChildAccount extends Account {
     public boolean hasParent() {
         return parent != null;
     }
-
 }

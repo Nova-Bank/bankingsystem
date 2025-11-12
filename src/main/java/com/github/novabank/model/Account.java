@@ -6,6 +6,7 @@ import java.util.Random;
 /**
  * Abstract base class for all account types.
  * Immutable after creation - no setters for critical fields.
+ * Now depends on primitives instead of AccountInfo (Dependency Inversion)
  */
 public abstract class Account {
 
@@ -16,14 +17,15 @@ public abstract class Account {
     private final LocalDate dateOfBirth;
     private final String phoneNumber;
 
-    protected Account(AccountInfo info) {
+    protected Account(String email, String password, String fullName, 
+                     LocalDate dateOfBirth, String phoneNumber) {
         Random random = new Random();
         this.UID = random.nextInt(900000) + 100000; // 6-digit random number
-        this.email = info.getEmail();
-        this.password = info.getPassword();
-        this.fullName = info.getFullName();
-        this.dateOfBirth = info.getDateOfBirth();
-        this.phoneNumber = info.getPhoneNumber();
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
     }
 
     public int getUID() {
@@ -46,7 +48,6 @@ public abstract class Account {
         return this.phoneNumber;
     }
 
-
     /**
      * Verify login credentials.
      * @param email Email to verify
@@ -57,4 +58,3 @@ public abstract class Account {
         return this.email.equals(email) && this.password.equals(password);
     }
 }
-

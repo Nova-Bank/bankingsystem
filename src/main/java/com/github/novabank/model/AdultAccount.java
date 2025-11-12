@@ -1,7 +1,6 @@
 package main.java.com.github.novabank.model;
-import main.java.com.github.novabank.model.ChildAccount;
-import main.java.com.github.novabank.model.AccountInfo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,41 +15,50 @@ public class AdultAccount extends Account {
     
     private final List<ChildAccount> children = new ArrayList<>();
 
-    private AdultAccount(AccountInfo info) {
-        super(info);
+    private AdultAccount(String email, String password, String fullName, 
+                        LocalDate dateOfBirth, String phoneNumber) {
+        super(email, password, fullName, dateOfBirth, phoneNumber);
     }
 
     /**
      * Factory method to create an AdultAccount with validation.
+     * This is where the validation happens - in the implementation layer.
      * 
      * @param info Account information to validate
      * @return New AdultAccount instance
-     * @throws InvalidAccountException if validation fails or age < 18
+     * @throws IllegalArgumentException if validation fails or age < 18
      */
     public static AdultAccount create(AccountInfo info) throws IllegalArgumentException {
         AccountInfoValidator validator = new AccountInfoValidator();
         
-        if (!validator.validate(info)) {
-            throw new IllegalArgumentException("Invalid account information");
+        ValidationResult result = validator.validate(info);
+        if (!result.isValid()) {
+            throw new IllegalArgumentException("Invalid account information: " + result.getErrorMessage());
         }
         
         int age = AccountInfoValidator.getAge(info.getDateOfBirth());
         if (age < MIN_AGE) {
-            throw new IllegalArgumentException("Must be at least 18 years old for adult account");
+            throw new IllegalArgumentException("Must be at least 18 years old for adult account (current age: " + age + ")");
         }
         
-        return new AdultAccount(info);
+        return new AdultAccount(
+            info.getEmail(),
+            info.getPassword(),
+            info.getFullName(),
+            info.getDateOfBirth(),
+            info.getPhoneNumber()
+        );
     }
 
     /**
      * Link a child account to this adult account.
      * 
      * @param child Child account to add
-     * @throws InvalidAccountException if max children reached
+     * @throws IllegalArgumentException if max children reached
      */
     public void addChild(ChildAccount child) throws IllegalArgumentException {
         if (children.size() >= MAX_CHILDREN) {
-            throw new IllegalArgumentException("Cannot add child. Maximum of 4 children allowed.");
+            throw new IllegalArgumentException("Cannot add child. Maximum of " + MAX_CHILDREN + " children allowed.");
         }
         
         children.add(child);
@@ -76,5 +84,12 @@ public class AdultAccount extends Account {
      */
     public int getChildCount() {
         return children.size();
+    }
+    
+    /**
+     * Get list of child accounts (unmodifiable).
+     */
+    public List<ChildAccount> getChildren() {
+        return new ArrayList<>(children);
     }
 }
