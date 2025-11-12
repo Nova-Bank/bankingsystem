@@ -1,6 +1,6 @@
-package main.java.com.github.novabank.model;
+package com.github.novabank.model;
 
-import main.java.com.github.novabank.api.Validator;
+import com.github.novabank.api.Validator;
 
 public class ValidatePassword implements Validator<String> {
 

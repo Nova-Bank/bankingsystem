@@ -1,0 +1,432 @@
+[1mdiff --git a/src/main/java/com/github/novabank/model/Validator.java b/src/main/java/com/github/novabank/api/Validator.java[m
+[1msimilarity index 87%[m
+[1mrename from src/main/java/com/github/novabank/model/Validator.java[m
+[1mrename to src/main/java/com/github/novabank/api/Validator.java[m
+[1mindex 4f33b0e..0328ed9 100644[m
+[1m--- a/src/main/java/com/github/novabank/model/Validator.java[m
+[1m+++ b/src/main/java/com/github/novabank/api/Validator.java[m
+[36m@@ -1,4 +1,4 @@[m
+[31m-package main.java.com.github.novabank.model;[m
+[32m+[m[32mpackage main.java.com.github.novabank.api;[m
+ [m
+ /**[m
+  * Generic validator interface using the Strategy pattern.[m
+[1mdiff --git a/src/main/java/com/github/novabank/builder/AccountBuilder.java b/src/main/java/com/github/novabank/builder/AccountBuilder.java[m
+[1mindex a4a1bc0..2e72b44 100644[m
+[1m--- a/src/main/java/com/github/novabank/builder/AccountBuilder.java[m
+[1m+++ b/src/main/java/com/github/novabank/builder/AccountBuilder.java[m
+[36m@@ -1 +1,145 @@[m
+ package main.java.com.github.novabank.builder;[m
+[32m+[m
+[32m+[m[32mimport java.time.LocalDate;[m
+[32m+[m
+[32m+[m[32mimport main.java.com.github.novabank.model.AccountInfo;[m
+[32m+[m[32mimport main.java.com.github.novabank.model.AccountInfoValidator;[m
+[32m+[m[32mimport main.java.com.github.novabank.model.AdultAccount;[m
+[32m+[m[32mimport main.java.com.github.novabank.model.ChildAccount;[m
+[32m+[m[32mimport main.java.com.github.novabank.model.ValidationResult;[m
+[32m+[m
+[32m+[m[32m/**[m
+[32m+[m[32m * Builder class for creating Account instances with a fluent API.[m
+[32m+[m[32m * Handles validation and provides clear error messages.[m
+[32m+[m[32m *[m[41m [m
+[32m+[m[32m * Usage:[m
+[32m+[m[32m * <pre>[m
+[32m+[m[32m * AdultAccount account = new AccountBuilder()[m
+[32m+[m[32m *     .email("user@example.com")[m
+[32m+[m[32m *     .password("SecurePass123!")[m
+[32m+[m[32m *     .fullName("John Doe")[m
+[32m+[m[32m *     .dateOfBirth(LocalDate.of(1990, 5, 15))[m
+[32m+[m[32m *     .phoneNumber("555-1234")[m
+[32m+[m[32m *     .buildAdult();[m
+[32m+[m[32m * </pre>[m
+[32m+[m[32m */[m
+[32m+[m[32mpublic class AccountBuilder {[m
+[32m+[m[41m    [m
+[32m+[m[32m    private String email;[m
+[32m+[m[32m    private String password;[m
+[32m+[m[32m    private String fullName;[m
+[32m+[m[32m    private LocalDate dateOfBirth;[m
+[32m+[m[32m    private String phoneNumber;[m
+[32m+[m
+[32m+[m[32m    private AccountInfo createAccountInfo() {[m
+[32m+[m[32m        return new AccountInfo(email, password, fullName, dateOfBirth, phoneNumber);[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    public AccountBuilder email(String email) {[m
+[32m+[m[32m        this.email = email;[m
+[32m+[m[32m        return this;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public AccountBuilder password(String password) {[m
+[32m+[m[32m        this.password = password;[m
+[32m+[m[32m        return this;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public AccountBuilder fullName(String fullName) {[m
+[32m+[m[32m        this.fullName = fullName;[m
+[32m+[m[32m        return this;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public AccountBuilder dateOfBirth(LocalDate dateOfBirth) {[m
+[32m+[m[32m        this.dateOfBirth = dateOfBirth;[m
+[32m+[m[32m        return this;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public AccountBuilder dateOfBirth(int year, int month, int day) {[m
+[32m+[m[32m        this.dateOfBirth = LocalDate.of(year, month, day);[m
+[32m+[m[32m        return this;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public AccountBuilder phoneNumber(String phoneNumber) {[m
+[32m+[m[32m        this.phoneNumber = phoneNumber;[m
+[32m+[m[32m        return this;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Build an AdultAccount (18+).[m
+[32m+[m[32m     *[m[41m [m
+[32m+[m[32m     * @return New AdultAccount instance[m
+[32m+[m[32m     * @throws IllegalArgumentException if validation fails or age < 18[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public AdultAccount buildAdult() throws IllegalArgumentException {[m
+[32m+[m[32m        AccountInfo info = createAccountInfo();[m
+[32m+[m[32m        return AdultAccount.create(info);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Build a ChildAccount (under 18) linked to a parent.[m
+[32m+[m[32m     *[m[41m [m
+[32m+[m[32m     * @param parent Parent adult account[m
+[32m+[m[32m     * @return New ChildAccount instance[m
+[32m+[m[32m     * @throws IllegalArgumentException if validation fails or age >= 18[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public ChildAccount buildChild(AdultAccount parent) throws IllegalArgumentException {[m
+[32m+[m[32m        AccountInfo info = createAccountInfo();[m
+[32m+[m[32m        return ChildAccount.create(info, parent);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Validate the current builder state without creating an account.[m
+[32m+[m[32m     * Useful for checking if data is valid before submission.[m
+[32m+[m[32m     *[m[41m [m
+[32m+[m[32m     * @return ValidationResult with success status and any errors[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public ValidationResult validate() {[m
+[32m+[m[32m        try {[m
+[32m+[m[32m            AccountInfo info = createAccountInfo();[m
+[32m+[m[32m            AccountInfoValidator validator = new AccountInfoValidator();[m
+[32m+[m[32m            return validator.validate(info);[m
+[32m+[m[32m        } catch (Exception e) {[m
+[32m+[m[32m            return ValidationResult.failure("Failed to validate: " + e.getMessage());[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Check if the builder can create an adult account (age >= 18).[m
+[32m+[m[32m     *[m[41m [m
+[32m+[m[32m     * @return true if age requirement is met[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public boolean canBuildAdult() {[m
+[32m+[m[32m        if (dateOfBirth == null) {[m
+[32m+[m[32m            return false;[m
+[32m+[m[32m        }[m
+[32m+[m[32m        int age = AccountInfoValidator.getAge(dateOfBirth);[m
+[32m+[m[32m        return age >= 18;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Check if the builder can create a child account (age <= 17).[m
+[32m+[m[32m     *[m[41m [m
+[32m+[m[32m     * @return true if age requirement is met[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public boolean canBuildChild() {[m
+[32m+[m[32m        if (dateOfBirth == null) {[m
+[32m+[m[32m            return false;[m
+[32m+[m[32m        }[m
+[32m+[m[32m        int age = AccountInfoValidator.getAge(dateOfBirth);[m
+[32m+[m[32m        return age <= 17;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Reset the builder to initial state.[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public AccountBuilder reset() {[m
+[32m+[m[32m        this.email = null;[m
+[32m+[m[32m        this.password = null;[m
+[32m+[m[32m        this.fullName = null;[m
+[32m+[m[32m        this.dateOfBirth = null;[m
+[32m+[m[32m        this.phoneNumber = null;[m
+[32m+[m[32m        return this;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/src/main/java/com/github/novabank/model/Account.java b/src/main/java/com/github/novabank/model/Account.java[m
+[1mindex 52c916d..9117973 100644[m
+[1m--- a/src/main/java/com/github/novabank/model/Account.java[m
+[1m+++ b/src/main/java/com/github/novabank/model/Account.java[m
+[36m@@ -6,6 +6,7 @@[m [mimport java.util.Random;[m
+ /**[m
+  * Abstract base class for all account types.[m
+  * Immutable after creation - no setters for critical fields.[m
+[32m+[m[32m * Now depends on primitives instead of AccountInfo (Dependency Inversion)[m
+  */[m
+ public abstract class Account {[m
+ [m
+[36m@@ -16,14 +17,15 @@[m [mpublic abstract class Account {[m
+     private final LocalDate dateOfBirth;[m
+     private final String phoneNumber;[m
+ [m
+[31m-    protected Account(AccountInfo info) {[m
+[32m+[m[32m    protected Account(String email, String password, String fullName,[m[41m [m
+[32m+[m[32m                     LocalDate dateOfBirth, String phoneNumber) {[m
+         Random random = new Random();[m
+         this.UID = random.nextInt(900000) + 100000; // 6-digit random number[m
+[31m-        this.email = info.getEmail();[m
+[31m-        this.password = info.getPassword();[m
+[31m-        this.fullName = info.getFullName();[m
+[31m-        this.dateOfBirth = info.getDateOfBirth();[m
+[31m-        this.phoneNumber = info.getPhoneNumber();[m
+[32m+[m[32m        this.email = email;[m
+[32m+[m[32m        this.password = password;[m
+[32m+[m[32m        this.fullName = fullName;[m
+[32m+[m[32m        this.dateOfBirth = dateOfBirth;[m
+[32m+[m[32m        this.phoneNumber = phoneNumber;[m
+     }[m
+ [m
+     public int getUID() {[m
+[36m@@ -46,7 +48,6 @@[m [mpublic abstract class Account {[m
+         return this.phoneNumber;[m
+     }[m
+ [m
+[31m-[m
+     /**[m
+      * Verify login credentials.[m
+      * @param email Email to verify[m
+[36m@@ -56,5 +57,4 @@[m [mpublic abstract class Account {[m
+     public boolean login(String email, String password) {[m
+         return this.email.equals(email) && this.password.equals(password);[m
+     }[m
+[31m-}[m
+[31m-[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/src/main/java/com/github/novabank/model/AccountInfoValidator.java b/src/main/java/com/github/novabank/model/AccountInfoValidator.java[m
+[1mindex dff4d23..7bb7b84 100644[m
+[1m--- a/src/main/java/com/github/novabank/model/AccountInfoValidator.java[m
+[1m+++ b/src/main/java/com/github/novabank/model/AccountInfoValidator.java[m
+[36m@@ -2,38 +2,59 @@[m [mpackage main.java.com.github.novabank.model;[m
+ [m
+ import java.time.LocalDate;[m
+ import java.time.Period;[m
+[31m-[m
+[31m-import main.java.com.github.novabank.model.AccountInfo;[m
+[32m+[m[32mimport java.util.ArrayList;[m
+[32m+[m[32mimport java.util.List;[m
+ [m
+ /**[m
+  * Validates AccountInfo before creating an Account.[m
+[31m- * Returns true if all fields are valid, false otherwise.[m
+[32m+[m[32m * Returns ValidationResult with detailed error messages.[m
+  */[m
+[31m-public class AccountInfoValidator implements Validator<AccountInfo> {[m
+[32m+[m[32mpublic class AccountInfoValidator {[m
+[32m+[m
+[32m+[m[32m    private final ValidatePassword passwordValidator = new ValidatePassword();[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Validates all fields in AccountInfo.[m
+[32m+[m[32m     * @param info AccountInfo to validate[m
+[32m+[m[32m     * @return ValidationResult with success status and any error messages[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public ValidationResult validate(AccountInfo info) {[m
+[32m+[m[32m        List<String> errors = new ArrayList<>();[m
+ [m
+[31m-    @Override[m
+[31m-    public boolean validate(AccountInfo info) {[m
+         if (info.getEmail() == null || info.getEmail().trim().isEmpty()) {[m
+[31m-            return false;[m
+[32m+[m[32m            errors.add("Email cannot be empty");[m
+[32m+[m[32m        } else if (!isValidEmail(info.getEmail())) {[m
+[32m+[m[32m            errors.add("Email format is invalid");[m
+         }[m
+[31m-        [m
+[32m+[m
+         if (info.getPassword() == null || info.getPassword().isEmpty()) {[m
+[31m-            return false;[m
+[32m+[m[32m            errors.add("Password cannot be empty");[m
+[32m+[m[32m        } else if (!passwordValidator.validate(info.getPassword())) {[m
+[32m+[m[32m            errors.add("Password must be at least 8 characters, contain no whitespace, and include at least one special character");[m
+         }[m
+[31m-        [m
+[32m+[m
+         if (info.getFullName() == null || info.getFullName().trim().isEmpty()) {[m
+[31m-            return false;[m
+[32m+[m[32m            errors.add("Full name cannot be empty");[m
+         }[m
+[31m-        [m
+[32m+[m
+         if (info.getDateOfBirth() == null) {[m
+[31m-            return false;[m
+[32m+[m[32m            errors.add("Date of birth cannot be empty");[m
+[32m+[m[32m        } else if (info.getDateOfBirth().isAfter(LocalDate.now())) {[m
+[32m+[m[32m            errors.add("Date of birth cannot be in the future");[m
+         }[m
+[31m-        [m
+[32m+[m
+         if (info.getPhoneNumber() == null || info.getPhoneNumber().trim().isEmpty()) {[m
+[31m-            return false;[m
+[32m+[m[32m            errors.add("Phone number cannot be empty");[m
+         }[m
+[31m-        [m
+[31m-        return true;[m
+[32m+[m
+[32m+[m[32m        return errors.isEmpty() ?[m[41m [m
+[32m+[m[32m            ValidationResult.success() :[m[41m [m
+[32m+[m[32m            ValidationResult.failure(errors);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    private boolean isValidEmail(String email) {[m
+[32m+[m[32m        // Simple regex for basic email validation[m
+[32m+[m[32m        return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");[m
+     }[m
+ [m
+     public static int getAge(LocalDate dateOfBirth) {[m
+[1mdiff --git a/src/main/java/com/github/novabank/model/AdultAccount.java b/src/main/java/com/github/novabank/model/AdultAccount.java[m
+[1mindex b7e25d7..01b92aa 100644[m
+[1m--- a/src/main/java/com/github/novabank/model/AdultAccount.java[m
+[1m+++ b/src/main/java/com/github/novabank/model/AdultAccount.java[m
+[36m@@ -1,7 +1,6 @@[m
+ package main.java.com.github.novabank.model;[m
+[31m-import main.java.com.github.novabank.model.ChildAccount;[m
+[31m-import main.java.com.github.novabank.model.AccountInfo;[m
+ [m
+[32m+[m[32mimport java.time.LocalDate;[m
+ import java.util.ArrayList;[m
+ import java.util.List;[m
+ [m
+[36m@@ -16,41 +15,50 @@[m [mpublic class AdultAccount extends Account {[m
+     [m
+     private final List<ChildAccount> children = new ArrayList<>();[m
+ [m
+[31m-    private AdultAccount(AccountInfo info) {[m
+[31m-        super(info);[m
+[32m+[m[32m    private AdultAccount(String email, String password, String fullName,[m[41m [m
+[32m+[m[32m                        LocalDate dateOfBirth, String phoneNumber) {[m
+[32m+[m[32m        super(email, password, fullName, dateOfBirth, phoneNumber);[m
+     }[m
+ [m
+     /**[m
+      * Factory method to create an AdultAccount with validation.[m
+[32m+[m[32m     * This is where the validation happens - in the implementation layer.[m
+      * [m
+      * @param info Account information to validate[m
+      * @return New AdultAccount instance[m
+[31m-     * @throws InvalidAccountException if validation fails or age < 18[m
+[32m+[m[32m     * @throws IllegalArgumentException if validation fails or age < 18[m
+      */[m
+     public static AdultAccount create(AccountInfo info) throws IllegalArgumentException {[m
+         AccountInfoValidator validator = new AccountInfoValidator();[m
+         [m
+[31m-        if (!validator.validate(info)) {[m
+[31m-            throw new IllegalArgumentException("Invalid account information");[m
+[32m+[m[32m        ValidationResult result = validator.validate(info);[m
+[32m+[m[32m        if (!result.isValid()) {[m
+[32m+[m[32m            throw new IllegalArgumentException("Invalid account information: " + result.getErrorMessage());[m
+         }[m
+         [m
+         int age = AccountInfoValidator.getAge(info.getDateOfBirth());[m
+         if (age < MIN_AGE) {[m
+[31m-            throw new IllegalArgumentException("Must be at least 18 years old for adult account");[m
+[32m+[m[32m            throw new IllegalArgumentException("Must be at least 18 years old for adult account (current age: " + age + ")");[m
+         }[m
+         [m
+[31m-        return new AdultAccount(info);[m
+[32m+[m[32m        return new AdultAccount([m
+[32m+[m[32m            info.getEmail(),[m
+[32m+[m[32m            info.getPassword(),[m
+[32m+[m[32m            info.getFullName(),[m
+[32m+[m[32m            info.getDateOfBirth(),[m
+[32m+[m[32m            info.getPhoneNumber()[m
+[32m+[m[32m        );[m
+     }[m
+ [m
+     /**[m
+      * Link a child account to this adult account.[m
+      * [m
+      * @param child Child account to add[m
+[31m-     * @throws InvalidAccountException if max children reached[m
+[32m+[m[32m     * @throws IllegalArgumentException if max children reached[m
+      */[m
+     public void addChild(ChildAccount child) throws IllegalArgumentException {[m
+         if (children.size() >= MAX_CHILDREN) {[m
+[31m-            throw new IllegalArgumentException("Cannot add child. Maximum of 4 children allowed.");[m
+[32m+[m[32m            throw new IllegalArgumentException("Cannot add child. Maximum of " + MAX_CHILDREN + " children allowed.");[m
+         }[m
+         [m
+         children.add(child);[m
+[36m@@ -77,4 +85,11 @@[m [mpublic class AdultAccount extends Account {[m
+     public int getChildCount() {[m
+         return children.size();[m
+     }[m
+[32m+[m[41m    [m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * Get list of child accounts (unmodifiable).[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public List<ChildAccount> getChildren() {[m
+[32m+[m[32m        return new ArrayList<>(children);[m
+[32m+[m[32m    }[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/src/main/java/com/github/novabank/model/ChildAccount.java b/src/main/java/com/github/novabank/model/ChildAccount.java[m
+[1mindex 1d21749..bd919cd 100644[m
+[1m--- a/src/main/java/com/github/novabank/model/ChildAccount.java[m
+[1m+++ b/src/main/java/com/github/novabank/model/ChildAccount.java[m
+[36m@@ -1,6 +1,6 @@[m
+ package main.java.com.github.novabank.model;[m
+[31m-import main.java.com.github.novabank.model.AdultAccount;[m
+[31m-import main.java.com.github.novabank.model.AccountInfo;[m
+[32m+[m
+[32m+[m[32mimport java.time.LocalDate;[m
+ [m
+ /**[m
+  * Child account - must be under 18.[m
+[36m@@ -12,36 +12,43 @@[m [mpublic class ChildAccount extends Account {[m
+     [m
+     private AdultAccount parent;[m
+ [m
+[31m-    private ChildAccount(AccountInfo info) {[m
+[31m-        super(info);[m
+[32m+[m[32m    private ChildAccount(String email, String password, String fullName, LocalDate dateOfBirth, String phoneNumber) {[m
+[32m+[m[32m        super(email, password, fullName, dateOfBirth, phoneNumber);[m
+     }[m
+ [m
+     /**[m
+      * Factory method to create a ChildAccount with validation.[m
+[32m+[m[32m     * This is where the validation happens - in the implementation layer.[m
+      * [m
+      * @param info Account information to validate[m
+      * @param parent Parent adult account[m
+      * @return New ChildAccount instance[m
+[31m-     * @throws InvalidAccountException if validation fails or age >= 18[m
+[32m+[m[32m     * @throws IllegalArgumentException if validation fails or age >= 18[m
+      */[m
+[31m-    public static ChildAccount create(AccountInfo info, AdultAccount parent) throws IllegalArgumentException{[m
+[32m+[m[32m    public static ChildAccount create(AccountInfo info, AdultAccount parent) throws IllegalArgumentException {[m
+         [m
+         if (parent == null) {[m
+             throw new IllegalArgumentException("Child account must have a parent");[m
+         }[m
+         [m
+         AccountInfoValidator validator = new AccountInfoValidator();[m
+[31m-        [m
+[31m-        if (!validator.validate(info)) {[m
+[31m-            throw new IllegalArgumentException("Invalid account information");[m
+[32m+[m[32m        ValidationResult result = validator.validate(info);[m
+[32m+[m[32m        if (!result.isValid()) {[m
+[32m+[m[32m            throw new IllegalArgumentException("Invalid account information: " + result.getErrorMessage());[m
+         }[m
+         [m
+         int age = AccountInfoValidator.getAge(info.getDateOfBirth());[m
+         if (age > MA

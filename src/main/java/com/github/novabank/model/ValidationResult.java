@@ -1,4 +1,4 @@
-package main.java.com.github.novabank.model;
+package com.github.novabank.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;

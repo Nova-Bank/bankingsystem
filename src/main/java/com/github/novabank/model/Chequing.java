@@ -1,8 +1,9 @@
-package main.java.com.github.novabank.model;
+package com.github.novabank.model;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.time.ZoneId;
+
 
 public class Chequing extends Finance{
     private double interestRate = 0.0005;
