@@ -1,15 +1,13 @@
 package com.github.novabank.model;
-import java.time.LocalDate;
-import java.time.Month;
+
 import java.time.YearMonth;
 import java.time.ZoneId;
 
-
-public class Chequing extends Finance{
-    private double interestRate = 0.005;
+public class Savings extends Finance{
+    private double interestRate = 0.05;
     private YearMonth lastSeen;
 
-    public Chequing(int amountSpentToday, int dailyTransferLimit, int dailypurchaseLimit) {
+    public Savings(int amountSpentToday, int dailyTransferLimit, int dailypurchaseLimit) {
         super(amountSpentToday, dailyTransferLimit, dailypurchaseLimit);
     }
     @Override
