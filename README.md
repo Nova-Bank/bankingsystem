@@ -21,6 +21,8 @@
 ## Acknowledgments
 - Professor of CSSD 2101 Navid Mohaghegh
 
+
+
 # NOTES 
 
 ## Functions
@@ -32,18 +34,17 @@
 - -> Cheqing
 - -> Saving
 - -> Credit Card
-
+- Factory for Account & finances
+- Builder pattern for all concrete classes
 
 ## API
 
-# Implementaation
-Fiance 
+# Impl/
+## Fiance 
 - Statments
 - Etransfer
-Account
-- Account Factory
--   Youth
--   Adult
+## Account
+
 - Account Builder
 - Register & putting into Account storage
 - Account Service
@@ -71,12 +72,12 @@ Account
 - Recent Transactions
 ### Trie
 - Search up certain transactions
-### 
 
 # Abstract Fiances
 - Interest Rate
 - Monthly Fee
 - Limits
+- status
 1. Withdraw
 2. Daily Transfers
 3. Foreign Transfers
