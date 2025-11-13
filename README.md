@@ -1,5 +1,28 @@
 # Banking System
 
+
+## Key Features
+
+## Architecture
+```
+```
+
+## Build Instructions
+
+### Prerequisites
+
+## Author
+- Toufic Fares
+- Josef Geshelin
+- Evan Wee
+
+## License
+
+## Acknowledgments
+- Professor of CSSD 2101 Navid Mohaghegh
+
+# NOTES 
+
 ## Functions
 
 
