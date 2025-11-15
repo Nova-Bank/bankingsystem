@@ -20,9 +20,25 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <jmh.version> 1.37</jmh.version>
+    <junit.version>5.11.0</junit.version>
+    <jacoco.version>0.8.11</jacoco.version>
+
   </properties>
 
   <dependencies>
+  <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+  </dependency>
+
+  <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+  </dependency>  
 
         <!-- Property-based Testing -->
     <dependency>

@@ -14,7 +14,7 @@ public class ChildAccount extends Account {
     
     private AdultAccount parent;
 
-    private ChildAccount(String email, String password, String fullName, LocalDate dateOfBirth, String phoneNumber) {
+    public ChildAccount(String email, String password, String fullName, LocalDate dateOfBirth, String phoneNumber) {
         super(email, password, fullName, dateOfBirth, phoneNumber);
     }
 

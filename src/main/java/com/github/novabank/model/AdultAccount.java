@@ -17,7 +17,7 @@ public class AdultAccount extends Account {
     
     private final List<ChildAccount> children = new ArrayList<>();
 
-    private AdultAccount(String email, String password, String fullName, 
+    public AdultAccount(String email, String password, String fullName, 
                         LocalDate dateOfBirth, String phoneNumber) {
         super(email, password, fullName, dateOfBirth, phoneNumber);
     }

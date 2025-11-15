@@ -11,15 +11,15 @@ import java.util.Random;
 public abstract class Account {
 
     /*
-     * Removed Final from email, password & phoneNumber as they can be changed if they get a new phone,email or want to change password
+     * Should we Final from email, password & phoneNumber as they can be changed if they get a new phone,email or want to change password?
      */
 
     private final int UID;
-    private String email;   
-    private String password; 
+    private final String email;   
+    private final String password; 
     private final String fullName;
     private final LocalDate dateOfBirth;
-    private String phoneNumber;
+    private final String phoneNumber;
 
     protected Account(String email, String password, String fullName, 
                      LocalDate dateOfBirth, String phoneNumber) {
@@ -62,6 +62,6 @@ public abstract class Account {
         return this.email.equals(email) && this.password.equals(password);
     }
 
-        // add toString()
+    // add toString()
 
 }

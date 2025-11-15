@@ -65,11 +65,32 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
     }
 
     @Override
+
+    // TODO validate for edge cases
     public void validate(){
+        if(UID == 0){
+            throw new IllegalStateException("UID is required");
+        }
+        if (email == null){
+          throw new IllegalStateException("email is required");
+        }
+        if (password == null){
+          throw new IllegalStateException("password is required");
+        }
+        if (fullName == null){
+          throw new IllegalStateException("fullName is required");
+        }
+        if (dateOfBirth == null){
+          throw new IllegalStateException("dateOfBirth is required");
+        }
+        if (phoneNumber == null){
+          throw new IllegalStateException("phoneNumber is required");
+        }
 
     }
 
     public String toString() {
+        return String.format("AdultAccountBuilder[ID=%d email=%s password=%s fullName=%s dateOfBirth=%s phoneNumber=%d]",
+        UID, email, password, fullName, dateOfBirth, phoneNumber);
     }
-    
 }
