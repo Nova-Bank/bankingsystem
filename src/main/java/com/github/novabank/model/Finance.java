@@ -26,7 +26,7 @@ public abstract class Finance {
 
 
 
-    public Finance(int amountSpentToday, int dailyTransferLimit, double dailypurchaseLimit) {
+    public Finance(int amountSpentToday, int dailyTransferLimit, int dailypurchaseLimit) {
         this.amountSpentToday = amountSpentToday;
         this.dailyTransferLimit = dailyTransferLimit;
         this.dailySpendingLimit = dailypurchaseLimit;
