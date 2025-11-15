@@ -10,12 +10,16 @@ import java.util.Random;
  */
 public abstract class Account {
 
+    /*
+     * Removed Final from email, password & phoneNumber as they can be changed if they get a new phone,email or want to change password
+     */
+
     private final int UID;
-    private final String email;
-    private final String password;
+    private String email;   
+    private String password; 
     private final String fullName;
     private final LocalDate dateOfBirth;
-    private final String phoneNumber;
+    private String phoneNumber;
 
     protected Account(String email, String password, String fullName, 
                      LocalDate dateOfBirth, String phoneNumber) {
@@ -57,4 +61,7 @@ public abstract class Account {
     public boolean login(String email, String password) {
         return this.email.equals(email) && this.password.equals(password);
     }
+
+        // add toString()
+
 }

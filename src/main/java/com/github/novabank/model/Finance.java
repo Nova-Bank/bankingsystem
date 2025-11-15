@@ -35,13 +35,22 @@ public abstract class Finance {
         this.dailyWithdrawalLimit = dailyWithdrawalLimit;
     }
 
+    /* 
+    Add Method overloading with floats, long etc...
+    */ 
+    /* 
+     * Change setting 
+    */
     void setAmountSpentToday(int amountSpentToday) {
         this.amountSpentToday = amountSpentToday;
     }
     void setDailyTransferLimit(int dailyTransferLimit) {
+        //validate if user inputs negative value
         this.dailyTransferLimit = dailyTransferLimit;
     }
     void setDailySpendingLimit(int dailySpendingLimit) {
+                //validate if user inputs negative value
+
         this.dailySpendingLimit = dailySpendingLimit;
     }
     void setBalance(int balance) {
@@ -117,6 +126,8 @@ public abstract class Finance {
      * add abstract methods, 
     */
     public abstract void interest();
+
+    // add toString()
 
 
 
