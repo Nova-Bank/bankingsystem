@@ -9,6 +9,7 @@ public class Savings extends Finance{
 
     public Savings(int UID, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
         super(UID, balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+        lastSeen = YearMonth.now(ZoneId.of("America/Toronto"));
     }
 
 

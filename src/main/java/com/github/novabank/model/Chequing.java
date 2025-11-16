@@ -11,6 +11,7 @@ public class Chequing extends Finance{
 
     public Chequing(int balance, int amountSpentToday, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
         super(balance, amountSpentToday, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+        lastSeen = YearMonth.now(ZoneId.of("America/Toronto"));
     }
     @Override
     public void interest() {
