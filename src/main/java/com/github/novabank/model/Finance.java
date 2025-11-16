@@ -16,31 +16,27 @@ import java.time.LocalDate;
 public abstract class Finance {
 
     // All values are in cents not dollar
+    private int UID;
     protected int balance;
     protected int amountSpentToday;
     protected int dailyWithdrawalLimit;
     protected int dailyPurchaseLimit;
     protected int dailyTransferLimit;
-    protected int dailySpendingLimit;
 
 
 
-
-    public Finance(int balance, int amountSpentToday, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
-        this.amountSpentToday = amountSpentToday;
-        this.dailyTransferLimit = dailyTransferLimit;
-        this.dailySpendingLimit = dailyPurchaseLimit;
-        this.dailyPurchaseLimit = dailyPurchaseLimit;
-        this.balance = balance;
-        this.dailyWithdrawalLimit = dailyWithdrawalLimit;
+    public Finance(int UID) {
+        this.UID = UID;
+        this.balance = 0;
+        this.amountSpentToday = 0;
+        this.dailyWithdrawalLimit = 7000;
+        this.dailyPurchaseLimit = 10000;
+        this.dailyTransferLimit = 5000;
     }
 
-    /* 
-    Add Method overloading with floats, long etc...
-    */ 
-    /* 
-     * Change setting 
-    */
+
+
+
     void setAmountSpentToday(int amountSpentToday) {
         this.amountSpentToday = amountSpentToday;
     }
@@ -51,7 +47,6 @@ public abstract class Finance {
     void setDailySpendingLimit(int dailySpendingLimit) {
                 //validate if user inputs negative value
 
-        this.dailySpendingLimit = dailySpendingLimit;
     }
     void setBalance(int balance) {
         this.balance = balance;
@@ -68,9 +63,6 @@ public abstract class Finance {
     public int getDailyTransferLimit() {
         return dailyTransferLimit;
     }
-    public int getDailySpendingLimit() {
-        return dailySpendingLimit;
-    }
     public int getDailyWithdrawalLimit() {
         return dailyWithdrawalLimit;
     }
@@ -81,6 +73,7 @@ public abstract class Finance {
      public int getBalance() {
         return balance;
     }
+
 
     public int withdraw(int amount, LocalDate date) {
         if (amount < 0) {
