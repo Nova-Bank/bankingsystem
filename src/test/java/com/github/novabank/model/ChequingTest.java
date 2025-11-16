@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
@@ -39,13 +41,13 @@ class CheqingTest{
     @DisplayName("Chequing Interest should increase Balance")
     void testInterest(){
         validCheq.interest();
-        assertEquals(validCheq.getBalance(), 1000 * validCheq.getInterestRate());
+        assertEquals(validCheq.getBalance(), 1000 * (1 + validCheq.getInterestRate()));
     }
 
     @Test
     @DisplayName("Chequing Account after Interest should remain 0")
     void InterestIfBalIsZero(){
-        validCheq.withdraw(1000, null);
+        validCheq.withdraw(1000, LocalDate.now(ZoneId.of("America/Toronto")));
         validCheq.interest();
         assertEquals(validCheq.getBalance(), 0);
     }
@@ -55,64 +57,101 @@ class CheqingTest{
     void RepeatingInterest(){
         validCheq.interest();
         validCheq.interest();
-        assertEquals(validCheq.getBalance(), 1000 * validCheq.getInterestRate());
+        assertEquals(validCheq.getBalance(), 1000 * (1 +validCheq.getInterestRate()));
     }
 
     @Test
     @DisplayName("Should reject negative AmountSpentToday")
     void testNegativeAmountSpentToday(){
-        assertThrows(IllegalArgumentException.class, validCheq.setAmountSpentToday(-1));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.setAmountSpentToday(-1));
     }
 
     @Test
     @DisplayName("Should reject negative dailyWithdrawalLimit")
     void testNegativeDailyWithdrawalLimit(){
-        assertThrows(IllegalArgumentException.class, validCheq.setDailyWithdrawalLimit(-1));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.setDailyWithdrawalLimit(-1));
     }
     @Test
     @DisplayName("Should reject negative DailySpendingLimit")
     void testDailySpendingLimit(){
-        assertThrows(IllegalArgumentException.class, validCheq.setDailySpendingLimit(-1));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.setDailySpendingLimit(-1));
     }
     @Test
     @DisplayName("Should reject negative Balance")
     void testNegativeBalance(){
-        assertThrows(IllegalArgumentException.class, validCheq.setBalance(-1));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.setBalance(-1));
     }
     @Test
     @DisplayName("Should reject negative DailyPurchaseLimit")
     void testNegativeDailyPurchaseLimit(){
-        assertThrows(IllegalArgumentException.class, validCheq.setDailyPurchaseLimit(-1));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.setDailyPurchaseLimit(-1));
     }
     @Test
     @DisplayName("Should reject negative DailyTransferLimit")
     void testNegativewithdraw(){
-        assertThrows(IllegalArgumentException.class, validCheq.withdraw(-1, LocalDate.now(ZoneId.of("America/Toronto"))));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(-1, LocalDate.now(ZoneId.of("America/Toronto"))));
     }
     @Test
     @DisplayName("Should reject negative deposit")
     void testNegativedeposit(){
-        assertThrows(IllegalArgumentException.class, validCheq.deposit(-1, LocalDate.now(ZoneId.of("America/Toronto"))));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.deposit(-1, LocalDate.now(ZoneId.of("America/Toronto"))));
     }
 
     @Test
-    @DisplayName("Interest should only be used once even when called twice")
+    @DisplayName("Interest Should apply twice")
     void MonlthyInterest(){
         validCheq.interest();
+        LocalDate nextInterest = LocalDate.now();
+        nextInterest.plusMonths(1);
+        ZoneId zone = ZoneId.of("UTC");
+        Instant Instant = nextInterest.atStartOfDay(zone).toInstant();
+
+        Clock fixedClock = Clock.fixed(Instant, zone);
+
+        nextInterest = LocalDate.now(fixedClock);
         validCheq.interest();
-        assertEquals(validCheq.getBalance(), 1000 * validCheq.getInterestRate());
+        assertEquals(validCheq.getBalance(), (1000 * (1 + validCheq.getInterestRate()) ) * (1 + validCheq.getInterestRate()) );
+    }
+
+    @Test
+    @DisplayName("Withdraw in the future shouldn't be possible")
+    void FutureWithdraw(){
+        LocalDate nextInterest = LocalDate.now();
+        nextInterest.plusMonths(1);
+
+        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1, nextInterest));
+    }
+     @Test
+    @DisplayName("deposit in the future shouldn't be possible")
+    void FutureDeposit(){
+        LocalDate nextInterest = LocalDate.now();
+        nextInterest.plusMonths(1);
+
+        assertThrows(IllegalArgumentException.class, () -> validCheq.deposit(1, nextInterest));
+    }
+
+    @Test
+    @DisplayName("Testing Withdraw Validity")
+    void testWithdraw(){
+        validCheq.withdraw(1, LocalDate.now());
+        assertEquals(999, validCheq.getBalance());
+    }
+    @Test
+    @DisplayName("Testing deposit Validity")
+    void testDeposit(){
+        validCheq.deposit(1, LocalDate.now());
+        assertEquals(1001, validCheq.getBalance());
+    }
+    @Test
+    @DisplayName("Withdrawing more than balance")
+    void OverWithdrawing(){
+        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1111, LocalDate.now()));
     }
 
 
-
     /*
-     * Cases 1: Usual Case & ensure it stores data correctly
-     * Case 2: Ensure Interest increases balance by the correct amount
-     * Case 3: Interest if Balance = 0 remains 0
-     * Case 4: Attempts to do Interest twice in the same month
-     * Case 6: withdraw in the future
+     * Case 5: Interest a year apart
      * Case 7: withdraw before bank was made
-     * Case 8: withdraw Usual Case
      * Case 9: withdraw with amount > balance
      * Case 10: Deposit absurdly high number (should raise error)
      * 
