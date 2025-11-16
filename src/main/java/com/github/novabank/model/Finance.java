@@ -98,7 +98,7 @@ public abstract class Finance {
         return balance;
     }
 
-    public int deposit(int amount) {
+    public int deposit(int amount, LocalDate date) {
         if (amount < 0) {
             throw new IllegalArgumentException("Amount cannot be negative");
         }
