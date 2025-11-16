@@ -21,4 +21,8 @@ public class Chequing extends Finance{
         }
     }
 
+    public double getInterestRate(){
+        return interestRate;
+    }
+
 }

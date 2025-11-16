@@ -1,16 +1,5 @@
 package com.github.novabank.model;
 
-import org.junit.*;
-
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DisplayName("Cheqing Class Test")
-
-class CheqingTest{
-    
-}
-
-package com.github.novabank.model;
-
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
