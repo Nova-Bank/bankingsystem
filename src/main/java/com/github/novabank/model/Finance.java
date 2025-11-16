@@ -24,14 +24,13 @@ public abstract class Finance {
     protected int dailyTransferLimit;
 
 
-
-    public Finance(int UID) {
+    public  Finance(int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
         this.UID = UID;
-        this.balance = 0;
+        this.balance = balance;
         this.amountSpentToday = 0;
-        this.dailyWithdrawalLimit = 7000;
-        this.dailyPurchaseLimit = 10000;
-        this.dailyTransferLimit = 5000;
+        this.dailyWithdrawalLimit = dailyWithdrawalLimit;
+        this.dailyPurchaseLimit = dailyPurchaseLimit;
+        this.dailyTransferLimit = dailyTransferLimit;
     }
 
 

@@ -7,9 +7,11 @@ public class Savings extends Finance{
     private double interestRate = 0.05;
     private YearMonth lastSeen;
 
-    public Savings(int balance, int amountSpentToday, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
-        super(balance, amountSpentToday, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit, dailySpendingLimit);
+    public Savings(int UID, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
+        super(UID, balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
     }
+
+
     @Override
     public void interest() {
         YearMonth now = YearMonth.now(ZoneId.of("America/Toronto"));
