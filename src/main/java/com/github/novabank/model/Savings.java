@@ -7,8 +7,8 @@ public class Savings extends Finance{
     private double interestRate = 0.05;
     private YearMonth lastSeen;
 
-    public Savings(int amountSpentToday, int dailyTransferLimit, int dailypurchaseLimit) {
-        super(amountSpentToday, dailyTransferLimit, dailypurchaseLimit);
+    public Savings(int balance, int amountSpentToday, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
+        super(balance, amountSpentToday, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit, dailySpendingLimit);
     }
     @Override
     public void interest() {

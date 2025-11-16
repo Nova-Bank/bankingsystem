@@ -7,8 +7,8 @@ public class Credit extends Finance{
     int creditLimit;
     double creditInterestRate = 0.21;
 
-    public Credit(int creditBalance, int creditLimit, double creditInterestRate) {
-        super(creditBalance, creditLimit, creditInterestRate);
+    public Credit(int creditBalance, int creditLimit, double creditInterestRate, int balance, int amountSpentToday, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
+        super(balance, amountSpentToday, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit, dailySpendingLimit);
         this.creditBalance = creditBalance;
         this.creditLimit = creditLimit;
         this.creditInterestRate = creditInterestRate;

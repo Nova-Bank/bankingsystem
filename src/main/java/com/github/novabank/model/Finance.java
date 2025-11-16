@@ -26,10 +26,10 @@ public abstract class Finance {
 
 
 
-    public Finance(int amountSpentToday, int dailyTransferLimit, int dailypurchaseLimit) {
+    public Finance(int balance, int amountSpentToday, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
         this.amountSpentToday = amountSpentToday;
         this.dailyTransferLimit = dailyTransferLimit;
-        this.dailySpendingLimit = dailypurchaseLimit;
+        this.dailySpendingLimit = dailyPurchaseLimit;
         this.dailyPurchaseLimit = dailyPurchaseLimit;
         this.balance = balance;
         this.dailyWithdrawalLimit = dailyWithdrawalLimit;
