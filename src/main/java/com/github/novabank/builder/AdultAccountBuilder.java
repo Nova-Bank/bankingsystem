@@ -12,7 +12,6 @@ import com.github.novabank.model.AdultAccount;;
  */
 public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
 
-    private int UID;
     private String email;   
     private String password; 
     private String fullName;
@@ -54,7 +53,6 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
 
     @Override
     public void reset(){
-        this.UID = 0;
         this.email = null;
          this.password = null;
          this.fullName = null;
@@ -66,9 +64,6 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
 
     // TODO validate for edge cases
     public void validate(){
-        if(UID == 0){
-            throw new IllegalStateException("UID is required");
-        }
         if (email == null){
           throw new IllegalStateException("email is required");
         }
