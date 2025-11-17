@@ -13,17 +13,20 @@ import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
+
+
 @DisplayName("Cheqing Class Test")
 class CheqingTest{
     private Chequing validCheq;
+    private Savings validSavings;
 
 
 
     @BeforeEach
     void setup(){
         //int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit
-        validCheq = new Chequing(1, 1000, 1000, 1000, 1000);
-
+        validCheq = new Chequing(1000, 0, 1000, 1000, 1000);
+        validSavings = new Savings(0, 1000, 0, 1000,1000);
     }
 
     @Test
@@ -146,6 +149,28 @@ class CheqingTest{
     @DisplayName("Withdrawing more than balance")
     void OverWithdrawing(){
         assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1111, LocalDate.now()));
+    }
+    @Test
+    @DisplayName("Testing Tranfer Validity")
+    void testTransfer(){
+        validCheq.transfer(validCheq, validSavings , 1, LocalDate.now());
+        assertEquals(999, validCheq.getBalance());
+        assertEquals(1001, validSavings.getBalance());
+    }
+    @Test
+    @DisplayName("Should reject negative Transfer");
+    void negativeTransfer(){
+        assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , -1, LocalDate.now()));
+    }
+    @Test
+    @DisplayName("Should reject Future Transfer");
+    void futureTransfer(){
+        assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , -1, LocalDate.now().plusMonths(1)));
+    }
+    @Test
+    @DisplayName("Should reject sender not having enough money");
+    void lowBalanceTransfer(){
+        assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , 1001, LocalDate.now().plusMonths(1)));
     }
 
 
