@@ -105,7 +105,7 @@ public abstract class Finance {
         if(amount > sender.getBalance()) {
             throw new IllegalArgumentException("Insufficient balance");
         }
-        if (amount + dailyTransferLimit > balance) {
+        if (amount + dailyTransferLimit > balance)  {
             throw new IllegalArgumentException("You have reached the daily trasnfer limit");
         }else{
             sender.setBalance(sender.getBalance() - amount);
