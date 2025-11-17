@@ -101,7 +101,7 @@ class CheqingTest{
     }
 
     @Test
-    @DisplayName("Interest Should apply twice")
+    @DisplayName("Chequing Interest Should apply twice")
     void MonlthyInterest(){
         validCheq.interest();
         LocalDate nextInterest = LocalDate.now();
@@ -116,6 +116,13 @@ class CheqingTest{
         assertEquals(validCheq.getBalance(), (1000 * (1 + validCheq.getInterestRate()) ) * (1 + validCheq.getInterestRate()) );
     }
 
+    @Test
+    @DisplayName("Savings Interest should work correctly")
+    void interestSavings(){
+        validSavings.interest();
+        assertEquals(validSavings.getBalance(), (1000 * (1+ validSavings.getInterestRate())));
+    }
+    
     @Test
     @DisplayName("Withdraw in the future shouldn't be possible")
     void FutureWithdraw(){
