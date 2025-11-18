@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
@@ -43,8 +43,9 @@ class CheqingTest{
      @Test
     @DisplayName("Chequing Interest should increase Balance")
     void testInterest(){
+        int initial = validCheq.getBalance();
         validCheq.interest();
-        assertEquals(validCheq.getBalance(), 1000 * (1 + validCheq.getInterestRate()));
+        assertEquals(validCheq.getBalance(), initial * (1 + validCheq.getInterestRate()));
     }
 
     @Test
@@ -58,9 +59,10 @@ class CheqingTest{
     @Test
     @DisplayName("Interest should only be used once even when called twice")
     void RepeatingInterest(){
+        int initial = validCheq.getBalance();
         validCheq.interest();
         validCheq.interest();
-        assertEquals(validCheq.getBalance(), 1000 * (1 +validCheq.getInterestRate()));
+        assertEquals(validCheq.getBalance(), initial * (1 +validCheq.getInterestRate()));
     }
 
     @Test
@@ -91,7 +93,7 @@ class CheqingTest{
     }
     @Test
     @DisplayName("Should reject negative DailyTransferLimit")
-    void testNegativewithdraw(){
+    void negativeWithdraw(){
         assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(-1, LocalDate.now(ZoneId.of("America/Toronto"))));
     }
     @Test
@@ -103,9 +105,9 @@ class CheqingTest{
     @Test
     @DisplayName("Chequing Interest Should apply twice")
     void MonlthyInterest(){
+        int initial = validCheq.getBalance();
         validCheq.interest();
-        LocalDate nextInterest = LocalDate.now();
-        nextInterest.plusMonths(1);
+        LocalDate nextInterest = LocalDate.now().plusMonths(1);
         ZoneId zone = ZoneId.of("UTC");
         Instant Instant = nextInterest.atStartOfDay(zone).toInstant();
 
@@ -113,14 +115,15 @@ class CheqingTest{
 
         nextInterest = LocalDate.now(fixedClock);
         validCheq.interest();
-        assertEquals(validCheq.getBalance(), (1000 * (1 + validCheq.getInterestRate()) ) * (1 + validCheq.getInterestRate()) );
+        assertEquals(validCheq.getBalance(), (initial * (1 + validCheq.getInterestRate()) ) * (1 + validCheq.getInterestRate()) );
     }
 
     @Test
     @DisplayName("Savings Interest should work correctly")
     void interestSavings(){
+        int initial = validCheq.getBalance();
         validSavings.interest();
-        assertEquals(validSavings.getBalance(), (1000 * (1+ validSavings.getInterestRate())));
+        assertEquals(validSavings.getBalance(), (initial * (1+ validSavings.getInterestRate())));
     }
 
     @Test
@@ -172,12 +175,12 @@ class CheqingTest{
     @Test
     @DisplayName("Should reject Future Transfer")
     void futureTransfer(){
-        assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , -1, LocalDate.now().plusMonths(1)));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , 1, LocalDate.now().plusMonths(1)));
     }
     @Test
     @DisplayName("Should reject sender not having enough money")
     void lowBalanceTransfer(){
-        assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , 1001, LocalDate.now().plusMonths(1)));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , 1001, LocalDate.now()));
     }
 
 
