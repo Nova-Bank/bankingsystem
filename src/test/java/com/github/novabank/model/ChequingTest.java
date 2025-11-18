@@ -122,7 +122,7 @@ class CheqingTest{
         validSavings.interest();
         assertEquals(validSavings.getBalance(), (1000 * (1+ validSavings.getInterestRate())));
     }
-    
+
     @Test
     @DisplayName("Withdraw in the future shouldn't be possible")
     void FutureWithdraw(){
@@ -165,17 +165,17 @@ class CheqingTest{
         assertEquals(1001, validSavings.getBalance());
     }
     @Test
-    @DisplayName("Should reject negative Transfer");
+    @DisplayName("Should reject negative Transfer")
     void negativeTransfer(){
         assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , -1, LocalDate.now()));
     }
     @Test
-    @DisplayName("Should reject Future Transfer");
+    @DisplayName("Should reject Future Transfer")
     void futureTransfer(){
         assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , -1, LocalDate.now().plusMonths(1)));
     }
     @Test
-    @DisplayName("Should reject sender not having enough money");
+    @DisplayName("Should reject sender not having enough money")
     void lowBalanceTransfer(){
         assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , 1001, LocalDate.now().plusMonths(1)));
     }
