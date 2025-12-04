@@ -1,5 +1,8 @@
 package com.github.novabank.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.novabank.api.Validator;
 
 public class ValidatePassword implements Validator<String> {
@@ -9,25 +12,27 @@ public class ValidatePassword implements Validator<String> {
      * @return true is password is valid 
      */    
     @Override
-    public boolean validate(String pass) {
+    public ValidationResult validate(String pass) {
+
+        List<String> errors = new ArrayList<>();
 
         if (pass == null) {
-            return false;
+            errors.add("Password cannot be empty or null.");
         }
         
         if (pass.length() < 8) {
-            return false;
+            errors.add("Password doesn't meet minimum length (at least 8 characters).");
         }
         
         if (pass.contains(" ") || pass.matches(".*\\s.*")) {
-            return false;
+            errors.add("Password must NOT have any whitespace.");
         }
         
         if (!pass.matches(".*[!@#$%^&*()_+\\-=\\[\\]{}|;:',.<>?/~`].*")) {
-            return false;
+            errors.add("Password must have at least one special character.");
         }
         
-        return true;
+        return errors.isEmpty() ? ValidationResult.success() : ValidationResult.failure(errors);
 
     }
 }

@@ -11,7 +11,7 @@ import com.github.novabank.model.AdultAccount;;
  * @since 2025-11-14
  */
 public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
-
+    
     private String email;   
     private String password; 
     private String fullName;

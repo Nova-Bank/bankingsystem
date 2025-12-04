@@ -1,7 +1,4 @@
 package com.github.novabank.model;
-import com.github.novabank.model.AdultAccount;
-import com.github.novabank.model.AccountInfo;
-
 import java.time.LocalDate;
 
 /**

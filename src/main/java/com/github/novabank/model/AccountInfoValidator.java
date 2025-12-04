@@ -3,15 +3,16 @@ package com.github.novabank.model;
 import java.time.LocalDate;
 import java.time.Period;
 
-import com.github.novabank.model.AccountInfo;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.github.novabank.api.Validator;
 
 /**
  * Validates AccountInfo before creating an Account.
  * Returns ValidationResult with detailed error messages.
  */
-public class AccountInfoValidator {
+public class AccountInfoValidator implements Validator<AccountInfo> {
 
     private final ValidatePassword passwordValidator = new ValidatePassword();
 
@@ -20,6 +21,7 @@ public class AccountInfoValidator {
      * @param info AccountInfo to validate
      * @return ValidationResult with success status and any error messages
      */
+    @Override
     public ValidationResult validate(AccountInfo info) {
         List<String> errors = new ArrayList<>();
 
@@ -31,7 +33,7 @@ public class AccountInfoValidator {
 
         if (info.getPassword() == null || info.getPassword().isEmpty()) {
             errors.add("Password cannot be empty");
-        } else if (!passwordValidator.validate(info.getPassword())) {
+        } else if (!passwordValidator.validate(info.getPassword()).isValid()) {
             errors.add("Password must be at least 8 characters, contain no whitespace, and include at least one special character");
         }
 
@@ -49,9 +51,7 @@ public class AccountInfoValidator {
             errors.add("Phone number cannot be empty");
         }
 
-        return errors.isEmpty() ? 
-            ValidationResult.success() : 
-            ValidationResult.failure(errors);
+        return errors.isEmpty() ? ValidationResult.success() : ValidationResult.failure(errors);
     }
 
     private boolean isValidEmail(String email) {
