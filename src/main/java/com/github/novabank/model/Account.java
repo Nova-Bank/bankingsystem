@@ -40,6 +40,10 @@ public abstract class Account {
         return this.email;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
     public String getFullName() {
         return this.fullName;
     }
