@@ -1,22 +1,21 @@
 package com.github.novabank.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 
 
 @DisplayName("Cheqing Class Test")
-class CheqingTest{
+class ChequingTest{
     private Chequing validCheq;
     private Savings validSavings;
 
@@ -107,13 +106,14 @@ class CheqingTest{
     void MonlthyInterest(){
         int initial = validCheq.getBalance();
         validCheq.interest();
-        LocalDate nextInterest = LocalDate.now().plusMonths(1);
-        ZoneId zone = ZoneId.of("UTC");
-        Instant Instant = nextInterest.atStartOfDay(zone).toInstant();
+        
+        LocalDate nextMonth = LocalDate.now().plusMonths(1);
+        ZoneId timeZone = ZoneId.of("UTC");
+        Instant Instant = nextMonth.atStartOfDay(timeZone).toInstant();
 
-        Clock fixedClock = Clock.fixed(Instant, zone);
+        Clock fixedClock = Clock.fixed(Instant, timeZone);
 
-        nextInterest = LocalDate.now(fixedClock);
+        nextMonth = LocalDate.now(fixedClock);
         validCheq.interest();
         assertEquals(validCheq.getBalance(), (initial * (1 + validCheq.getInterestRate()) ) * (1 + validCheq.getInterestRate()) );
     }
@@ -134,7 +134,7 @@ class CheqingTest{
 
         assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1, nextInterest));
     }
-     @Test
+    @Test
     @DisplayName("deposit in the future shouldn't be possible")
     void FutureDeposit(){
         LocalDate nextInterest = LocalDate.now();
