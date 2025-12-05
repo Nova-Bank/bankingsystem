@@ -1,6 +1,7 @@
 package com.github.novabank.builder;
 
 import com.github.novabank.model.Account;
+import com.github.novabank.model.ValidationResult;
 
 /**
  * Builder interface for creating Account instances 
@@ -15,7 +16,7 @@ public interface AccountBuilder <T extends Account>{
 
     T build();
 
-    void validate();
+    ValidationResult validate();
 
     void reset();
     
