@@ -47,6 +47,9 @@ public abstract class Account {
     public LocalDate getDateOfBirth() {
         return this.dateOfBirth;
     }
+    public String getPassword() {
+        return this.password;
+    }
 
     public String getPhoneNumber() {
         return this.phoneNumber;

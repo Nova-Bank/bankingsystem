@@ -1,6 +1,6 @@
 package com.github.novabank.domain.account;
 
-/**
+/** NOT OFFCIAL DOCUMENTAION. Replace once completed
  * AccountFactory is a DOMAIN layer utility for creating Account objects.
  * Runtime flow when registering a new account:
  *      Application Service -> Factory -> Builder -> Account Constructor -> Domain Object -> Repository -> DB
@@ -15,6 +15,7 @@ package com.github.novabank.domain.account;
  * Example usage:
  *   Account newAccount = AccountFactory.create("John Doe", initialBalance);
  */
+// Note: Let me know if u want Lombok
 
 public class AccountFacotry {
     
