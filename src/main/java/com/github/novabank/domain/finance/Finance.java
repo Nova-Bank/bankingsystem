@@ -24,35 +24,48 @@ import java.time.LocalDate;
     protected int dailyPurchaseLimit;
     protected int dailyTransferLimit;
 
-    public Finance(int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
+    public Finance(int UID, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
         this.UID = UID;
         this.balance = balance;
-        this.amountSpentToday = 0;
-        this.dailyWithdrawalLimit = dailyWithdrawalLimit;
-        this.dailyPurchaseLimit = dailyPurchaseLimit;
-        this.dailyTransferLimit = dailyTransferLimit;
+        this.amountSpentToday = this.amountSpentToday;
+        this.dailyWithdrawalLimit = this.dailyWithdrawalLimit;
+        this.dailyPurchaseLimit = this.dailyPurchaseLimit;
+        this.dailyTransferLimit = this.dailyTransferLimit;
     }
 
     void setAmountSpentToday(int amountSpentToday) {
         this.amountSpentToday = amountSpentToday;
+        if (this.amountSpentToday < 0) {
+            throw new IllegalArgumentException("amount spent today can't be negative");
+        }
     }
     void setDailyTransferLimit(int dailyTransferLimit) {
         //validate if user inputs negative value
         this.dailyTransferLimit = dailyTransferLimit;
+        if (this.dailyTransferLimit < 0) {
+            throw new IllegalArgumentException("daily transfer limit can't be negative");
+        }
     }
-    void setDailySpendingLimit(int dailySpendingLimit) {
-                //validate if user inputs negative value
 
-    }
     void setBalance(int balance) {
         this.balance = balance;
+        if (this.balance < 0) {
+            throw new IllegalArgumentException("balance can't be negative");
+        }
     }
     void setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
         this.dailyWithdrawalLimit = dailyWithdrawalLimit;
+        if (this.dailyWithdrawalLimit < 0) {
+            throw new IllegalArgumentException("daily transfer limit can't be negative");
+        }
     }
     void setDailyPurchaseLimit(int dailyPurchaseLimit) {
         this.dailyPurchaseLimit = dailyPurchaseLimit;
+        if (this.dailyPurchaseLimit < 0) {
+            throw new IllegalArgumentException("daily transfer limit can't be negative");
+        }
     }
+
     public int getAmountSpentToday() {
         return amountSpentToday;
     }
@@ -71,7 +84,7 @@ import java.time.LocalDate;
     }
 
 
-    public int withdraw(int amount, LocalDate date) {
+    public int withdraw(int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("Amount cannot be negative");
         }
@@ -87,7 +100,7 @@ import java.time.LocalDate;
         return balance;
     }
 
-    public int deposit(int amount, LocalDate date) {
+    public int deposit(int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("Amount cannot be negative");
         }

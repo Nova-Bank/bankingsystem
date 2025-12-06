@@ -34,7 +34,7 @@ public class ChequingBuilder implements FinanceBuilder<Chequing> {
     @Override
     public Chequing build() {
         validate();
-        return new Chequing(UID,balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+        return new Chequing(UID, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
     }
 
     @Override

@@ -34,7 +34,7 @@ public class SavingsBuilder implements FinanceBuilder<Savings> {
     @Override
     public Savings build() {
         validate();
-        return new Savings(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit, UID);
+        return new Savings( dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit, UID);
     }
 
 
