@@ -15,7 +15,8 @@ package com.github.novabank.domain.finance;
  * Example usage:
  *   Account newAccount = AccountFactory.create("John Doe", initialBalance);
  */
+// Note: Let me know if u want Lombok
+
 
 public class FinanceFactory {
-    
 }
