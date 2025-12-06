@@ -1,4 +1,4 @@
-package com.github.novabank.model;
+package com.github.novabank.domain.finance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -10,6 +10,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 import org.junit.jupiter.api.Test;
+
+import com.github.novabank.domain.finance.Chequing;
+import com.github.novabank.domain.finance.Savings;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 

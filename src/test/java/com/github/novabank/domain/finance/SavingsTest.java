@@ -1,0 +1,1 @@
+package com.github.novabank.domain.finance;

@@ -1,8 +1,8 @@
-package com.github.novabank.domain.finance;
+package com.github.novabank.domain.account;
 
 /**
- * FinanceFactory is a DOMAIN layer utility for creating Finance objects.
- * * Runtime flow when registering a new account:
+ * AccountFactory is a DOMAIN layer utility for creating Account objects.
+ * Runtime flow when registering a new account:
  *      Application Service -> Factory -> Builder -> Account Constructor -> Domain Object -> Repository -> DB
  * 
  * Instructions for the team:
@@ -16,6 +16,6 @@ package com.github.novabank.domain.finance;
  *   Account newAccount = AccountFactory.create("John Doe", initialBalance);
  */
 
-public class FinanceFactory {
+public class AccountFacotry {
     
 }
