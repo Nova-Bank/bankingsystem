@@ -9,8 +9,8 @@ public class Chequing extends Finance{
     private double interestRate = 0.005;
     private YearMonth lastSeen;
 
-    public Chequing(int balance, int amountSpentToday, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
-        super(balance, amountSpentToday, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+    public Chequing(int amountSpentToday, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
+        super( amountSpentToday, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
         lastSeen = YearMonth.now(ZoneId.of("America/Toronto"));
     }
     @Override

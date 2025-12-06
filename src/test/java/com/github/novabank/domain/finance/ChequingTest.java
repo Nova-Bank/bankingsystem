@@ -29,8 +29,8 @@ class CheqingTest{
     @BeforeEach
     void setup(){
         //int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit
-        validCheq = new Chequing(1000, 0, 1000, 1000, 1000);
-        validSavings = new Savings(0, 1000, 0, 1000,1000);
+        validCheq = new Chequing(1000, 0, 1000, 1000);
+        validSavings = new Savings(0, 1000, 0, 1000);
     }
 
     @Test
@@ -55,7 +55,7 @@ class CheqingTest{
     @Test
     @DisplayName("Chequing Account after Interest should remain 0")
     void InterestIfBalIsZero(){
-        validCheq.withdraw(1000, LocalDate.now(ZoneId.of("America/Toronto")));
+        validCheq.withdraw(1000);
         validCheq.interest();
         assertEquals(validCheq.getBalance(), 0);
     }
@@ -98,12 +98,12 @@ class CheqingTest{
     @Test
     @DisplayName("Should reject negative DailyTransferLimit")
     void negativeWithdraw(){
-        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(-1, LocalDate.now(ZoneId.of("America/Toronto"))));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(-1));
     }
     @Test
     @DisplayName("Should reject negative deposit")
     void testNegativedeposit(){
-        assertThrows(IllegalArgumentException.class, () -> validCheq.deposit(-1, LocalDate.now(ZoneId.of("America/Toronto"))));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.deposit(-1));
     }
 
     @Test
@@ -136,7 +136,7 @@ class CheqingTest{
         LocalDate nextInterest = LocalDate.now();
         nextInterest.plusMonths(1);
 
-        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1, nextInterest));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1));
     }
      @Test
     @DisplayName("deposit in the future shouldn't be possible")
@@ -144,25 +144,25 @@ class CheqingTest{
         LocalDate nextInterest = LocalDate.now();
         nextInterest.plusMonths(1);
 
-        assertThrows(IllegalArgumentException.class, () -> validCheq.deposit(1, nextInterest));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.deposit(1));
     }
 
     @Test
     @DisplayName("Testing Withdraw Validity")
     void testWithdraw(){
-        validCheq.withdraw(1, LocalDate.now());
+        validCheq.withdraw(1);
         assertEquals(999, validCheq.getBalance());
     }
     @Test
     @DisplayName("Testing deposit Validity")
     void testDeposit(){
-        validCheq.deposit(1, LocalDate.now());
-        assertEquals(1001, validCheq.getBalance());
+        validCheq.deposit(1);
+        assertEquals(1, validCheq.getBalance());
     }
     @Test
     @DisplayName("Withdrawing more than balance")
     void OverWithdrawing(){
-        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1111, LocalDate.now()));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1111));
     }
     @Test
     @DisplayName("Testing Tranfer Validity")
