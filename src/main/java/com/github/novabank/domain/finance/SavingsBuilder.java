@@ -1,10 +1,6 @@
-package com.github.novabank.builder;
+package com.github.novabank.domain.finance;
 
-
-import com.github.novabank.model.Chequing;
-import com.github.novabank.model.Savings;
-
-public class ChequingBuilder implements FinanceBuilder<Chequing> {
+public class SavingsBuilder implements FinanceBuilder<Savings> {
     private int UID;
     private int balance;
     private int dailyWithdrawalLimit;
@@ -12,23 +8,23 @@ public class ChequingBuilder implements FinanceBuilder<Chequing> {
     private int dailyTransferLimit;
 
 
-    public ChequingBuilder setBalance(int balance) {
+    public SavingsBuilder setBalance(int balance) {
         this.balance = balance;
         return this;
     }
-    public ChequingBuilder setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
+    public SavingsBuilder setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
         this.dailyWithdrawalLimit = dailyWithdrawalLimit;
         return this;
     }
-    public ChequingBuilder setDailyPurchaseLimit(int dailyPurchaseLimit) {
+    public SavingsBuilder setDailyPurchaseLimit(int dailyPurchaseLimit) {
         this.dailyPurchaseLimit = dailyPurchaseLimit;
         return this;
     }
-    public ChequingBuilder setDailyTransferLimit(int dailyTransferLimit) {
+    public SavingsBuilder setDailyTransferLimit(int dailyTransferLimit) {
         this.dailyTransferLimit = dailyTransferLimit;
         return this;
     }
-    public ChequingBuilder setUID(int UID) {
+    public SavingsBuilder setUID(int UID) {
         this.UID = UID;
         return this;
     }
@@ -36,10 +32,11 @@ public class ChequingBuilder implements FinanceBuilder<Chequing> {
 
 
     @Override
-    public Chequing build() {
+    public Savings build() {
         validate();
-        return new Chequing(UID,balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+        return new Savings(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit, UID);
     }
+
 
     @Override
     public void validate() {
@@ -71,7 +68,7 @@ public class ChequingBuilder implements FinanceBuilder<Chequing> {
 
     @Override
     public String toString() {
-        return String.format("ChequingBuilder[ID=%d balance=%d dailyWithdrawlLimit=%d, dailyPurchaseLimits=%d, dailyTransferLimit=%d]",
+        return String.format("SavingsgBuilder[ID=%d balance=%d dailyWithdrawlLimit=%d, dailyPurchaseLimits=%d, dailyTransferLimit=%d]",
                 UID, balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
     }
 }

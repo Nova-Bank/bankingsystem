@@ -1,4 +1,4 @@
-package com.github.novabank.model;
+package com.github.novabank.domain.account;
 
 import java.time.LocalDate;
 import java.util.Random;

@@ -1,6 +1,7 @@
-package com.github.novabank.model;
+package com.github.novabank.domain.account;
 
-import com.github.novabank.api.Validator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ValidatePassword implements Validator<String> {
 

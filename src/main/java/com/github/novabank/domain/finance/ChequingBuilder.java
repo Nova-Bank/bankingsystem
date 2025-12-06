@@ -1,10 +1,6 @@
-package com.github.novabank.builder;
+package com.github.novabank.domain.finance;
 
-
-import com.github.novabank.model.Chequing;
-import com.github.novabank.model.Savings;
-
-public class SavingsBuilder implements FinanceBuilder<Savings> {
+public class ChequingBuilder implements FinanceBuilder<Chequing> {
     private int UID;
     private int balance;
     private int dailyWithdrawalLimit;
@@ -12,23 +8,23 @@ public class SavingsBuilder implements FinanceBuilder<Savings> {
     private int dailyTransferLimit;
 
 
-    public SavingsBuilder setBalance(int balance) {
+    public ChequingBuilder setBalance(int balance) {
         this.balance = balance;
         return this;
     }
-    public SavingsBuilder setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
+    public ChequingBuilder setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
         this.dailyWithdrawalLimit = dailyWithdrawalLimit;
         return this;
     }
-    public SavingsBuilder setDailyPurchaseLimit(int dailyPurchaseLimit) {
+    public ChequingBuilder setDailyPurchaseLimit(int dailyPurchaseLimit) {
         this.dailyPurchaseLimit = dailyPurchaseLimit;
         return this;
     }
-    public SavingsBuilder setDailyTransferLimit(int dailyTransferLimit) {
+    public ChequingBuilder setDailyTransferLimit(int dailyTransferLimit) {
         this.dailyTransferLimit = dailyTransferLimit;
         return this;
     }
-    public SavingsBuilder setUID(int UID) {
+    public ChequingBuilder setUID(int UID) {
         this.UID = UID;
         return this;
     }
@@ -36,11 +32,10 @@ public class SavingsBuilder implements FinanceBuilder<Savings> {
 
 
     @Override
-    public Savings build() {
+    public Chequing build() {
         validate();
-        return new Savings(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit, UID);
+        return new Chequing(UID,balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
     }
-
 
     @Override
     public void validate() {
@@ -72,7 +67,7 @@ public class SavingsBuilder implements FinanceBuilder<Savings> {
 
     @Override
     public String toString() {
-        return String.format("SavingsgBuilder[ID=%d balance=%d dailyWithdrawlLimit=%d, dailyPurchaseLimits=%d, dailyTransferLimit=%d]",
+        return String.format("ChequingBuilder[ID=%d balance=%d dailyWithdrawlLimit=%d, dailyPurchaseLimits=%d, dailyTransferLimit=%d]",
                 UID, balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
     }
 }

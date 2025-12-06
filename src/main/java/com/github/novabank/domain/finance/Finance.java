@@ -1,4 +1,4 @@
-package com.github.novabank.model;
+package com.github.novabank.domain.finance;
 import java.time.LocalDate;
 
 /**

@@ -1,9 +1,8 @@
-package com.github.novabank.model;
+package com.github.novabank.domain.account;
 
 import java.time.LocalDate;
 import java.time.Period;
 
-import com.github.novabank.model.AccountInfo;
 import java.util.ArrayList;
 import java.util.List;
 

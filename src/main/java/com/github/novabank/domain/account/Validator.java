@@ -1,4 +1,4 @@
-package com.github.novabank.api;
+package com.github.novabank.domain.account;
 
 /**
  * Generic validator interface using the Strategy pattern.

@@ -1,6 +1,5 @@
-package com.github.novabank.builder;
+package com.github.novabank.domain.account;
 
-import com.github.novabank.model.Account;
 
 /**
  * Builder interface for creating Account instances 

@@ -1,4 +1,4 @@
-package com.github.novabank.builder;
+package com.github.novabank.domain.finance;
 
 public class CreditBuilder {
 

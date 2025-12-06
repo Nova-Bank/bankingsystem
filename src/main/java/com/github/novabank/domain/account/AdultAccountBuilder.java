@@ -1,8 +1,7 @@
-package com.github.novabank.builder;
+package com.github.novabank.domain.account;
 
 import java.time.LocalDate;
 
-import com.github.novabank.model.AdultAccount;;
 
 /**
  * 
@@ -18,10 +17,7 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
     private LocalDate dateOfBirth;
     private String phoneNumber;
 
-    public AdultAccountBuilder setUID(int UID){
-        this.UID = UID;
-        return this;
-    }
+    
     public AdultAccountBuilder setemail(String email){
         this.email = email;
         return this;
@@ -81,9 +77,9 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
         }
 
     }
-
+    @Override
     public String toString() {
-        return String.format("AdultAccountBuilder[ID=%d email=%s password=%s fullName=%s dateOfBirth=%s phoneNumber=%d]",
-        UID, email, password, fullName, dateOfBirth, phoneNumber);
+        return String.format("AdultAccountBuilder[ email=%s password=%s fullName=%s dateOfBirth=%s phoneNumber=%s]",
+        email, password, fullName, dateOfBirth, phoneNumber);
     }
 }

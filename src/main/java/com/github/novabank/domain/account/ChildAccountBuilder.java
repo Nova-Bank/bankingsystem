@@ -1,8 +1,6 @@
-package com.github.novabank.builder;
+package com.github.novabank.domain.account;
 
-import java.time.LocalDate;
-
-import com.github.novabank.model.ChildAccount;;
+import java.time.LocalDate;;
 
 /**
  * 
@@ -12,17 +10,13 @@ import com.github.novabank.model.ChildAccount;;
  */
 public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
 
-    private int UID;
     private String email;   
     private String password; 
     private String fullName;
     private LocalDate dateOfBirth;
     private String phoneNumber;
 
-    public ChildAccountBuilder setUID(int UID){
-        this.UID = UID;
-        return this;
-    }
+    
     public ChildAccountBuilder setemail(String email){
         this.email = email;
         return this;
@@ -55,7 +49,6 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
 
     @Override
     public void reset(){
-        this.UID = 0;
         this.email = null;
          this.password = null;
          this.fullName = null;
@@ -67,9 +60,7 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
 
     // TODO validate for edge cases
     public void validate(){
-        if(UID == 0){
-            throw new IllegalStateException("UID is required");
-        }
+        
         if (email == null){
           throw new IllegalStateException("email is required");
         }
@@ -88,8 +79,9 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
 
     }
 
+    @Override
     public String toString() {
-        return String.format("ChildAccountBuilder[ID=%d email=%s password=%s fullName=%s dateOfBirth=%s phoneNumber=%d]",
-        UID, email, password, fullName, dateOfBirth, phoneNumber);
+        return String.format("ChildAccountBuilder[email=%s password=%s fullName=%s dateOfBirth=%s phoneNumber=%s]",
+        email, password, fullName, dateOfBirth, phoneNumber);
     }
 }
