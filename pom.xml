@@ -27,88 +27,75 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <jmh.version>1.37</jmh.version>
-    <junit.version>5.11.0</junit.version>
     <jacoco.version>0.8.11</jacoco.version>
   </properties>
 
   <dependencies>
-    <!-- Spring Boot Starter Web for REST API / Controllers -->
+    <!-- Spring Boot Starters -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- Spring Data JPA (optional, for DB persistence) -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
 
-    <!-- H2 Database for in-memory testing -->
+    <!-- H2 Database -->
     <dependency>
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
         <scope>runtime</scope>
     </dependency>
 
-    <!-- Lombok to reduce boilerplate -->
+    <!-- Lombok -->
     <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <optional>true</optional>
     </dependency>
 
-    <!-- Spring Boot testing dependencies -->
+    <!-- Spring Boot Test (JUnit 5 included) -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-test</artifactId>
         <scope>test</scope>
+        <exclusions>
+            <exclusion>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>org.junit.vintage</groupId>
+                <artifactId>junit-vintage-engine</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
 
-    <!-- Existing JUnit & JMH dependencies -->
+    <!-- Optional explicit JUnit 5 (if needed for IDE recognition) -->
     <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
-        <version>${junit.version}</version>
         <scope>test</scope>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-params</artifactId>
-        <version>${junit.version}</version>
         <scope>test</scope>
-    </dependency>  
-    <dependency>
-        <groupId>com.pholser</groupId>
-        <artifactId>junit-quickcheck-generators</artifactId>
-        <version>1.0</version>
     </dependency>
-    <dependency>
-        <groupId>com.pholser</groupId>
-        <artifactId>junit-quickcheck-core</artifactId>
-        <version>1.0</version>
-    </dependency>
-    <dependency>
-        <groupId>com.pholser</groupId>
-        <artifactId>junit-quickcheck</artifactId>
-        <version>1.0</version>
-        <type>pom</type>
-    </dependency>
-    <dependency>
-        <groupId>org.openjdk.jmh</groupId>
-        <artifactId>jmh-generator-annprocess</artifactId>
-        <version>${jmh.version}</version>
-    </dependency>
+
+    <!-- JMH benchmarking -->
     <dependency>
         <groupId>org.openjdk.jmh</groupId>
         <artifactId>jmh-core</artifactId>
         <version>${jmh.version}</version>
     </dependency>
     <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.11</version>
-        <scope>test</scope>
+        <groupId>org.openjdk.jmh</groupId>
+        <artifactId>jmh-generator-annprocess</artifactId>
+        <version>${jmh.version}</version>
+        <scope>provided</scope>
     </dependency>
   </dependencies>
 
@@ -121,41 +108,11 @@
           <artifactId>spring-boot-maven-plugin</artifactId>
         </plugin>
 
-        <!-- Existing build plugins -->
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
-        </plugin>
-
         <!-- Jacoco -->
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.13</version>
+          <version>${jacoco.version}</version>
           <executions>
             <execution>
               <goals><goal>prepare-agent</goal></goals>
@@ -170,50 +127,4 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.7.0</version>
-        <configuration>
-          <source>17</source>
-          <show>public</show>
-          <nohelp>true</nohelp>
-          <doctitle>Banking System API Documentation</doctitle>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  <profiles>
-    <profile>
-      <id>benchmark</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.4.1</version>
-            <executions>
-              <execution>
-                <phase>package</phase>
-                <goals><goal>shade</goal></goals>
-                <configuration>
-                  <finalName>benchmarks</finalName>
-                  <transformers>
-                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                      <mainClass>org.openjdk.jmh.Main</mainClass>
-                    </transformer>
-                  </transformers>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
 </project>
