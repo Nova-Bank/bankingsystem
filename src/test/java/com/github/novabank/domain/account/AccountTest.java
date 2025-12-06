@@ -1,4 +1,4 @@
-package com.github.novabank.model;
+package com.github.novabank.domain.account;
 
 import java.time.LocalDate;
 
@@ -8,8 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.github.novabank.domain.account.ChildAccount;
 import com.github.novabank.domain.account.AdultAccount;
+import com.github.novabank.domain.account.ChildAccount;
 
 
 
@@ -17,6 +17,8 @@ import com.github.novabank.domain.account.AdultAccount;
 class AccountTest{
     private AdultAccount validAdult;
     private ChildAccount validChild;
+    private ChildAccount nullChild;
+
     
     @BeforeEach
     void setup(){
@@ -51,7 +53,7 @@ class AccountTest{
     @DisplayName("Should Create a Child Account with valid data stored")
     void ValiAddChild(){
         validAdult.addChild(validChild);
-        
+
     }
 
 
