@@ -12,7 +12,7 @@ public abstract class Account {
 
     /*
      * Should we Final from email, password & phoneNumber as they can be changed if they get a new phone,email or want to change password?
-     */
+    */
 
     private final int UID;
     private final String email;   
@@ -58,9 +58,11 @@ public abstract class Account {
 
     /**
      * Verify login credentials.
+     * 
      * @param email Email to verify
      * @param password Password to verify
      * @return true if credentials match
+     * @apiNote WARNING: This is not secure! Passwords should be hashed and compared securely.
      */
     public boolean login(String email, String password) {
         return this.email.equals(email) && this.password.equals(password);

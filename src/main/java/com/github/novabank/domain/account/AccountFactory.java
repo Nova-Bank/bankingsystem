@@ -18,5 +18,48 @@ package com.github.novabank.domain.account;
 // Note: Let me know if u want Lombok
 
 public class AccountFactory {
-    
+
+    /**
+     * Creates an adult account using the provided account information.
+     *
+     * @param info The account information for the adult account.
+     * @return A new AdultAccount instance.
+     * @throws IllegalArgumentException if the account information is invalid.
+     */
+    public static AdultAccount createAdultAccount(AccountInfo info) {
+        return new AdultAccountBuilder()
+                .setFullName(info.getFullName())
+                .setEmail(info.getEmail())
+                .setPassword(info.getPassword())
+                .setDateOfBirth(info.getDateOfBirth())
+                .setPhoneNumber(info.getPhoneNumber())
+                .build();
+    }
+
+    /**
+     * Creates a child account and links it to a parent account.
+     *
+     * @param info   The account information for the child account.
+     * @param parent The parent adult account.
+     * @return A new ChildAccount instance.
+     * @throws IllegalArgumentException if the account information is invalid or the parent is null.
+     */
+    public static ChildAccount createChildAccount(AccountInfo info, AdultAccount parent) {
+        if (parent == null) {
+            throw new IllegalArgumentException("Child account must have a parent.");
+        }
+
+        ChildAccount childAccount = new ChildAccountBuilder()
+                .setFullName(info.getFullName())
+                .setEmail(info.getEmail())
+                .setPassword(info.getPassword())
+                .setDateOfBirth(info.getDateOfBirth())
+                .setPhoneNumber(info.getPhoneNumber())
+                .build();
+
+        parent.addChild(childAccount);
+
+        return childAccount;
+    }
 }
+

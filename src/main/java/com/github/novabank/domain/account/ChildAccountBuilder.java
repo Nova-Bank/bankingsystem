@@ -20,7 +20,7 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
     private String phoneNumber;
 
     
-    public ChildAccountBuilder setemail(String email){
+    public ChildAccountBuilder setEmail(String email){
         this.email = email;
         return this;
     }
