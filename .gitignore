@@ -2,3 +2,4 @@
 *.class
 *.jar
 **/.DS_Store
+firebase-service-account.json

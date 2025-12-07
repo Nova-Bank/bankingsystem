@@ -30,6 +30,18 @@
     <jacoco.version>0.8.11</jacoco.version>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>libraries-bom</artifactId>
+            <version>26.71.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <!-- Spring Boot Starters -->
     <dependency>
@@ -96,6 +108,19 @@
         <artifactId>jmh-generator-annprocess</artifactId>
         <version>${jmh.version}</version>
         <scope>provided</scope>
+    </dependency>
+
+    <!-- Firebase Admin SDK -->
+    <dependency>
+        <groupId>com.google.firebase</groupId>
+        <artifactId>firebase-admin</artifactId>
+        <version>9.2.0</version>
+    </dependency>
+    
+    <!-- Google Cloud Firestore -->
+    <dependency>
+        <groupId>com.google.cloud</groupId>
+        <artifactId>google-cloud-firestore</artifactId>
     </dependency>
   </dependencies>
 

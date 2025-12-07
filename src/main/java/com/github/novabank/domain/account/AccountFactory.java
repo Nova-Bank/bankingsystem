@@ -17,6 +17,6 @@ package com.github.novabank.domain.account;
  */
 // Note: Let me know if u want Lombok
 
-public class AccountFacotry {
+public class AccountFactory {
     
 }
