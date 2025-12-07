@@ -1,5 +1,11 @@
 package com.github.novabank.domain.account;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.github.novabank.FirebaseConfig;
+import com.google.cloud.firestore.Firestore;
+
 /** NOT OFFCIAL DOCUMENTAION. Replace once completed
  * AccountFactory is a DOMAIN layer utility for creating Account objects.
  * Runtime flow when registering a new account:
@@ -19,6 +25,40 @@ package com.github.novabank.domain.account;
 
 public class AccountFactory {
 
+    public static void uploadAccountToFirestore(Account account) {
+        try {
+            FirebaseConfig firebaseConfig = new FirebaseConfig();
+            firebaseConfig.initialize();
+            Firestore db = firebaseConfig.getFirestore();
+
+            Map<String, Object> accountData = new HashMap<>();
+            accountData.put("UID", account.getUID());
+            accountData.put("email", account.getEmail());
+            accountData.put("fullName", account.getFullName());
+            accountData.put("dateOfBirth", account.getDateOfBirth().toString());
+            accountData.put("phoneNumber", account.getPhoneNumber());
+            
+            if (account instanceof ChildAccount) {
+                accountData.put("child", true);
+
+                /*
+                    IF TRUE, ADD FIELD REFERENCE TO ADULT DOCUMENT (firestore database)
+                */
+
+            }
+            else {
+                accountData.put("child", false);
+            }
+
+            db.collection("accounts").document(String.valueOf(account.getUID())).set(accountData).get();
+            System.out.println("Account uploaded to Firestore with UID: " + account.getUID());
+        } catch (Exception e) {
+            System.err.println("Error uploading account to Firestore: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
     /**
      * Creates an adult account using the provided account information.
      *
@@ -27,13 +67,18 @@ public class AccountFactory {
      * @throws IllegalArgumentException if the account information is invalid.
      */
     public static AdultAccount createAdultAccount(AccountInfo info) {
-        return new AdultAccountBuilder()
-                .setFullName(info.getFullName())
-                .setEmail(info.getEmail())
-                .setPassword(info.getPassword())
-                .setDateOfBirth(info.getDateOfBirth())
-                .setPhoneNumber(info.getPhoneNumber())
-                .build();
+
+        AdultAccount adultAccount = new AdultAccountBuilder()
+            .setFullName(info.getFullName())
+            .setEmail(info.getEmail())
+            .setPassword(info.getPassword())
+            .setDateOfBirth(info.getDateOfBirth())
+            .setPhoneNumber(info.getPhoneNumber())
+            .build();
+
+        uploadAccountToFirestore(adultAccount);
+
+        return adultAccount;
     }
 
     /**
@@ -58,6 +103,8 @@ public class AccountFactory {
                 .build();
 
         parent.addChild(childAccount);
+
+        uploadAccountToFirestore(childAccount);
 
         return childAccount;
     }
