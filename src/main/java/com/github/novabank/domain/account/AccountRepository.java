@@ -15,4 +15,5 @@ Account is the Plug/Contract between the Domain layer & the infrastructure (Data
  */
 public interface AccountRepository{
 
+
 }

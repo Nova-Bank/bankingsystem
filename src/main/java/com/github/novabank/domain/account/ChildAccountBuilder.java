@@ -1,7 +1,7 @@
 package com.github.novabank.domain.account;
 
-
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,17 +61,66 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
 
     @Override
     public ValidationResult validate() {
+
         AccountInfo info = new AccountInfo(this.email, this.password, this.fullName, this.dateOfBirth, this.phoneNumber);
-        AccountInfoValidator validator = new AccountInfoValidator();
-        ValidationResult result = validator.validate(info);
+        
+        List<String> errors = new ArrayList<>();
 
-        List<String> errors = new ArrayList<>(result.getErrors());
+        if (info.getEmail() == null || info.getEmail().trim().isEmpty()) {
+            errors.add("Email cannot be empty");
 
-        if (this.dateOfBirth != null && AccountInfoValidator.getAge(this.dateOfBirth) >= 18) {
+        } else if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            errors.add("Email format is invalid");
+        }
+
+        if (info.getPassword() == null || info.getPassword().isEmpty()) {
+            errors.add("Password cannot be empty");
+        } else if (!validatePass(info.getPassword()).isValid()) {
+            errors.add("Password must be at least 8 characters, contain no whitespace, and include at least one special character");
+        }
+
+        if (info.getFullName() == null || info.getFullName().trim().isEmpty()) {
+            errors.add("Full name cannot be empty");
+        }
+
+        if (info.getDateOfBirth() == null) {
+            errors.add("Date of birth cannot be empty");
+        } else if (info.getDateOfBirth().isAfter(LocalDate.now())) {
+            errors.add("Date of birth cannot be in the future");
+        }
+        if (info.getDateOfBirth() != null && (Period.between(info.getDateOfBirth(), LocalDate.now()).getYears()) >= 18) {
             errors.add("Account holder must be under 18 years old.");
         }
 
+        if (info.getPhoneNumber() == null || info.getPhoneNumber().trim().isEmpty()) {
+            errors.add("Phone number cannot be empty");
+        }
+        
         return errors.isEmpty() ? ValidationResult.success() : ValidationResult.failure(errors);
+    }
+
+    public ValidationResult validatePass(String pass) {
+
+        List<String> errors = new ArrayList<>();
+
+        if (pass == null) {
+            errors.add("Password cannot be empty or null.");
+        }
+        
+        if (pass.length() < 8) {
+            errors.add("Password doesn't meet minimum length (at least 8 characters).");
+        }
+        
+        if (pass.contains(" ") || pass.matches(".*\\s.*")) {
+            errors.add("Password must NOT have any whitespace.");
+        }
+        
+        if (!pass.matches(".*[!@#$%^&*()_+\\-=\\[\\]{}|;:',.<>?/~`].*")) {
+            errors.add("Password must have at least one special character.");
+        }
+        
+        return errors.isEmpty() ? ValidationResult.success() : ValidationResult.failure(errors);
+
     }
 
     @Override

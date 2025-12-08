@@ -21,35 +21,6 @@ public class AdultAccount extends Account {
         super(email, password, fullName, dateOfBirth, phoneNumber);
     }
 
-    /**
-     * Factory method to create an AdultAccount with validation.
-     * This is where the validation happens - in the implementation layer.
-     * 
-     * @param info Account information to validate
-     * @return New AdultAccount instance
-     * @throws IllegalArgumentException if validation fails or age < 18
-     */
-    public static AdultAccount create(AccountInfo info) throws IllegalArgumentException {
-        AccountInfoValidator validator = new AccountInfoValidator();
-        
-        ValidationResult result = validator.validate(info);
-        if (!result.isValid()) {
-            throw new IllegalArgumentException("Invalid account information: " + result.getErrorMessage());
-        }
-        
-        int age = AccountInfoValidator.getAge(info.getDateOfBirth());
-        if (age < MIN_AGE) {
-            throw new IllegalArgumentException("Must be at least 18 years old for adult account (current age: " + age + ")");
-        }
-        
-        return new AdultAccount(
-            info.getEmail(),
-            info.getPassword(),
-            info.getFullName(),
-            info.getDateOfBirth(),
-            info.getPhoneNumber()
-        );
-    }
 
     /**
      * Link a child account to this adult account.
