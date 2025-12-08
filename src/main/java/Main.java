@@ -1,4 +1,3 @@
-import com.github.novabank.FirebaseConfig;
 import com.github.novabank.domain.account.Account;
 import com.github.novabank.domain.account.AccountFactory;
 import com.github.novabank.domain.account.AccountInfo;
@@ -13,6 +12,7 @@ import java.util.concurrent.ExecutionException;
 
 import com.github.novabank.domain.account.AdultAccount;
 import com.github.novabank.domain.account.ChildAccount;
+import com.github.novabank.infrastructure.config.FirebaseConfig;
 
 public class Main {
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {

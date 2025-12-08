@@ -3,7 +3,7 @@ package com.github.novabank.domain.account;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.novabank.FirebaseConfig;
+import com.github.novabank.infrastructure.config.FirebaseConfig;
 import com.google.cloud.firestore.Firestore;
 
 /** NOT OFFCIAL DOCUMENTAION. Replace once completed
