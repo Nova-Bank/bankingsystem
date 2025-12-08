@@ -46,6 +46,7 @@ import java.time.LocalDate;
             throw new IllegalArgumentException("daily transfer limit can't be negative");
         }
     }
+    
 
     void setBalance(int balance) {
         this.balance = balance;

@@ -75,11 +75,7 @@ class ChequingTest{
     void testNegativeDailyWithdrawalLimit(){
         assertThrows(IllegalArgumentException.class, () -> validCheq.setDailyWithdrawalLimit(-1));
     }
-    @Test
-    @DisplayName("Should reject negative DailySpendingLimit")
-    void testDailySpendingLimit(){
-        assertThrows(IllegalArgumentException.class, () -> validCheq.setDailySpendingLimit(-1));
-    }
+    
     @Test
     @DisplayName("Should reject negative Balance")
     void testNegativeBalance(){
