@@ -1,6 +1,8 @@
 package com.github.novabank.domain.account;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -52,7 +54,13 @@ class AccountTest{
     @Test
     @DisplayName("Should Create a Child Account with valid data stored")
     void ValiAddChild(){
+        List<ChildAccount> expectedList = new ArrayList<>();
+        expectedList.add(validChild);
+        
         validAdult.addChild(validChild);
+        assertEquals(1, validAdult.getChildCount());
+        assertEquals(expectedList, validAdult.getChildren());
+
 
     }
 
