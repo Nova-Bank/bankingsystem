@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.github.novabank.infrastructure.config.FirebaseConfig;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.FieldValue;
 import com.google.cloud.firestore.Firestore;
 
 /** NOT OFFCIAL DOCUMENTAION. Replace once completed
@@ -37,13 +39,21 @@ public class AccountFactory {
             accountData.put("fullName", account.getFullName());
             accountData.put("dateOfBirth", account.getDateOfBirth().toString());
             accountData.put("phoneNumber", account.getPhoneNumber());
+            accountData.put("dateAdded", FieldValue.serverTimestamp());
             
             if (account instanceof ChildAccount) {
                 accountData.put("child", true);
 
-                /*
-                    IF TRUE, ADD FIELD REFERENCE TO ADULT DOCUMENT (firestore database)
-                */
+                try {
+                    AdultAccount childAdult = ((ChildAccount)account).getParent();
+                    DocumentReference referencedDoc = db.collection("accounts").document(Integer.toString(childAdult.getUID()));
+
+                    accountData.put("parent", referencedDoc);  // Add the reference as a field
+                }
+                catch (Exception e) {
+                    System.err.println("Error uploading account to Firestore: " + e.getMessage());
+                    e.printStackTrace();
+                }
 
             }
             else {
@@ -109,4 +119,3 @@ public class AccountFactory {
         return childAccount;
     }
 }
-
