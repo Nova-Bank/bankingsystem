@@ -6,6 +6,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,9 +64,30 @@ class AccountTest{
         validAdult.addChild(validChild);
         assertEquals(1, validAdult.getChildCount());
         assertEquals(expectedList, validAdult.getChildren());
-
-
+        assertEquals(validAdult, validChild.getParent());
     }
+    @Test
+    @DisplayName("Should Remove a Child Account with valid data stored")
+    void ValidRemoveChild(){
+        List<ChildAccount> expectedList = new ArrayList<>();
+        
+        validAdult.addChild(validChild);
+        validAdult.removeChild(validChild);
+        assertEquals(0, validAdult.getChildCount());
+        assertEquals(expectedList, validAdult.getChildren());
+        assertFalse(validChild.hasParent());
+    }
+    @Test
+    @DisplayName("Should Remove a Child Account with valid data stored")
+    void NullRemoveChild(){
+        assertThrows(NullPointerException.class, () -> validAdult.removeChild(validChild));
+    }
+    @Test
+    @DisplayName("Should Remove a Child Account with valid data stored")
+    void NullAddChild(){
+        assertThrows(IllegalArgumentException.class, () -> validAdult.addChild(nullChild));
+    }
+
 
 
     
