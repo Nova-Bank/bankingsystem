@@ -43,7 +43,6 @@ public class Main {
         firebaseConfig.initialize();
         Firestore db = firebaseConfig.getFirestore();
         
-        // String userEmail = db.collection("accounts").document("659940").get().get().getString("email");
         String adultEmail = db.collection("accounts").document(Integer.toString(adult.getUID())).get().get().getString("email");
         System.out.println(adultEmail);
     }

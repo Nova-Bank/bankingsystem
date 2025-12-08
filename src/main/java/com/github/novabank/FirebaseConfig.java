@@ -12,6 +12,10 @@ import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/*
+DO NOT TOUCH
+*/
+
 @Configuration
 public class FirebaseConfig {
 
