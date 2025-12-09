@@ -1,19 +1,21 @@
 package com.github.novabank.domain.finance;
 
-/* NOT FORMAL DOCUMENTATION, Delete after file is Complete
-FinanceRepository is the Plug/Contract between the Domain layer & the infrastructure (Database)
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
- * Responsibilities:
- * - Define how the domain expects Accounts to be persisted.
- * - Expose only business-focused operations (not database details).
- * - Do NOT contain any SQL, JPA, or persistence logic.
- * - Enforces CRUD 
- *
- * Implementations of this interface belong in the INFRASTRUCTURE layer and handle
- * actual storage (DB, file, API, etc.), including mapping between domain objects and persistence models.
+public interface FinanceRepository {
 
- */
+    Finance save(Finance account);
 
-public class FinanceRepository {
-    
+    Optional<Finance> findByUid(int uid);
+
+    // Read all accounts
+    List<Finance> findAll();
+
+    boolean existsByUid(int uid);
+
+    void deleteByUid(int uid);
+
+    List<Finance> findBy(Predicate<Finance> predicate);
 }
