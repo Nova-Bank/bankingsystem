@@ -87,12 +87,21 @@ public class AccountRepositoryimpl implements AccountRepository {
         ApiFuture<WriteResult> future = ref.update(field, value);
 
         WriteResult result = future.get();
-        System.out.println("Updating field: " + field + " with value: " + value + "\nto account # " + account.getUID());
-    }
-    
-    @Override
-    public void delete(Account account) {
-        return;
+        System.out.println("Updating field: [" + field + "]\n with value: [" + value + "]\nto account # [" + account.getUID() + "]");
     }
 
+
+    @Override
+    public void delete(Account account) throws InterruptedException, ExecutionException, IOException {
+		
+		FirebaseConfig firebaseConfig = new FirebaseConfig();
+        firebaseConfig.initialize();
+        Firestore db = firebaseConfig.getFirestore();       
+
+		db.collection("accounts").document(Integer.toString(account.getUID())).get();
+
+		System.out.println("\nDeleting account # [" + account.getUID() + "]\n");
+		ApiFuture<WriteResult> writeResult = db.collection("accounts").document(Integer.toString(account.getUID())).delete();
+
+    }
 }
