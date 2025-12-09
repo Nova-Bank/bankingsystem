@@ -44,12 +44,6 @@ public class AccountFactory {
             .setPhoneNumber(info.getPhoneNumber())
             .build();
 
-        AccountRepositoryimpl impl = new AccountRepositoryimpl();
-
-        impl.create(adultAccount);
-
-        // RETURNS MAP<String, Object>
-        System.out.println("\n" + impl.read(adultAccount) + "\n");
 
         return adultAccount;
     }

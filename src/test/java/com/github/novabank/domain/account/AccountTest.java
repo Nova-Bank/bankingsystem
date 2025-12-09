@@ -4,10 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +15,7 @@ import com.github.novabank.domain.account.ChildAccount;
 
 
 
-@DisplayName("Account abstract class Test")
+@DisplayName("Adult And Child Account class Test")
 class AccountTest{
     private AdultAccount validAdult;
     private ChildAccount validChild;

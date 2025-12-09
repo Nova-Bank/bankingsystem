@@ -20,6 +20,10 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
     private String phoneNumber;
 
 
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
     public AdultAccountBuilder setEmail(String email) {
         this.email = email;
         return this;
@@ -50,7 +54,7 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
         return new AdultAccount(email, password, fullName,
                 dateOfBirth, phoneNumber);
     }
-
+    
     @Override
     public void reset() {
         this.email = null;
@@ -91,7 +95,7 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
         if (info.getDateOfBirth() != null && (Period.between(info.getDateOfBirth(), LocalDate.now()).getYears()) < 18) {
             errors.add("Account holder must be at least 18 years old.");
         }
-
+        //TODO: Ensure phone number only numbers
         if (info.getPhoneNumber() == null || info.getPhoneNumber().trim().isEmpty()) {
             errors.add("Phone number cannot be empty");
         }
