@@ -12,7 +12,6 @@ import java.util.List;
 public class AdultAccount extends Account {
     
     private static final int MAX_CHILDREN = 4;
-    private static final int MIN_AGE = 18;
     
     private final List<ChildAccount> children = new ArrayList<>();
 

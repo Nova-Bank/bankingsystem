@@ -13,7 +13,6 @@ import java.util.List;
  * @since 2025-11-14
  */
 public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
-    private int UID;
     private String email;
     private String password;
     private String fullName;
@@ -21,10 +20,6 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
     private String phoneNumber;
 
 
-    public AdultAccountBuilder setUID(int UID) {
-        this.UID = UID;
-        return this;
-    }
     public AdultAccountBuilder setEmail(String email) {
         this.email = email;
         return this;
@@ -58,25 +53,12 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
 
     @Override
     public void reset() {
-        this.UID = 0;
         this.email = null;
         this.password = null;
         this.fullName = null;
         this.dateOfBirth = null;
         this.phoneNumber = null;
     }
-
-    // @Override
-    // public ValidationResult validate() {
-    //     AccountInfo info = new AccountInfo(this.email, this.password, this.fullName, this.dateOfBirth, this.phoneNumber);
-    //     AccountInfoValidator validator = new AccountInfoValidator();
-    //     ValidationResult result = validator.validate(info);
-    //     List<String> errors = new ArrayList<>(result.getErrors());
-    //     if (this.dateOfBirth != null && AccountInfoValidator.getAge(this.dateOfBirth) < 18) {
-    //         errors.add("Account holder must be at least 18 years old.");
-    //     }
-    //     return errors.isEmpty() ? ValidationResult.success() : ValidationResult.failure(errors);
-    // }
 
     @Override
     public ValidationResult validate() {

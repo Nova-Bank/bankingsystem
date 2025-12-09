@@ -1,12 +1,9 @@
 package com.github.novabank.domain.account;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
-import com.github.novabank.infrastructure.config.FirebaseConfig;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.FieldValue;
-import com.google.cloud.firestore.Firestore;
+import com.github.novabank.infrastructure.database.AccountRepositoryimpl;
 
 /** NOT OFFCIAL DOCUMENTAION. Replace once completed
  * AccountFactory is a DOMAIN layer utility for creating Account objects.
@@ -27,56 +24,17 @@ import com.google.cloud.firestore.Firestore;
 
 public class AccountFactory {
 
-    public static void uploadAccountToFirestore(Account account) {
-        try {
-            FirebaseConfig firebaseConfig = new FirebaseConfig();
-            firebaseConfig.initialize();
-            Firestore db = firebaseConfig.getFirestore();
-
-            Map<String, Object> accountData = new HashMap<>();
-            accountData.put("UID", account.getUID());
-            accountData.put("email", account.getEmail());
-            accountData.put("fullName", account.getFullName());
-            accountData.put("dateOfBirth", account.getDateOfBirth().toString());
-            accountData.put("phoneNumber", account.getPhoneNumber());
-            accountData.put("dateAdded", FieldValue.serverTimestamp());
-            
-            if (account instanceof ChildAccount) {
-                accountData.put("child", true);
-
-                try {
-                    AdultAccount childAdult = ((ChildAccount)account).getParent();
-                    DocumentReference referencedDoc = db.collection("accounts").document(Integer.toString(childAdult.getUID()));
-
-                    accountData.put("parent", referencedDoc);  // Add the reference as a field
-                }
-                catch (Exception e) {
-                    System.err.println("Error uploading account to Firestore: " + e.getMessage());
-                    e.printStackTrace();
-                }
-
-            }
-            else {
-                accountData.put("child", false);
-            }
-
-            db.collection("accounts").document(String.valueOf(account.getUID())).set(accountData).get();
-            System.out.println("Account uploaded to Firestore with UID: " + account.getUID());
-        } catch (Exception e) {
-            System.err.println("Error uploading account to Firestore: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-
     /**
      * Creates an adult account using the provided account information.
      *
      * @param info The account information for the adult account.
      * @return A new AdultAccount instance.
+     * @throws ExecutionException 
+     * @throws InterruptedException 
+     * @throws IOException 
      * @throws IllegalArgumentException if the account information is invalid.
      */
-    public static AdultAccount createAdultAccount(AccountInfo info) {
+    public static AdultAccount createAdultAccount(AccountInfo info) throws IOException, InterruptedException, ExecutionException {
 
         AdultAccount adultAccount = new AdultAccountBuilder()
             .setFullName(info.getFullName())
@@ -86,7 +44,12 @@ public class AccountFactory {
             .setPhoneNumber(info.getPhoneNumber())
             .build();
 
-        uploadAccountToFirestore(adultAccount);
+        AccountRepositoryimpl impl = new AccountRepositoryimpl();
+
+        impl.create(adultAccount);
+
+        // RETURNS MAP<String, Object>
+        System.out.println("\n" + impl.read(adultAccount) + "\n");
 
         return adultAccount;
     }
@@ -97,9 +60,12 @@ public class AccountFactory {
      * @param info   The account information for the child account.
      * @param parent The parent adult account.
      * @return A new ChildAccount instance.
+     * @throws ExecutionException 
+     * @throws InterruptedException 
+     * @throws IOException 
      * @throws IllegalArgumentException if the account information is invalid or the parent is null.
      */
-    public static ChildAccount createChildAccount(AccountInfo info, AdultAccount parent) {
+    public static ChildAccount createChildAccount(AccountInfo info, AdultAccount parent) throws IOException, InterruptedException, ExecutionException {
         if (parent == null) {
             throw new IllegalArgumentException("Child account must have a parent.");
         }
@@ -114,7 +80,13 @@ public class AccountFactory {
 
         parent.addChild(childAccount);
 
-        uploadAccountToFirestore(childAccount);
+
+        AccountRepositoryimpl impl = new AccountRepositoryimpl();
+
+        impl.create(childAccount);
+
+        // RETURNS MAP<String, Object>
+        System.out.println("\n" + impl.read(childAccount) + "\n");
 
         return childAccount;
     }

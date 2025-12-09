@@ -1,5 +1,3 @@
-
-
 package com.github.novabank.domain.account;
 import java.time.LocalDate;
 
@@ -9,8 +7,6 @@ import java.time.LocalDate;
  */
 public class ChildAccount extends Account {
 
-    private static final int MAX_AGE = 17;
-    
     private AdultAccount parent;
 
     public ChildAccount(String email, String password, String fullName, LocalDate dateOfBirth, String phoneNumber) {
