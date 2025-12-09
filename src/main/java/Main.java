@@ -9,10 +9,7 @@ import com.github.novabank.domain.account.AdultAccount;
 import com.github.novabank.domain.account.ChildAccount;
 import com.github.novabank.infrastructure.config.FirebaseConfig;
 import com.github.novabank.infrastructure.database.AccountRepositoryimpl;
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
 
 
 public class Main {
@@ -20,7 +17,6 @@ public class Main {
         System.out.println("I exist");
 
         AccountInfo adultinfo = new AccountInfo("thisisanemail@gmail.com", "Melons123!", "Evan Wee", LocalDate.parse("2006-10-30"), "6475691030");
-        new AccountFactory();
         AdultAccount adult = AccountFactory.createAdultAccount(adultinfo);
 
         // AdultAccount account = new AdultAccountBuilder()
@@ -44,9 +40,13 @@ public class Main {
         FirebaseConfig firebaseConfig = new FirebaseConfig();
         firebaseConfig.initialize();
         Firestore db = firebaseConfig.getFirestore();       
-        
-        new AccountRepositoryimpl().update(child, "fullName", "IM SO GOOD");
+		
+		AccountRepositoryimpl impl = new AccountRepositoryimpl();
 
+
+		impl.update(adult, "password", "Ilovesquids123!");
+
+		impl.delete(child);
     }
     
 }

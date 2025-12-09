@@ -44,7 +44,6 @@ public class AccountFactory {
             .setPhoneNumber(info.getPhoneNumber())
             .build();
 
-
         return adultAccount;
     }
 
@@ -79,7 +78,7 @@ public class AccountFactory {
 
         impl.create(childAccount);
 
-        // RETURNS MAP<String, Object>
+        // // RETURNS MAP<String, Object>
         System.out.println("\n" + impl.read(childAccount) + "\n");
 
         return childAccount;
