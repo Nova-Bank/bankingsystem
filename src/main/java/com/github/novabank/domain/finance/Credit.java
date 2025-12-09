@@ -1,17 +1,15 @@
 package com.github.novabank.domain.finance;
 
-import java.time.ZoneId;
-
 public class Credit extends Finance{
-    int creditBalance;
     int creditLimit;
     double creditInterestRate = 0.21;
+    int maxuimimBalanceWithoutInterest;
 
     public Credit(int creditBalance, int creditLimit, double creditInterestRate, int balance, int amountSpentToday, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
         super(balance, amountSpentToday, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
-        this.creditBalance = creditBalance;
-        this.creditLimit = 10000;
+        this.creditLimit = creditLimit;
         this.creditInterestRate = creditInterestRate;
+        this.maxuimimBalanceWithoutInterest = (int) (creditLimit * 0.10);
     }
 
     /** add credit balance
@@ -30,19 +28,26 @@ public class Credit extends Finance{
             return;
         }
 
-        if(m != lastMonth && creditBalance > 0) {
-            creditBalance = (int) Math.round(creditBalance*(1+creditInterestRate));
+        if(m != lastMonth && balance > maxuimimBalanceWithoutInterest) {
+            balance = (int) Math.round(balance*(1+creditInterestRate));
         }else{
-            creditBalance = 0;
+            balance = 0;
         }
     }
 
     public void purchase(int amount) {
+        if  (amount < 0) {
+            throw new IllegalStateException("amount less than 0");
+        }
+        if (amount + balance > creditLimit) {
+            throw new IllegalStateException("Credit limit exceeded");
+
+        }
+        balance += amount;
     }
 
     public void closeBalance(int amount) {
         balance -= amount;
-        creditBalance -= amount;
     }
 
 }

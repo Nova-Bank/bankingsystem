@@ -2,12 +2,6 @@ package com.github.novabank.domain.finance;
 import java.time.LocalDate;
 
 /**
- * Written By: Josef Geshelin
- * Toufic if you want to change the name of Finance to be better/more accurate do it ASAP as it'll be much harder later
- */
-
- /**
- * <-- -- [ADD DESCRIPTIONN ] -- -->
  * 
  * @author Toufic Fares
  * @version 1.0
