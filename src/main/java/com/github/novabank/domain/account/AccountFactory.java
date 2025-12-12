@@ -1,9 +1,11 @@
 package com.github.novabank.domain.account;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-
+import com.github.novabank.domain.finance.Finance;
 import com.github.novabank.infrastructure.database.AccountRepositoryimpl;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /** NOT OFFCIAL DOCUMENTAION. Replace once completed
  * AccountFactory is a DOMAIN layer utility for creating Account objects.
@@ -34,17 +36,31 @@ public class AccountFactory {
      * @throws IOException 
      * @throws IllegalArgumentException if the account information is invalid.
      */
-    public static AdultAccount createAdultAccount(AccountInfo info) throws IOException, InterruptedException, ExecutionException {
+    public static AdultAccount createAdultAccount(AccountInfo info, List<Finance> financeProducts) throws IOException, InterruptedException, ExecutionException {
 
-        AdultAccount adultAccount = new AdultAccountBuilder()
+        AdultAccountBuilder builder = new AdultAccountBuilder()
             .setFullName(info.getFullName())
             .setEmail(info.getEmail())
             .setPassword(info.getPassword())
             .setDateOfBirth(info.getDateOfBirth())
-            .setPhoneNumber(info.getPhoneNumber())
-            .build();
+            .setPhoneNumber(info.getPhoneNumber());
+
+        for (Finance product : financeProducts) {
+            builder.addFinanceProduct(product);
+        }
+
+        AdultAccount adultAccount = builder.build();
+
+
+        AccountRepositoryimpl impl = new AccountRepositoryimpl();
+
+        impl.create(adultAccount);
+
+        // RETURNS MAP<String, Object>
+        System.out.println("\n" + impl.read(adultAccount) + "\n");
 
         return adultAccount;
+
     }
 
     /**
@@ -58,18 +74,23 @@ public class AccountFactory {
      * @throws IOException 
      * @throws IllegalArgumentException if the account information is invalid or the parent is null.
      */
-    public static ChildAccount createChildAccount(AccountInfo info, AdultAccount parent) throws IOException, InterruptedException, ExecutionException {
+    public static ChildAccount createChildAccount(AccountInfo info, AdultAccount parent, List<Finance> financeProducts) throws IOException, InterruptedException, ExecutionException {
         if (parent == null) {
             throw new IllegalArgumentException("Child account must have a parent.");
         }
 
-        ChildAccount childAccount = new ChildAccountBuilder()
+        ChildAccountBuilder builder = new ChildAccountBuilder()
                 .setFullName(info.getFullName())
                 .setEmail(info.getEmail())
                 .setPassword(info.getPassword())
                 .setDateOfBirth(info.getDateOfBirth())
-                .setPhoneNumber(info.getPhoneNumber())
-                .build();
+                .setPhoneNumber(info.getPhoneNumber());
+
+        for (Finance product : financeProducts) {
+            builder.addFinanceProduct(product);
+        }
+
+        ChildAccount childAccount = builder.build();
 
         parent.addChild(childAccount);
 
@@ -78,7 +99,7 @@ public class AccountFactory {
 
         impl.create(childAccount);
 
-        // // RETURNS MAP<String, Object>
+        // RETURNS MAP<String, Object>
         System.out.println("\n" + impl.read(childAccount) + "\n");
 
         return childAccount;

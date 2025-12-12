@@ -32,6 +32,7 @@ public class AccountRepositoryimpl implements AccountRepository {
             accountData.put("dob", account.getDateOfBirth().toString());
             accountData.put("phoneNumber", account.getPhoneNumber());
             accountData.put("dateAdded", FieldValue.serverTimestamp());
+            accountData.put("accounts", account.getFinanceProducts());
             
             if (account instanceof ChildAccount) {
                 accountData.put("child", true);

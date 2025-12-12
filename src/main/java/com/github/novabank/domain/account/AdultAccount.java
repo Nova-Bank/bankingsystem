@@ -1,9 +1,12 @@
 
 package com.github.novabank.domain.account;
 
+import com.github.novabank.domain.finance.Finance;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Adult account - must be 18 or older.
@@ -15,9 +18,9 @@ public class AdultAccount extends Account {
     
     private final List<ChildAccount> children = new ArrayList<>();
 
-    public AdultAccount(String email, String password, String fullName, 
-                        LocalDate dateOfBirth, String phoneNumber) {
-        super(email, password, fullName, dateOfBirth, phoneNumber);
+    public AdultAccount(String email, String password, String fullName,
+                        LocalDate dateOfBirth, String phoneNumber, Map<String, Finance> financeProducts) {
+        super(email, password, fullName, dateOfBirth, phoneNumber, financeProducts);
     }
 
 

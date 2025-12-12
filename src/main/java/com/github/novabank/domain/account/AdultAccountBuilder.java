@@ -1,10 +1,14 @@
 package com.github.novabank.domain.account;
 
 
+import com.github.novabank.domain.finance.Finance;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -18,12 +22,9 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
     private String fullName;
     private LocalDate dateOfBirth;
     private String phoneNumber;
+    private Map<String, Finance> financeProducts = new HashMap<>();
 
-
-<<<<<<< Updated upstream
-=======
     
->>>>>>> Stashed changes
     public AdultAccountBuilder setEmail(String email) {
         this.email = email;
         return this;
@@ -46,13 +47,19 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
     }
 
     @Override
+    public AccountBuilder<AdultAccount> addFinanceProduct(Finance financeProduct) {
+        this.financeProducts.put(financeProduct.getClass().getSimpleName(), financeProduct);
+        return this;
+    }
+
+    @Override
     public AdultAccount build() {
         ValidationResult result = validate();
         if (!result.isValid()) {
             throw new IllegalArgumentException("Validation failed: " + String.join(", ", result.getErrors()));
         }
         return new AdultAccount(email, password, fullName,
-                dateOfBirth, phoneNumber);
+                dateOfBirth, phoneNumber, financeProducts);
     }
     
     @Override
@@ -62,6 +69,7 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
         this.fullName = null;
         this.dateOfBirth = null;
         this.phoneNumber = null;
+        this.financeProducts.clear();
     }
 
     @Override
@@ -95,11 +103,11 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
         if (info.getDateOfBirth() != null && (Period.between(info.getDateOfBirth(), LocalDate.now()).getYears()) < 18) {
             errors.add("Account holder must be at least 18 years old.");
         }
-        //TODO: Ensure phone number only numbers
-        if (info.getPhoneNumber() == null || info.getPhoneNumber().trim().isEmpty()) {
-            errors.add("Phone number cannot be empty");
-        }
+        String regex = "[0-9]+";
 
+        if (info.getPhoneNumber() == null || info.getPhoneNumber().trim().isEmpty() || info.getPhoneNumber().trim().length() != 10 || !info.getPhoneNumber().trim().matches(regex)) {
+            errors.add("Invalid phone number format (### ### ####)");
+        }
 
         return errors.isEmpty() ? ValidationResult.success() : ValidationResult.failure(errors);
     }

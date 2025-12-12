@@ -1,5 +1,8 @@
 package com.github.novabank.domain.account;
+import com.github.novabank.domain.finance.Finance;
+
 import java.time.LocalDate;
+import java.util.Map;
 
 /**
  * Child account - must be under 18.
@@ -9,8 +12,8 @@ public class ChildAccount extends Account {
 
     private AdultAccount parent;
 
-    public ChildAccount(String email, String password, String fullName, LocalDate dateOfBirth, String phoneNumber) {
-        super(email, password, fullName, dateOfBirth, phoneNumber);
+    public ChildAccount(String email, String password, String fullName, LocalDate dateOfBirth, String phoneNumber, Map<String, Finance> financeProducts) {
+        super(email, password, fullName, dateOfBirth, phoneNumber, financeProducts);
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.github.novabank.domain.account;
 
 
+import com.github.novabank.domain.finance.Finance;
+
 /**
  * Builder interface for creating Account instances 
  * Provi
@@ -11,6 +13,8 @@ package com.github.novabank.domain.account;
  */
 
 public interface AccountBuilder <T extends Account>{
+
+    AccountBuilder<T> addFinanceProduct(Finance financeProduct);
 
     T build();
 

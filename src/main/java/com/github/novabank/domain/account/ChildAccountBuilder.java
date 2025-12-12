@@ -1,9 +1,13 @@
 package com.github.novabank.domain.account;
 
+import com.github.novabank.domain.finance.Finance;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -18,6 +22,7 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
     private String fullName;
     private LocalDate dateOfBirth;
     private String phoneNumber;
+    private Map<String, Finance> financeProducts = new HashMap<>();
 
     
     public ChildAccountBuilder setEmail(String email){
@@ -42,12 +47,18 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
     }
 
     @Override
+    public AccountBuilder<ChildAccount> addFinanceProduct(Finance financeProduct) {
+        this.financeProducts.put(financeProduct.getClass().getSimpleName(), financeProduct);
+        return this;
+    }
+
+    @Override
     public ChildAccount build() {
         ValidationResult result = validate();
         if (!result.isValid()) {
             throw new IllegalArgumentException("Validation failed: " + String.join(", ", result.getErrors()));
         }
-        return new ChildAccount(email, password, fullName, dateOfBirth, phoneNumber);
+        return new ChildAccount(email, password, fullName, dateOfBirth, phoneNumber, financeProducts);
     }
 
     @Override
@@ -57,6 +68,7 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
         this.fullName = null;
         this.dateOfBirth = null;
         this.phoneNumber = null;
+        this.financeProducts.clear();
     }
 
     @Override

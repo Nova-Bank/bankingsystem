@@ -1,6 +1,9 @@
 package com.github.novabank.model;
 
+import com.github.novabank.domain.finance.Finance;
+
 import java.time.LocalDate;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -20,8 +23,8 @@ class AccountTest{
     
     @BeforeEach
     void setup(){
-        validAdult = new AdultAccount("example@gmail.com", "123456790", "Josef Geshelin", LocalDate.of(2000, 3, 23), "4432214353");
-        validChild = new ChildAccount("example@gmail.com", "123456790", "Toufic Fares", LocalDate.of(2010, 3, 23), "123 939 8723");
+        validAdult = new AdultAccount("example@gmail.com", "123456790", "Josef Geshelin", LocalDate.of(2000, 3, 23), "4432214353", new HashMap<String, Finance>());
+        validChild = new ChildAccount("example@gmail.com", "123456790", "Toufic Fares", LocalDate.of(2010, 3, 23), "123 939 8723", new HashMap<String, Finance>());
 
     }
 
