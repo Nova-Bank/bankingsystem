@@ -2,12 +2,6 @@ package com.github.novabank.domain.finance;
 import java.time.LocalDate;
 
 /**
- * Written By: Josef Geshelin
- * Toufic if you want to change the name of Finance to be better/more accurate do it ASAP as it'll be much harder later
- */
-
- /**
- * <-- -- [ADD DESCRIPTIONN ] -- -->
  * 
  * @author Toufic Fares
  * @version 1.0
@@ -24,13 +18,13 @@ import java.time.LocalDate;
     protected int dailyPurchaseLimit;
     protected int dailyTransferLimit;
 
-    public Finance(int UID, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
+     public Finance(int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
         this.UID = UID;
         this.balance = balance;
-        this.amountSpentToday = this.amountSpentToday;
-        this.dailyWithdrawalLimit = this.dailyWithdrawalLimit;
-        this.dailyPurchaseLimit = this.dailyPurchaseLimit;
-        this.dailyTransferLimit = this.dailyTransferLimit;
+        this.amountSpentToday = 0;
+        this.dailyWithdrawalLimit = dailyWithdrawalLimit;
+        this.dailyPurchaseLimit = dailyPurchaseLimit;
+        this.dailyTransferLimit = dailyTransferLimit;
     }
 
     void setAmountSpentToday(int amountSpentToday) {

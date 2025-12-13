@@ -6,26 +6,32 @@ public class SavingsBuilder implements FinanceBuilder<Savings> {
     private int dailyWithdrawalLimit;
     private int dailyPurchaseLimit;
     private int dailyTransferLimit;
+    private double interestRate;
 
 
-    public SavingsBuilder setBalance(int balance) {
-        this.balance = balance;
-        return this;
-    }
-    public SavingsBuilder setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
-        this.dailyWithdrawalLimit = dailyWithdrawalLimit;
-        return this;
-    }
-    public SavingsBuilder setDailyPurchaseLimit(int dailyPurchaseLimit) {
-        this.dailyPurchaseLimit = dailyPurchaseLimit;
-        return this;
-    }
-    public SavingsBuilder setDailyTransferLimit(int dailyTransferLimit) {
-        this.dailyTransferLimit = dailyTransferLimit;
-        return this;
-    }
-    public SavingsBuilder setUID(int UID) {
-        this.UID = UID;
+//    public SavingsBuilder setBalance(int balance) {
+//        this.balance = balance;
+//        return this;
+//    }
+//    public SavingsBuilder setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
+//        this.dailyWithdrawalLimit = dailyWithdrawalLimit;
+//        return this;
+//    }
+//    public SavingsBuilder setDailyPurchaseLimit(int dailyPurchaseLimit) {
+//        this.dailyPurchaseLimit = dailyPurchaseLimit;
+//        return this;
+//    }
+//    public SavingsBuilder setDailyTransferLimit(int dailyTransferLimit) {
+//        this.dailyTransferLimit = dailyTransferLimit;
+//        return this;
+//    }
+//    public SavingsBuilder setUID(int UID) {
+//        this.UID = UID;
+//        return this;
+//    }
+
+    public SavingsBuilder setInterestRate(double interestRate) {
+        this.interestRate = interestRate;
         return this;
     }
 
@@ -34,7 +40,11 @@ public class SavingsBuilder implements FinanceBuilder<Savings> {
     @Override
     public Savings build() {
         validate();
+<<<<<<< HEAD
         return new Savings( dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit, UID);
+=======
+        return new Savings(UID,balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+>>>>>>> main
     }
 
 
