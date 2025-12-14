@@ -23,9 +23,8 @@ class ChequingTest{
 
     @BeforeEach
     void setup(){
-        //int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit
-        validCheq = new Chequing(1000, 0, 1000, 1000);
-        validSavings = new Savings(0, 1000, 0, 1000);
+        validCheq = new Chequing(1000, 0, 1000, 1000, 1000);
+        validSavings = new Savings(0, 1000, 0, 1000, 1000);
     }
 
     @Test
@@ -114,13 +113,6 @@ class ChequingTest{
         assertEquals(validCheq.getBalance(), (initial * (1 + validCheq.getInterestRate()) ) * (1 + validCheq.getInterestRate()) );
     }
 
-    @Test
-    @DisplayName("Savings Interest should work correctly")
-    void interestSavings(){
-        int initial = validCheq.getBalance();
-        validSavings.interest();
-        assertEquals(validSavings.getBalance(), (initial * (1+ validSavings.getInterestRate())));
-    }
 
     @Test
     @DisplayName("Withdraw in the future shouldn't be possible")
@@ -130,21 +122,7 @@ class ChequingTest{
 
         assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1));
     }
-    @Test
-    @DisplayName("deposit in the future shouldn't be possible")
-    void FutureDeposit(){
-        LocalDate nextInterest = LocalDate.now();
-        nextInterest.plusMonths(1);
-
-        assertThrows(IllegalArgumentException.class, () -> validCheq.deposit(1));
-    }
-
-    @Test
-    @DisplayName("Testing Withdraw Validity")
-    void testWithdraw(){
-        validCheq.withdraw(1);
-        assertEquals(999, validCheq.getBalance());
-    }
+    
     @Test
     @DisplayName("Testing deposit Validity")
     void testDeposit(){

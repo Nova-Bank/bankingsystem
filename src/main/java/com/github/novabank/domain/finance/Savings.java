@@ -27,5 +27,8 @@ public class Savings extends Finance{
             lastSeen = now;
         }
     }
+    public double getInterestRate(){
+        return interestRate;
+    }
 
 }
