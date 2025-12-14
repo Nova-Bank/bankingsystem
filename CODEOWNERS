@@ -1,0 +1,35 @@
+# ==================================================
+# GLOBAL FALLBACK (EVERYTHING MUST HAVE AN OWNER)
+# ==================================================
+* @JosefG50
+
+
+# ==================================================
+# PRESENTATION
+# ==================================================
+/main/src/main/java/com/github/novabank/presentation/ @TobiKasumu
+
+# ==================================================
+# DOMAIN LOGIC
+# ==================================================
+/main/src/main/java/com/github/novabank/domain/account/ @evanwee28 @EvanWee6
+/main/src/main/java/com/github/novabank/domain/finance/ @touficcfares 
+
+
+# ==================================================
+# DATABASE / MIGRATIONS
+# ==================================================
+@BACKEND_OWNER
+
+# ==================================================
+# TEST CASES
+# ==================================================
+/main/src/test/java/com/github/novabank/ @JosefG50
+
+# ==================================================
+# DOCUMENTATION (LOW RISK)
+# ==================================================
+@DOCS_OWNER
+*.md 
+
+
