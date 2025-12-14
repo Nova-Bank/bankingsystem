@@ -24,6 +24,8 @@ import java.util.concurrent.ExecutionException;
  */
 // Note: Let me know if u want Lombok
 
+//TODO: Combind createAdultAccount & createChildAccount
+// by definition, factory decide which object to create
 public class AccountFactory {
 
     /**

@@ -1,6 +1,7 @@
 package com.github.novabank.domain.account;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 import java.util.stream.Stream;
@@ -13,15 +14,29 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import com.github.novabank.domain.finance.Chequing;
+import com.github.novabank.domain.finance.ChequingBuilder;
+ 
+
 
 
 @DisplayName("Account abstract class Test")
 class AdultAccountBuilderTest{
-    private AdultAccountBuilder Builder;
+    private AdultAccountBuilder builder;
+    private ChequingBuilder chequingBuilder =new ChequingBuilder();
+
+         Chequing account = chequingBuilder
+         .setBalance(1000)
+         .setDailyPurchaseLimit(1000)
+         .setDailyTransferLimit(1000)
+         .setDailyWithdrawalLimit(1000)
+         .build();
 
     static Stream<String> validEmails(){
         return Stream.of(
             "email@example.com",
+            "email@example.com ",
+            " email@example.com",
     "firstname.lastname@example.com",
     "email@subdomain.example.com",
     "firstname+lastname@example.com",
@@ -45,7 +60,10 @@ class AdultAccountBuilderTest{
 
     static Stream<String> invalidEmails(){
         return Stream.of(
-            "plainaddress",
+    "plainaddress",
+    "",
+    " ",
+    "em ail@example.com",
     "#@%^%#$@#$@#.com",
     "@example.com",
     "Joe Smith <email@example.com>",
@@ -70,80 +88,105 @@ class AdultAccountBuilderTest{
 
     @BeforeEach
     void setUp(){
-         Builder =  new AdultAccountBuilder();
-    }
-
-    @AfterEach
-    void cleanUp(){
-        Builder.reset();
-    }
-
-   @Test
-    @DisplayName("Should Create a Adult Account with valid data stored")
-    void validBuilder(){
-         AdultAccount adult = Builder
+         builder =  new AdultAccountBuilder();
+         
+         builder
             .setEmail("example@gmail.com")
             .setPassword("123456790_")
             .setFullName("Josef Geshelin")
             .setDateOfBirth(LocalDate.of(2000, 3, 23))
             .setPhoneNumber("4432214353")
+            .addFinanceProduct(account);
+    }
+
+    @AfterEach
+    void cleanUp(){
+        builder.reset();
+    }
+
+   @Test
+    @DisplayName("Should Create a Adult Account with valid data stored")
+    void validbuilder(){
+         AdultAccount adult = builder
             .build();
         assertEquals("example@gmail.com", adult.getEmail());
         assertEquals("123456790_", adult.getPassword());
         assertEquals("Josef Geshelin", adult.getFullName());
         assertEquals(LocalDate.of(2000, 3, 23), adult.getDateOfBirth());
         assertEquals("4432214353", adult.getPhoneNumber());
+        assertEquals("4432214353", adult.getPhoneNumber());
+        assertEquals(account, adult.getFinanceProducts());
     }
     @Test
     @DisplayName("Ensure Reset works")
     void validReset(){
-        Builder
-            .setEmail("example@gmail.com")
-            .setPassword("123456790_")
-            .setFullName("Josef Geshelin")
-            .setDateOfBirth(LocalDate.of(2000, 3, 23))
-            .setPhoneNumber("4432214353")
+        builder
             .reset();
-        assertEquals("AdultAccountBuilder[ email=null password=null fullName=null dateOfBirth=null phoneNumber=null]", Builder.toString());
+        assertEquals("AdultAccountbuilder[ email=null password=null fullName=null dateOfBirth=null phoneNumber=null]", builder.toString());
     }
     
     @ParameterizedTest(name = "Normalize: {0}")
     @MethodSource("validEmails")
     @DisplayName("Test wtih strange Valid Emails")
     void validEmail(String input){
-        AdultAccount adult = Builder
+        AdultAccount adult = builder
             .setEmail(input)
-            .setPassword("123456790_")
-            .setFullName("Josef Geshelin")
-            .setDateOfBirth(LocalDate.of(2000, 3, 23))
-            .setPhoneNumber("4432214353")
             .build();
             assertEquals(input, adult.getEmail());
     }
     @Test
     @DisplayName("Phone number should be cleaned up to only caontain the numbers")
     void normalizationPhoneNumber(){
+         AdultAccount adult = builder
+            .setPhoneNumber("(443) 221-4353")
+            .build();
+            assertEquals("4432214553", adult.getPhoneNumber());
+    }
+
+    @ParameterizedTest(name = "Normalize: {0}")
+    @MethodSource("invalidEmails")
+    @DisplayName("Test wtih invalid Valid Emails")
+    void invalidEmail(String input){
+        builder.setEmail(input);
+        assertThrows(IllegalStateException.class, () -> builder.build());
 
     }
 
-    /* Cases
-    1. Usual case
-    2. Ensure reset works 
-    Validate
-    Valid
-    1. validEmail
-    2. Phone number removed in 
-    Should raise error
-    1. Invalid Emails
-    2. Email, Password Spaces
-    3. Password too short
-    4. password no special characters
-    5. Only First Name
-    6. non roman character first
-    7. more than one space between each word
-    8. Date of Birth in the future
-    9. Phone Number is letters
-    10. 
-    */
+    @Test
+    @DisplayName("Should raise error in DOB in the future")
+    void futureDOB(){
+        builder.setDateOfBirth(LocalDate.now().plusYears(1));
+        assertThrows(IllegalStateException.class, () -> builder.build());
+    }
+
+    @ParameterizedTest(name = "Normalize: {0}")
+    @ValueSource(strings = {
+        "",
+        " ",
+        "short",
+        "NoSpecialCharacter1",
+        ""
+    })
+    @DisplayName("Should throw error at invaid Phone numbers")
+    void invalidPhoneNumbers(String input){
+        builder.setPhoneNumber(input);
+        assertThrows(IllegalStateException.class, () -> builder.build());
+    }
+
+    @ParameterizedTest(name = "Normalize: {0}")
+    @ValueSource(strings = {
+        "Josef",
+        "?",
+        "شArabic",
+        "Josef  Geshelin",
+        ""
+    })
+    @DisplayName("Should throw error at invaid Names")
+    void invalidNames(String input){
+        builder.setFullName(input);
+        assertThrows(IllegalStateException.class, () -> builder.build());
+    }
+
+    //Test invalid FinanceProducts with decorators
 
 }
