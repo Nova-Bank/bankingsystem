@@ -4,7 +4,7 @@ package com.github.novabank.presentation.controller;
 import com.github.novabank.presentation.dto.LoginDTO;
 import com.github.novabank.presentation.response.ApiError;
 import com.github.novabank.presentation.response.ApiResponse;
-import com.github.novabank.infrastructure.logging.LogFactory;
+import com.github.novabank.utils;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

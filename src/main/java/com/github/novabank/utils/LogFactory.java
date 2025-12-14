@@ -1,4 +1,4 @@
-package com.github.novabank.infrastructure.logging;
+package com.github.novabank.utils;
 
 
 import org.slf4j.Logger;
@@ -9,4 +9,8 @@ public class LogFactory {
 public static Logger getLogger(Class<?> clazz) {
 return LoggerFactory.getLogger(clazz);
 }
+
+public static Logger getLogger(String name) {
+        return org.slf4j.LoggerFactory.getLogger(name);
+    }
 }
