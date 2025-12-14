@@ -1,30 +1,27 @@
 package com.github.novabank.domain.account;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.LocalDate;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import com.github.novabank.domain.account.AdultAccount;
-import com.github.novabank.domain.account.AdultAccountBuilder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 
 
 @DisplayName("Account abstract class Test")
 class AdultAccountBuilderTest{
     private AdultAccountBuilder Builder;
-     String[] validEmails = {
-    "email@example.com",
+
+    static Stream<String> validEmails(){
+        return Stream.of(
+            "email@example.com",
     "firstname.lastname@example.com",
     "email@subdomain.example.com",
     "firstname+lastname@example.com",
@@ -42,9 +39,13 @@ class AdultAccountBuilderTest{
     "much.\"more\\ unusual\"@example.com",
     "very.unusual.\"@\".unusual.com@example.com",
     "very.\"(),:;<>[]\".VERY.\"very@\\\\\\ \"very\".unusual@strange.example.com"
-    };
-    String[] invalidEmails = {
-    "plainaddress",
+
+        );
+    }
+
+    static Stream<String> invalidEmails(){
+        return Stream.of(
+            "plainaddress",
     "#@%^%#$@#$@#.com",
     "@example.com",
     "Joe Smith <email@example.com>",
@@ -64,7 +65,8 @@ class AdultAccountBuilderTest{
     "\"(),:;<>[\\]@example.com",
     "just\"not\"right@example.com",
     "this\\ is\\\"really\\\"not\\\\allowed@example.com"
-    };
+        );
+    }
 
     @BeforeEach
     void setUp(){
@@ -78,7 +80,7 @@ class AdultAccountBuilderTest{
 
    @Test
     @DisplayName("Should Create a Adult Account with valid data stored")
-    void Builder(){
+    void validBuilder(){
          AdultAccount adult = Builder
             .setEmail("example@gmail.com")
             .setPassword("123456790_")
@@ -101,9 +103,26 @@ class AdultAccountBuilderTest{
             .setFullName("Josef Geshelin")
             .setDateOfBirth(LocalDate.of(2000, 3, 23))
             .setPhoneNumber("4432214353")
-            .build();
-        Builder.reset();
+            .reset();
         assertEquals("AdultAccountBuilder[ email=null password=null fullName=null dateOfBirth=null phoneNumber=null]", Builder.toString());
+    }
+    
+    @ParameterizedTest(name = "Normalize: {0}")
+    @MethodSource("validEmails")
+    @DisplayName("Test wtih strange Valid Emails")
+    void validEmail(String input){
+        AdultAccount adult = Builder
+            .setEmail(input)
+            .setPassword("123456790_")
+            .setFullName("Josef Geshelin")
+            .setDateOfBirth(LocalDate.of(2000, 3, 23))
+            .setPhoneNumber("4432214353")
+            .build();
+            assertEquals(input, adult.getEmail());
+    }
+    @Test
+    @DisplayName("Phone number should be cleaned up to only caontain the numbers")
+    void normalizationPhoneNumber(){
 
     }
 
