@@ -1,5 +1,6 @@
-import com.github.novabank.domain.account.AccountFactory;
-import com.github.novabank.domain.account.AccountInfo;
+import com.github.novabank.domain.account.account_creation.*;
+import com.github.novabank.domain.account.accounts.AdultAccount;
+import com.github.novabank.domain.account.accounts.ChildAccount;
 import com.github.novabank.domain.finance.Chequing;
 import com.github.novabank.domain.finance.Credit;
 import com.github.novabank.domain.finance.Finance;
@@ -11,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.github.novabank.domain.account.AdultAccount;
-import com.github.novabank.domain.account.ChildAccount;
 import com.github.novabank.infrastructure.config.FirebaseConfig;
 import com.github.novabank.infrastructure.database.AccountRepositoryimpl;
 import com.google.cloud.firestore.Firestore;

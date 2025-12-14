@@ -1,5 +1,7 @@
-package com.github.novabank.domain.account;
+package com.github.novabank.domain.account.account_creation;
 
+
+import com.github.novabank.domain.account.accounts.AdultAccount;
 import com.github.novabank.domain.finance.Finance;
 
 import java.time.LocalDate;
@@ -15,54 +17,55 @@ import java.util.Map;
  * @version 1.1
  * @since 2025-11-14
  */
-public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
-
-    private String email;   
-    private String password; 
+public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
+    private String email;
+    private String password;
     private String fullName;
     private LocalDate dateOfBirth;
     private String phoneNumber;
     private Map<String, Finance> financeProducts = new HashMap<>();
 
     
-    public ChildAccountBuilder setEmail(String email){
+    public AdultAccountBuilder setEmail(String email) {
         this.email = email;
         return this;
     }
-    public ChildAccountBuilder setPassword(String password) {
+    public AdultAccountBuilder setPassword(String password) {
         this.password = password;
         return this;
     }
-    public ChildAccountBuilder setFullName(String fullName) {
+    public AdultAccountBuilder setFullName(String fullName) {
         this.fullName = fullName;
         return this;
     }
-    public ChildAccountBuilder setDateOfBirth(LocalDate dateOfBirth) {
+    public AdultAccountBuilder setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
         return this;
     }
-    public ChildAccountBuilder setPhoneNumber(String phoneNumber) {
+    public AdultAccountBuilder setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
         return this;
     }
 
     @Override
-    public AccountBuilder<ChildAccount> addFinanceProduct(Finance financeProduct) {
+    // This will need to be changed in the future
+    public AccountBuilder<AdultAccount> addFinanceProduct(Finance financeProduct) {
         this.financeProducts.put(financeProduct.getClass().getSimpleName(), financeProduct);
         return this;
     }
 
     @Override
-    public ChildAccount build() {
+    public AdultAccount build() {
         ValidationResult result = validate();
         if (!result.isValid()) {
             throw new IllegalArgumentException("Validation failed: " + String.join(", ", result.getErrors()));
         }
-        return new ChildAccount(email, password, fullName, dateOfBirth, phoneNumber, financeProducts);
+        return new AdultAccount(email, password, fullName,
+                dateOfBirth, phoneNumber, financeProducts);
     }
-
+    
     @Override
-    public void reset(){
+    public void reset() {
         this.email = null;
         this.password = null;
         this.fullName = null;
@@ -73,7 +76,6 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
 
     @Override
     public ValidationResult validate() {
-
         AccountInfo info = new AccountInfo(this.email, this.password, this.fullName, this.dateOfBirth, this.phoneNumber);
         
         List<String> errors = new ArrayList<>();
@@ -100,14 +102,15 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
         } else if (info.getDateOfBirth().isAfter(LocalDate.now())) {
             errors.add("Date of birth cannot be in the future");
         }
-        if (info.getDateOfBirth() != null && (Period.between(info.getDateOfBirth(), LocalDate.now()).getYears()) >= 18) {
-            errors.add("Account holder must be under 18 years old.");
+        if (info.getDateOfBirth() != null && (Period.between(info.getDateOfBirth(), LocalDate.now()).getYears()) < 18) {
+            errors.add("Account holder must be at least 18 years old.");
+        }
+        String regex = "[0-9]+";
+
+        if (info.getPhoneNumber() == null || info.getPhoneNumber().trim().isEmpty() || info.getPhoneNumber().trim().length() != 10 || !info.getPhoneNumber().trim().matches(regex)) {
+            errors.add("Invalid phone number format (### ### ####)");
         }
 
-        if (info.getPhoneNumber() == null || info.getPhoneNumber().trim().isEmpty()) {
-            errors.add("Phone number cannot be empty");
-        }
-        
         return errors.isEmpty() ? ValidationResult.success() : ValidationResult.failure(errors);
     }
 
@@ -137,7 +140,7 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
 
     @Override
     public String toString() {
-        return String.format("ChildAccountBuilder[email=%s password=%s fullName=%s dateOfBirth=%s phoneNumber=%s]",
+        return String.format("AdultAccountBuilder[ email=%s password=%s fullName=%s dateOfBirth=%s phoneNumber=%s]",
         email, password, fullName, dateOfBirth, phoneNumber);
     }
 }

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import com.github.novabank.domain.account.accounts.Account;
+
 /* NOT FORMAL DOCUMENTATION, Delete after file is Complete
 Account is the Plug/Contract between the Domain layer & the infrastructure (Database)
 

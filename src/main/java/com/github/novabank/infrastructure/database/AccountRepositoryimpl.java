@@ -5,10 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import com.github.novabank.domain.account.Account;
 import com.github.novabank.domain.account.AccountRepository;
-import com.github.novabank.domain.account.AdultAccount;
-import com.github.novabank.domain.account.ChildAccount;
+import com.github.novabank.domain.account.accounts.*;
+
 import com.github.novabank.infrastructure.config.FirebaseConfig;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;

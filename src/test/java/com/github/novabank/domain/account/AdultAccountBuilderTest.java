@@ -14,6 +14,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import com.github.novabank.domain.account.accounts.AdultAccount;
+import com.github.novabank.domain.account.account_creation.AdultAccountBuilder;
 import com.github.novabank.domain.finance.Chequing;
 import com.github.novabank.domain.finance.ChequingBuilder;
  

@@ -1,5 +1,6 @@
-package com.github.novabank.domain.account;
+package com.github.novabank.domain.account.account_creation;
 
+import com.github.novabank.domain.account.accounts.*;
 import com.github.novabank.domain.finance.Finance;
 import com.github.novabank.infrastructure.database.AccountRepositoryimpl;
 

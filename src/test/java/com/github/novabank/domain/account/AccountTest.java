@@ -1,5 +1,7 @@
 package com.github.novabank.domain.account;
 
+import com.github.novabank.domain.account.accounts.AdultAccount;
+import com.github.novabank.domain.account.accounts.ChildAccount;
 import com.github.novabank.domain.finance.Finance;
 
 import java.time.LocalDate;
@@ -12,9 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import com.github.novabank.domain.account.AdultAccount;
-import com.github.novabank.domain.account.ChildAccount;
 
 
 
