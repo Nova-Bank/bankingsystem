@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import com.github.novabank.domain.finance.finance_accounts.Finance;
+
 public interface FinanceRepository {
 
     Finance save(Finance account);

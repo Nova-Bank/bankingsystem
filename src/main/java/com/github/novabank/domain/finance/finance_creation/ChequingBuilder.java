@@ -1,4 +1,6 @@
-package com.github.novabank.domain.finance;
+package com.github.novabank.domain.finance.finance_creation;
+
+import com.github.novabank.domain.finance.finance_accounts.Chequing;
 
 public class ChequingBuilder implements FinanceBuilder<Chequing> {
     private int balance;

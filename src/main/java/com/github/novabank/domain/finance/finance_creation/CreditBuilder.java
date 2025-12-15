@@ -1,5 +1,7 @@
 package com.github.novabank.domain.finance;
 
+import com.github.novabank.domain.finance.finance_accounts.Credit;
+
 public class CreditBuilder implements FinanceBuilder<Credit> {
 
     private int creditBalance;

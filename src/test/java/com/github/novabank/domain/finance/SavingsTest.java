@@ -12,6 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.github.novabank.domain.finance.finance_accounts.Chequing;
+import com.github.novabank.domain.finance.finance_accounts.Savings;
+
 
 
 @DisplayName("Savings Class Test")

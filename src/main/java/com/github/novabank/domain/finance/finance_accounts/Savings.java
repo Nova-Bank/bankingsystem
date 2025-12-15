@@ -1,4 +1,4 @@
-package com.github.novabank.domain.finance;
+package com.github.novabank.domain.finance.finance_accounts;
 
 import lombok.Getter;
 
