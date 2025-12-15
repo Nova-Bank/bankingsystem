@@ -1,7 +1,6 @@
 package com.github.novabank.domain.finance;
 
 public class ChequingBuilder implements FinanceBuilder<Chequing> {
-    private int UID;
     private int balance;
     private int dailyWithdrawalLimit;
     private int dailyPurchaseLimit;
@@ -24,17 +23,14 @@ public class ChequingBuilder implements FinanceBuilder<Chequing> {
         this.dailyTransferLimit = dailyTransferLimit;
         return this;
     }
-    public ChequingBuilder setUID(int UID) {
-        this.UID = UID;
-        return this;
-    }
+
 
 
 
     @Override
     public Chequing build() {
         validate();
-        return new Chequing(UID, balance,dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+        return new Chequing(balance,dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
     }
 
     @Override

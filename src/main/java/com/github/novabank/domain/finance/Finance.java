@@ -11,15 +11,13 @@ import java.time.LocalDate;
  public abstract class Finance {
 
     // All values are in cents not dollar
-    private final int UID;
     protected int balance;
     protected int amountSpentToday;
     protected int dailyWithdrawalLimit;
     protected int dailyPurchaseLimit;
     protected int dailyTransferLimit;
 
-     public Finance(int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
-        this.UID = UID;
+     public Finance(int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
         this.balance = balance;
         this.amountSpentToday = 0;
         this.dailyWithdrawalLimit = dailyWithdrawalLimit;
