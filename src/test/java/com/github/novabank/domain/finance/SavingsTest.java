@@ -27,8 +27,8 @@ class SavingsTest{
     @BeforeEach
     void setup(){
         //int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit
-        validCheq = new Chequing(1000, 0, 1000, 1000, 1000);
-        validSavings = new Savings(0, 1000, 0, 1000, 1000);
+        validCheq = new Chequing(1000, 1000, 1000, 1000);
+        validSavings = new Savings(0, 1000, 1000, 1000, 0.05);
     }
 
     @Test

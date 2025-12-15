@@ -26,8 +26,8 @@ class ChequingTest{
 
     @BeforeEach
     void setup(){
-        validCheq = new Chequing(1000, 0, 1000, 1000, 1000);
-        validSavings = new Savings(0, 1000, 0, 1000, 1000);
+        validCheq = new Chequing(1000, 1000, 1000, 1000);
+        validSavings = new Savings(0, 1000, 1000, 1000, 0.05);
     }
 
     @Test

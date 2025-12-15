@@ -49,14 +49,11 @@ public class ChequingBuilder implements FinanceBuilder<Chequing> {
         if (dailyTransferLimit <= 0) {
             throw new IllegalStateException("dailyTransferLimit less than 0");
         }
-        if (UID <= 0) {
-            throw new IllegalStateException("UID less than 0");
-        }
+        
     }
 
     @Override
     public void reset() {
-        this.UID = 0;
         this.balance = 0;
         this.dailyWithdrawalLimit = 0;
         this.dailyPurchaseLimit = 0;
@@ -66,6 +63,6 @@ public class ChequingBuilder implements FinanceBuilder<Chequing> {
     @Override
     public String toString() {
         return String.format("ChequingBuilder[ID=%d balance=%d dailyWithdrawlLimit=%d, dailyPurchaseLimits=%d, dailyTransferLimit=%d]",
-                UID, balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+                balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
     }
 }
