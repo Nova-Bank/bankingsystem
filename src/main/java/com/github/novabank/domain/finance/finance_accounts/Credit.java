@@ -1,15 +1,21 @@
 package com.github.novabank.domain.finance.finance_accounts;
 
+import java.time.LocalDate;
+
+import lombok.Getter;
+import lombok.Setter;
+
 public class Credit extends Finance{
-    int creditLimit;
-    double creditInterestRate = 0.21;
-    int maxuimimBalanceWithoutInterest;
+
+     private int  creditLimit;
+    private double creditInterestRate = 0.21;
+    private int maximumBalanceWithoutInterest;
 
     public Credit(int creditBalance, int creditLimit, double creditInterestRate, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
         super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
         this.creditLimit = creditLimit;
         this.creditInterestRate = creditInterestRate;
-        this.maxuimimBalanceWithoutInterest = (int) (creditLimit * 0.10);
+        this.maximumBalanceWithoutInterest = (int) (creditLimit * 0.10);
     }
 
     /** add credit balance
@@ -20,7 +26,7 @@ public class Credit extends Finance{
      */
     @Override
     public void interest() {
-        int lastMonth = -1;
+        int lastMonth = -1; //TODO change this as everytime its called lastMonth resets to -1
         int m = java.time.LocalDate.now().getMonthValue();
 
         if (lastMonth == -1) {
@@ -28,7 +34,7 @@ public class Credit extends Finance{
             return;
         }
 
-        if(m != lastMonth && balance > maxuimimBalanceWithoutInterest) {
+        if(m != lastMonth && balance > maximumBalanceWithoutInterest) {
             balance = (int) Math.round(balance*(1+creditInterestRate));
         }else{
             balance = 0;
@@ -49,5 +55,21 @@ public class Credit extends Finance{
     public void closeBalance(int amount) {
         balance -= amount;
     }
+    public double getMinimumPayment(){
+         double minimun = balance * 0.01;
+
+         return (minimun > 10) ? minimun : Math.max(10, balance);
+    }
+    /* ensure u either call ad addLateFee OR interest NOT BOTH */
+    public void addLateFee(){
+        this.interest();
+        balance += 25;
+    }
+    public boolean hasPaidLateFee(){
+        //First check when payment due
+        // if past previous payment, check if balance is less than on statment
+        // if has, then true
+        // if hasnt false
+    } 
 
 }
