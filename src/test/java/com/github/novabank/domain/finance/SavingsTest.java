@@ -12,14 +12,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.github.novabank.domain.finance.finance_accounts.Chequing;
 import com.github.novabank.domain.finance.finance_accounts.Savings;
 
 
 
 @DisplayName("Savings Class Test")
 class SavingsTest{
-    private Chequing validCheq;
     private Savings validSavings;
 
 
@@ -27,7 +25,6 @@ class SavingsTest{
     @BeforeEach
     void setup(){
         //int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit
-        validCheq = new Chequing(1000, 1000, 1000, 1000);
         validSavings = new Savings(0, 1000, 1000, 1000, 0.05);
     }
 
