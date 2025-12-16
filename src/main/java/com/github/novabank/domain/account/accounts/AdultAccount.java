@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.math3.exception.NullArgumentException;
+
 /**
  * Adult account - must be 18 or older.
  * Can have up to 4 child accounts linked.
@@ -31,6 +33,7 @@ public class AdultAccount extends Account {
      * @throws IllegalArgumentException if max children reached
      */
     public void addChild(ChildAccount child) throws IllegalArgumentException {
+        if (child == null) throw new IllegalArgumentException();
         if (children.size() >= MAX_CHILDREN) {
             throw new IllegalArgumentException("Cannot add child. Maximum of " + MAX_CHILDREN + " children allowed.");
         }

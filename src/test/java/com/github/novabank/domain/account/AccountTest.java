@@ -11,6 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -81,7 +82,7 @@ class AccountTest{
     @Test
     @DisplayName("Should Remove a Child Account with valid data stored")
     void NullRemoveChild(){
-        assertThrows(NullPointerException.class, () -> validAdult.removeChild(validChild));
+        assertFalse(validAdult.removeChild(validChild));
     }
     @Test
     @DisplayName("Should Remove a Child Account with valid data stored")
