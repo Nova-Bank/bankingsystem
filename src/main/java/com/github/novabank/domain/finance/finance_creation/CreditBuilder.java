@@ -4,7 +4,6 @@ import com.github.novabank.domain.finance.finance_accounts.Credit;
 
 public class CreditBuilder implements FinanceBuilder<Credit> {
 
-    private int creditBalance;
     private int creditLimit;
     private double creditInterestRate;
     private int balance;
@@ -14,10 +13,7 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
     private int dailyTransferLimit;
     private int dailySpendingLimit;
 
-    public CreditBuilder setCreditBalance(int creditBalance) {
-        this.creditBalance = creditBalance;
-        return this;
-    }
+    
 
     public CreditBuilder setCreditLimit(int creditLimit) {
         this.creditLimit = creditLimit;
@@ -63,7 +59,6 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
     public Credit build() {
         validate();
         return new Credit(
-                creditBalance,
                 creditLimit,
                 creditInterestRate,
                 balance,
@@ -76,9 +71,7 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
 
     @Override
     public void validate() {
-        if (creditBalance < 0) {
-            throw new IllegalStateException("creditBalance less than 0");
-        }
+        
         if (balance < 0) {
             throw new IllegalStateException("balance less than 0");
         }
@@ -107,7 +100,6 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
 
     @Override
     public void reset() {
-        this.creditBalance = 0;
         this.creditLimit = 0;
         this.creditInterestRate = 0;
         this.balance = 0;
@@ -121,8 +113,7 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
     @Override
     public String toString() {
         return String.format(
-                "CreditBuilder[creditBalance=%d, creditLimit=%d, creditInterestRate=%.4f, balance=%d, amountSpentToday=%d, dailyWithdrawalLimit=%d, dailyPurchaseLimit=%d, dailyTransferLimit=%d, dailySpendingLimit=%d]",
-                creditBalance,
+                "CreditBuilder[creditLimit=%d, creditInterestRate=%.4f, balance=%d, amountSpentToday=%d, dailyWithdrawalLimit=%d, dailyPurchaseLimit=%d, dailyTransferLimit=%d, dailySpendingLimit=%d]",
                 creditLimit,
                 creditInterestRate,
                 balance,

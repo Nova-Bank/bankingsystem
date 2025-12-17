@@ -11,7 +11,7 @@ public class Credit extends Finance{
     private double creditInterestRate = 0.21;
     private int maximumBalanceWithoutInterest;
 
-    public Credit(int creditBalance, int creditLimit, double creditInterestRate, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
+    public Credit(int creditLimit, double creditInterestRate, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
         super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
         this.creditLimit = creditLimit;
         this.creditInterestRate = creditInterestRate;
