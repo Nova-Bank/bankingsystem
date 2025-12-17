@@ -70,6 +70,7 @@ public class Credit extends Finance{
         // if past previous payment, check if balance is less than on statment
         // if has, then true
         // if hasnt false
+        return false;
     } 
 
 }

@@ -46,7 +46,7 @@ class ChequingTest{
     void testInterest(){
         int initial = validCheq.getBalance();
         validCheq.interest();
-        assertEquals(validCheq.getBalance(), initial * (1 + validCheq.getInterestRate()));
+        assertEquals(validCheq.getBalance(), Math.round(initial*(1+validCheq.getInterestRate())));
     }
 
     @Test
