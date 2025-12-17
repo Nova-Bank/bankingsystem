@@ -2,7 +2,7 @@ package com.github.novabank.infrastructure;
 
 import com.github.novabank.domain.finance.FinanceRepository;
 import com.github.novabank.domain.finance.finance_accounts.Finance;
-import com.github.novabank.domain.finance.finance_creation.FinanceType;
+import com.github.novabank.domain.finance.finance_accounts.FinanceType;
 
 import java.util.EnumMap;
 import java.util.HashMap;

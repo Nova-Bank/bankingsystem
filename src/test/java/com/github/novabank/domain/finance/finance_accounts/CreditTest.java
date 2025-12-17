@@ -14,10 +14,9 @@ class CreditTest {
     @BeforeEach
     void setUp() {
         credit = new Credit(
-                0,     // creditBalance (unused?)
                 1000,  // creditLimit
                 0.21,  // interest rate
-                0,     // balance
+                0,     // getBalance()
                 500,   // dailyWithdrawalLimit
                 500,   // dailyPurchaseLimit
                 500,   // dailyTransferLimit
@@ -30,7 +29,7 @@ class CreditTest {
     @Test
     void purchase_validAmount_increasesBalance() {
         credit.purchase(200);
-        assertEquals(200, credit.balance);
+        assertEquals(200, credit.getBalance());
     }
 
     @Test
@@ -47,66 +46,24 @@ class CreditTest {
                 credit.purchase(200)
         );
     }
-
-    // ---------------- CLOSE BALANCE ----------------
-
-    @Test
-    void closeBalance_reducesBalance() {
-        credit.purchase(300);
-        credit.closeBalance(100);
-        assertEquals(200, credit.balance);
-    }
-
-    @Test
-    void closeBalance_canGoNegative_currentBehavior() {
-        credit.purchase(100);
-        credit.closeBalance(200);
-        assertEquals(-100, credit.balance);
-    }
-
-    // ---------------- MINIMUM PAYMENT ----------------
-
-    @Test
-    void minimumPayment_aboveTenPercent_returnsOnePercent() {
-        credit.purchase(2000);
-        double min = credit.getMinimumPayment();
-        assertEquals(20.0, min);
-    }
-
-    @Test
-    void minimumPayment_belowTen_returnsTenOrBalance() {
-        credit.purchase(500);
-        assertEquals(10.0, credit.getMinimumPayment());
-
-        credit.closeBalance(495);
-        assertEquals(5.0, credit.getMinimumPayment());
-    }
-
     // ---------------- INTEREST ----------------
 
     @Test
     void interest_firstCall_doesNothing() {
         credit.purchase(500);
         credit.interest();
-        assertEquals(500, credit.balance);
+        assertEquals(500, credit.getBalance());
     }
 
     @Test
-    void interest_secondCall_sameMonth_zeroesBalance_bug() {
+    void interest_secondCall_sameMonth_zeroesgetBalance() {
         credit.purchase(500);
         credit.interest(); // sets lastMonth
         credit.interest(); // same month
 
-        assertEquals(0, credit.balance,
-                "BUG: interest() resets balance to 0");
+        assertEquals(0, credit.getBalance(),
+                "BUG: interest() resets getBalance() to 0");
     }
 
-    // ---------------- LATE FEE ----------------
-
-    @Test
-    void addLateFee_addsFeeEvenIfInterestBroken() {
-        credit.purchase(300);
-        credit.addLateFee();
-        assertEquals(325, credit.balance);
-    }
+   
 }

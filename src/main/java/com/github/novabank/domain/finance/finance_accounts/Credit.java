@@ -9,7 +9,7 @@ public class Credit extends Finance{
 
      private int  creditLimit;
     private double creditInterestRate = 0.21;
-    private int maximumBalanceWithoutInterest;
+    private @Getter int maximumBalanceWithoutInterest;
 
     public Credit(int creditLimit, double creditInterestRate, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
         super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
@@ -55,22 +55,5 @@ public class Credit extends Finance{
     public void closeBalance(int amount) {
         balance -= amount;
     }
-    public double getMinimumPayment(){
-         double minimun = balance * 0.01;
-
-         return (minimun > 10) ? minimun : Math.max(10, balance);
-    }
-    /* ensure u either call ad addLateFee OR interest NOT BOTH */
-    public void addLateFee(){
-        this.interest();
-        balance += 25;
-    }
-    public boolean hasPaidLateFee(){
-        //First check when payment due
-        // if past previous payment, check if balance is less than on statment
-        // if has, then true
-        // if hasnt false
-        return false;
-    } 
 
 }

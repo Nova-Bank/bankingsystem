@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import com.github.novabank.domain.finance.FinanceRepository;
 import com.github.novabank.domain.finance.finance_accounts.Finance;
-import com.github.novabank.domain.finance.finance_accounts.FinanceType;
+import com.github.novabank.domain.finance.finance_creation.FinanceType;
 
 public class TransferUseCase {
 

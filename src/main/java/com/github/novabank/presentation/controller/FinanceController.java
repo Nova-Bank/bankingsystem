@@ -2,9 +2,9 @@ package com.github.novabank.presentation.controller;
 
 import java.time.LocalDate;
 
+import com.github.novabank.application.FinanceService;
 import com.github.novabank.domain.finance.finance_accounts.Finance;
-import com.github.novabank.domain.finance.finance_creation.FinanceService;
-import com.github.novabank.domain.finance.finance_creation.FinanceType;
+import com.github.novabank.domain.finance.finance_accounts.FinanceType;
 
 public class FinanceController {
 

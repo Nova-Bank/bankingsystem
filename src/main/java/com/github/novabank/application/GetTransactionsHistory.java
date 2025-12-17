@@ -1,1 +1,1 @@
-package com.github.novabank.application.financal_actions;
+package com.github.novabank.application;
