@@ -12,11 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.github.novabank.infrastructure.config.FirebaseConfig;
-import com.github.novabank.infrastructure.database.AccountRepositoryimpl;
-import com.google.cloud.firestore.Firestore;
-
-
 public class Main {
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
         System.out.println("I exist");
@@ -32,7 +27,7 @@ public class Main {
 
 
         AccountInfo adultinfo = new AccountInfo("thisisanemail@gmail.com", "Melons123!", "Evan Wee", LocalDate.parse("2006-10-30"), "6475691030");
-        AdultAccount adult = AccountFactory.createAdultAccount(adultinfo, adultFinanceProducts);
+        AdultAccount adult = (AdultAccount) AccountFactory.createAccount(adultinfo, adultFinanceProducts, null);
 
         System.out.println("Adult Account Finance Products: " + adult.getFinanceProducts());
         System.out.println("Adult Chequing Balance: " + adult.getFinanceProducts().get("Chequing").getBalance());
@@ -45,7 +40,7 @@ public class Main {
         childFinanceProducts.add(childChequing);
 
         AccountInfo childinfo = new AccountInfo("thisisaemail@gmail.com", "thisisapassword$", "Toufic Joe", LocalDate.parse("2010-10-30"), "6475691030");
-        ChildAccount child = AccountFactory.createChildAccount(childinfo, adult, childFinanceProducts);
+        ChildAccount child = (ChildAccount) AccountFactory.createAccount(childinfo, childFinanceProducts, adult);
 
         System.out.println("Child Account Finance Products: " + child.getFinanceProducts());
         System.out.println("Child Chequing Balance: " + child.getFinanceProducts().get("Chequing").getBalance());

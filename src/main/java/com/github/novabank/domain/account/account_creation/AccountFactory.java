@@ -5,6 +5,8 @@ import com.github.novabank.domain.finance.Finance;
 import com.github.novabank.infrastructure.database.AccountRepositoryimpl;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -25,86 +27,56 @@ import java.util.concurrent.ExecutionException;
  */
 // Note: Let me know if u want Lombok
 
-//TODO: Combind createAdultAccount & createChildAccount
 // by definition, factory decide which object to create
 public class AccountFactory {
 
-    /**
-     * Creates an adult account using the provided account information.
-     *
-     * @param info The account information for the adult account.
-     * @return A new AdultAccount instance.
-     * @throws ExecutionException 
-     * @throws InterruptedException 
-     * @throws IOException 
-     * @throws IllegalArgumentException if the account information is invalid.
-     */
-    public static AdultAccount createAdultAccount(AccountInfo info, List<Finance> financeProducts) throws IOException, InterruptedException, ExecutionException {
+    public static Account createAccount(AccountInfo info, List<Finance> financeProducts, AdultAccount parent) throws IOException, InterruptedException, ExecutionException {
+        LocalDate today = LocalDate.now();
+        int age = Period.between(info.getDateOfBirth(), today).getYears();
 
-        AdultAccountBuilder builder = new AdultAccountBuilder()
-            .setFullName(info.getFullName())
-            .setEmail(info.getEmail())
-            .setPassword(info.getPassword())
-            .setDateOfBirth(info.getDateOfBirth())
-            .setPhoneNumber(info.getPhoneNumber());
+        if (age < 18 || parent != null) {
+            // Create ChildAccount
+            if (parent == null) {
+                throw new IllegalArgumentException("Child account must have a parent.");
+            }
+            ChildAccountBuilder builder = new ChildAccountBuilder()
+                    .setFullName(info.getFullName())
+                    .setEmail(info.getEmail())
+                    .setPassword(info.getPassword())
+                    .setDateOfBirth(info.getDateOfBirth())
+                    .setPhoneNumber(info.getPhoneNumber());
 
-        for (Finance product : financeProducts) {
-            builder.addFinanceProduct(product);
+            for (Finance product : financeProducts) {
+                builder.addFinanceProduct(product);
+            }
+
+            ChildAccount childAccount = builder.build();
+            parent.addChild(childAccount);
+
+            AccountRepositoryimpl impl = new AccountRepositoryimpl();
+            impl.create(childAccount);
+            System.out.println("\n" + impl.read(childAccount) + "\n");
+            return childAccount;
+
+        } else {
+            // Create AdultAccount
+            AdultAccountBuilder builder = new AdultAccountBuilder()
+                    .setFullName(info.getFullName())
+                    .setEmail(info.getEmail())
+                    .setPassword(info.getPassword())
+                    .setDateOfBirth(info.getDateOfBirth())
+                    .setPhoneNumber(info.getPhoneNumber());
+
+            for (Finance product : financeProducts) {
+                builder.addFinanceProduct(product);
+            }
+
+            AdultAccount adultAccount = builder.build();
+
+            AccountRepositoryimpl impl = new AccountRepositoryimpl();
+            impl.create(adultAccount);
+            System.out.println("\n" + impl.read(adultAccount) + "\n");
+            return adultAccount;
         }
-
-        AdultAccount adultAccount = builder.build();
-
-
-        AccountRepositoryimpl impl = new AccountRepositoryimpl();
-
-        impl.create(adultAccount);
-
-        // RETURNS MAP<String, Object>
-        System.out.println("\n" + impl.read(adultAccount) + "\n");
-
-        return adultAccount;
-
-    }
-
-    /**
-     * Creates a child account and links it to a parent account.
-     *
-     * @param info   The account information for the child account.
-     * @param parent The parent adult account.
-     * @return A new ChildAccount instance.
-     * @throws ExecutionException 
-     * @throws InterruptedException 
-     * @throws IOException 
-     * @throws IllegalArgumentException if the account information is invalid or the parent is null.
-     */
-    public static ChildAccount createChildAccount(AccountInfo info, AdultAccount parent, List<Finance> financeProducts) throws IOException, InterruptedException, ExecutionException {
-        if (parent == null) {
-            throw new IllegalArgumentException("Child account must have a parent.");
-        }
-
-        ChildAccountBuilder builder = new ChildAccountBuilder()
-                .setFullName(info.getFullName())
-                .setEmail(info.getEmail())
-                .setPassword(info.getPassword())
-                .setDateOfBirth(info.getDateOfBirth())
-                .setPhoneNumber(info.getPhoneNumber());
-
-        for (Finance product : financeProducts) {
-            builder.addFinanceProduct(product);
-        }
-
-        ChildAccount childAccount = builder.build();
-
-        parent.addChild(childAccount);
-
-
-        AccountRepositoryimpl impl = new AccountRepositoryimpl();
-
-        impl.create(childAccount);
-
-        // RETURNS MAP<String, Object>
-        System.out.println("\n" + impl.read(childAccount) + "\n");
-
-        return childAccount;
     }
 }

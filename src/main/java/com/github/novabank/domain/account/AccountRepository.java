@@ -1,10 +1,10 @@
 package com.github.novabank.domain.account;
 
+import com.github.novabank.domain.account.accounts.Account;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-
-import com.github.novabank.domain.account.accounts.Account;
 
 /* NOT FORMAL DOCUMENTATION, Delete after file is Complete
 Account is the Plug/Contract between the Domain layer & the infrastructure (Database)
@@ -19,7 +19,7 @@ Account is the Plug/Contract between the Domain layer & the infrastructure (Data
  * actual storage (DB, file, API, etc.), including mapping between domain objects and persistence models.
 
  */
-public interface AccountRepository<T>{
+public interface AccountRepository {
 
     void create(Account account);
     
@@ -28,4 +28,8 @@ public interface AccountRepository<T>{
     void update(Account account, String field, Object value) throws IOException, InterruptedException, ExecutionException;
 
     void delete(Account account) throws InterruptedException, ExecutionException, IOException;
+
+    Account findByEmail(String email) throws IOException, ExecutionException, InterruptedException;
+
+    Account findByPhoneNumber(String phoneNumber) throws IOException, ExecutionException, InterruptedException;
 }
