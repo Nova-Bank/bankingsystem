@@ -30,4 +30,9 @@ public class InMemoryFinanceRepository implements FinanceRepository {
         public boolean exists(String accountUid, FinanceType type) {
             return find(accountUid, type).isPresent();
         }
+
+    @Override
+    public int getNetPositionCentsForAccount(int accountUid) {
+        return 0;
     }
+}

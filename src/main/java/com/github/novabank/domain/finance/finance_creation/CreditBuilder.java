@@ -2,6 +2,8 @@ package com.github.novabank.domain.finance.finance_creation;
 
 import com.github.novabank.domain.finance.finance_accounts.Credit;
 
+import java.time.Clock;
+
 public class CreditBuilder implements FinanceBuilder<Credit> {
 
     private int creditLimit;
@@ -14,28 +16,35 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
     private int dailyPurchaseLimit;
     private int dailyTransferLimit;
     private int dailySpendingLimit;
+    private Clock clock;
 
     public CreditBuilder setCreditLimit(int creditLimit) {
         this.creditLimit = creditLimit;
         return this;
     }
+    public CreditBuilder setClock(Clock clock) {
+        this.clock = clock;
+        return this;
 
-    public CreditBuilder setCreditInterestRate(double creditInterestRate) {
+     CreditBuilder setCreditInterestRate(double creditInterestRate) {
         this.creditInterestRate = creditInterestRate;
         return this;
     }
+     CreditBuilder setClock(Clock clock) {
+            this.clock = clock;
+            return this;
 
-    public CreditBuilder setBalance(int balance) {
+    CreditBuilder setBalance(int balance) {
         this.balance = balance;
         return this;
     }
 
-    public CreditBuilder setAmountSpentToday(int amountSpentToday) {
+    CreditBuilder setAmountSpentToday(int amountSpentToday) {
         this.amountSpentToday = amountSpentToday;
         return this;
     }
 
-    public CreditBuilder setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
+    CreditBuilder setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
         this.dailyWithdrawalLimit = dailyWithdrawalLimit;
         return this;
     }
@@ -45,27 +54,23 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
         return this;
     }
 
-    public CreditBuilder setDailyTransferLimit(int dailyTransferLimit) {
+    CreditBuilder setDailyTransferLimit(int dailyTransferLimit) {
         this.dailyTransferLimit = dailyTransferLimit;
         return this;
     }
 
-    public CreditBuilder setDailySpendingLimit(int dailySpendingLimit) {
+    CreditBuilder setDailySpendingLimit(int dailySpendingLimit) {
         this.dailySpendingLimit = dailySpendingLimit;
         return this;
     }
 
     @Override
-    public Credit build() {
+    Credit build() {
         validate();
         return new Credit(
                 creditLimit,
                 creditInterestRate,
                 balance,
-<<<<<<< HEAD
-                amountSpentToday,
-=======
->>>>>>> main
                 dailyWithdrawalLimit,
                 dailyPurchaseLimit,
                 dailyTransferLimit
@@ -74,7 +79,6 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
 
     @Override
     public void validate() {
-<<<<<<< HEAD
         if (balance < 0) throw new IllegalStateException("balance less than 0");
         if (amountSpentToday < 0) throw new IllegalStateException("amountSpentToday less than 0");
 
@@ -85,33 +89,6 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
         if (dailyPurchaseLimit <= 0) throw new IllegalStateException("dailyPurchaseLimit less than or equal to 0");
         if (dailyTransferLimit <= 0) throw new IllegalStateException("dailyTransferLimit less than or equal to 0");
         if (dailySpendingLimit <= 0) throw new IllegalStateException("dailySpendingLimit less than or equal to 0");
-=======
-        
-        if (balance < 0) {
-            throw new IllegalStateException("balance less than 0");
-        }
-        if (creditLimit <= 0) {
-            throw new IllegalStateException("creditLimit less than or equal to 0");
-        }
-        if (creditInterestRate <= 0) {
-            throw new IllegalStateException("creditInterestRate less than or equal to 0");
-        }
-        if (amountSpentToday < 0) {
-            throw new IllegalStateException("amountSpentToday less than 0");
-        }
-        if (dailyWithdrawalLimit <= 0) {
-            throw new IllegalStateException("dailyWithdrawalLimit less than or equal to 0");
-        }
-        if (dailyPurchaseLimit <= 0) {
-            throw new IllegalStateException("dailyPurchaseLimit less than or equal to 0");
-        }
-        if (dailyTransferLimit <= 0) {
-            throw new IllegalStateException("dailyTransferLimit less than or equal to 0");
-        }
-        if (dailySpendingLimit <= 0) {
-            throw new IllegalStateException("dailySpendingLimit less than or equal to 0");
-        }
->>>>>>> main
     }
 
     @Override
