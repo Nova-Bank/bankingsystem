@@ -1,6 +1,10 @@
-package com.github.novabank.domain.account;
+package com.github.novabank.domain.account.accounts;
+
+import com.github.novabank.domain.finance.Finance;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -12,17 +16,18 @@ public abstract class Account {
 
     /*
      * Should we Final from email, password & phoneNumber as they can be changed if they get a new phone,email or want to change password?
-     */
+    */
 
     private final int UID;
-    private final String email;   
-    private final String password; 
+    private final String email;
+    private final String password;
     private final String fullName;
     private final LocalDate dateOfBirth;
     private final String phoneNumber;
+    private final Map<String, Finance> financeProducts;
 
-    protected Account(String email, String password, String fullName, 
-                     LocalDate dateOfBirth, String phoneNumber) {
+    protected Account(String email, String password, String fullName,
+                     LocalDate dateOfBirth, String phoneNumber, Map<String, Finance> financeProducts) {
         Random random = new Random();
         this.UID = random.nextInt(900000) + 100000; // 6-digit random number
         this.email = email;
@@ -30,6 +35,7 @@ public abstract class Account {
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
+        this.financeProducts = financeProducts;
     }
 
     public int getUID() {
@@ -40,6 +46,10 @@ public abstract class Account {
         return this.email;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
     public String getFullName() {
         return this.fullName;
     }
@@ -47,24 +57,29 @@ public abstract class Account {
     public LocalDate getDateOfBirth() {
         return this.dateOfBirth;
     }
-    public String getPassword() {
-        return this.password;
-    }
 
     public String getPhoneNumber() {
         return this.phoneNumber;
     }
 
+    public Map<String, Finance> getFinanceProducts() {
+        return Collections.unmodifiableMap(financeProducts);
+    }
+
     /**
      * Verify login credentials.
+     * 
      * @param email Email to verify
      * @param password Password to verify
      * @return true if credentials match
+     * @apiNote WARNING: This is not secure! Passwords should be hashed and compared securely.
      */
     public boolean login(String email, String password) {
         return this.email.equals(email) && this.password.equals(password);
     }
 
     // add toString()
+
+
 
 }

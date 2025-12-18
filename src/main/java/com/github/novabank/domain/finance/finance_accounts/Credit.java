@@ -10,7 +10,7 @@ public class Credit extends Finance{
     private int lastMonth = -1;
      private int  creditLimit;
     private double creditInterestRate = 0.21;
-    private @Getter @Setter int maximumBalanceWithoutInterest;
+    private @Setter int maximumBalanceWithoutInterest;
 
     public Credit(int creditLimit, double creditInterestRate, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
         super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
