@@ -3,6 +3,7 @@ import com.github.novabank.domain.account.accounts.AdultAccount;
 import com.github.novabank.domain.account.accounts.ChildAccount;
 import com.github.novabank.domain.finance.finance_accounts.Savings;
 import com.github.novabank.domain.finance.finance_accounts.Chequing;
+import com.github.novabank.domain.finance.finance_accounts.Finance;
 import com.github.novabank.domain.finance.finance_creation.*;
 ;
 
