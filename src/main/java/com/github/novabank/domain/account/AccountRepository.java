@@ -3,6 +3,7 @@ package com.github.novabank.domain.account;
 import com.github.novabank.domain.account.accounts.Account;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -32,4 +33,6 @@ public interface AccountRepository {
     Account findByEmail(String email) throws IOException, ExecutionException, InterruptedException;
 
     Account findByPhoneNumber(String phoneNumber) throws IOException, ExecutionException, InterruptedException;
+
+    List<Account> findAll();
 }
