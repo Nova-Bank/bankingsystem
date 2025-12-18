@@ -1,4 +1,4 @@
-package com.github.novabank.presentation.dto;
+package com.github.novabank.presentation;
 
 public @interface NotBlank {
 
