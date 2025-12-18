@@ -62,7 +62,10 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
                 creditLimit,
                 creditInterestRate,
                 balance,
+<<<<<<< HEAD
                 amountSpentToday,
+=======
+>>>>>>> main
                 dailyWithdrawalLimit,
                 dailyPurchaseLimit,
                 dailyTransferLimit
@@ -71,6 +74,7 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
 
     @Override
     public void validate() {
+<<<<<<< HEAD
         if (balance < 0) throw new IllegalStateException("balance less than 0");
         if (amountSpentToday < 0) throw new IllegalStateException("amountSpentToday less than 0");
 
@@ -81,6 +85,33 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
         if (dailyPurchaseLimit <= 0) throw new IllegalStateException("dailyPurchaseLimit less than or equal to 0");
         if (dailyTransferLimit <= 0) throw new IllegalStateException("dailyTransferLimit less than or equal to 0");
         if (dailySpendingLimit <= 0) throw new IllegalStateException("dailySpendingLimit less than or equal to 0");
+=======
+        
+        if (balance < 0) {
+            throw new IllegalStateException("balance less than 0");
+        }
+        if (creditLimit <= 0) {
+            throw new IllegalStateException("creditLimit less than or equal to 0");
+        }
+        if (creditInterestRate <= 0) {
+            throw new IllegalStateException("creditInterestRate less than or equal to 0");
+        }
+        if (amountSpentToday < 0) {
+            throw new IllegalStateException("amountSpentToday less than 0");
+        }
+        if (dailyWithdrawalLimit <= 0) {
+            throw new IllegalStateException("dailyWithdrawalLimit less than or equal to 0");
+        }
+        if (dailyPurchaseLimit <= 0) {
+            throw new IllegalStateException("dailyPurchaseLimit less than or equal to 0");
+        }
+        if (dailyTransferLimit <= 0) {
+            throw new IllegalStateException("dailyTransferLimit less than or equal to 0");
+        }
+        if (dailySpendingLimit <= 0) {
+            throw new IllegalStateException("dailySpendingLimit less than or equal to 0");
+        }
+>>>>>>> main
     }
 
     @Override

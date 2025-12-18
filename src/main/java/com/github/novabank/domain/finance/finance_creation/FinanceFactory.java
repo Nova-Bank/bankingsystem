@@ -1,4 +1,3 @@
-
 package com.github.novabank.domain.finance.finance_creation;
 
 import com.github.novabank.domain.finance.finance_accounts.Chequing;

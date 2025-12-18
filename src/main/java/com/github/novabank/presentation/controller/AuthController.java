@@ -1,7 +1,7 @@
 package com.github.novabank.presentation.controller;
 
 
-import com.github.novabank.presentation.dto.LoginDTO;
+import com.github.novabank.application.dtos.LoginDTO;
 import com.github.novabank.presentation.response.ApiError;
 import com.github.novabank.presentation.response.ApiResponse;
 import com.github.novabank.utils.LogFactory;
@@ -22,17 +22,17 @@ private static final Logger log = LogFactory.getLogger(AuthController.class);
 
 @PostMapping("/login")
 public ResponseEntity<?> login(@Validated @RequestBody LoginDTO dto) {
-log.info("Login attempt: {}", dto.getEmail());
+log.info("Login attempt: {}", dto.getUsername());
 
 
 try {
-if (dto.getEmail().equals("null@test.com")) {
-log.warn("User not found: {}", dto.getEmail());
+if (dto.getUsername().equals("null@test.com")) {
+log.warn("User not found: {}", dto.getUsername());
 return new ResponseEntity<>(new ApiError("USER_NOT_FOUND", "No user with that email"), HttpStatus.NOT_FOUND);
 }
 
 
-log.info("Login success: {}", dto.getEmail());
+log.info("Login success: {}", dto.getUsername());
 return ResponseEntity.ok(new ApiResponse("Login successful"));
 
 

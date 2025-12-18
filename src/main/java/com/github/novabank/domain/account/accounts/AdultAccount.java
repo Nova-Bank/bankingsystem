@@ -1,7 +1,7 @@
 
 package com.github.novabank.domain.account.accounts;
 
-import com.github.novabank.domain.finance.Finance;
+import com.github.novabank.domain.finance.finance_accounts.Finance;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

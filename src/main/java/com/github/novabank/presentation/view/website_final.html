@@ -1,756 +1,429 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Bank Login</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh; 
-            padding: 20px; 
-        }
-        .login-box { 
-            background: white; 
-            width: 450px; 
-            margin: 80px auto; 
-            padding: 50px; 
-            border-radius: 20px; 
-            text-align: center; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: slideIn 0.5s ease-out;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        h1 { 
-            color: #2d3748; 
-            margin-bottom: 15px; 
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        .user-icon { 
-            width: 100px; 
-            height: 100px; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%; 
-            margin: 20px auto 30px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 50px; 
-            color: white;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-        .input-container { 
-            display: flex; 
-            margin-bottom: 25px; 
-            border: 2px solid #e2e8f0; 
-            border-radius: 12px; 
-            overflow: hidden;
-            transition: all 0.3s ease;
-            background: #f7fafc;
-        }
-        .input-container:focus-within {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-            background: white;
-        }
-        .icon-box { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 15px; 
-            width: 60px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            color: white; 
-            font-size: 24px; 
-        }
-        input { 
-            flex: 1; 
-            padding: 15px 20px; 
-            border: none; 
-            font-size: 16px; 
-            outline: none;
-            background: transparent;
-            color: #2d3748;
-        }
-        input::placeholder {
-            color: #a0aec0;
-        }
-        .options { 
-            display: flex; 
-            justify-content: space-between; 
-            margin-bottom: 25px; 
-            font-size: 14px;
-            color: #4a5568;
-        }
-        .link { 
-            color: #667eea; 
-            cursor: pointer; 
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-        .link:hover {
-            color: #764ba2;
-            text-decoration: underline;
-        }
-        button { 
-            width: 100%; 
-            padding: 18px; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; 
-            border: none; 
-            border-radius: 12px; 
-            font-size: 18px; 
-            cursor: pointer; 
-            font-weight: 700;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-        button:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-        button:active {
-            transform: translateY(0);
-        }
-        .error { 
-            color: #e53e3e; 
-            margin-top: 15px; 
-            display: none;
-            font-weight: 600;
-        }
-        .home-box, .application-box, .account-history-box, .credit-score-box { 
-            background: white; 
-            width: 1000px; 
-            margin: 50px auto; 
-            padding: 50px; 
-            border-radius: 20px; 
-            display: none; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: slideIn 0.5s ease-out;
-        }
-        .header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 3px solid #e2e8f0; 
-            padding-bottom: 25px; 
-            margin-bottom: 40px; 
-        }
-        .header h1 {
-            font-size: 36px;
-            color: #2d3748;
-            font-weight: 700;
-        }
-        .header-buttons { 
-            display: flex; 
-            gap: 15px; 
-        }
-        .header-buttons button {
-            padding: 12px 24px;
-            font-size: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        .logout { 
-            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
-            width: auto;
-            padding: 12px 30px;
-        }
-        .logout:hover {
-            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
-        }
-        .account-card { 
-            color: white; 
-            padding: 35px; 
-            margin-bottom: 25px; 
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-        }
-        .account-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
-        .account-card > div:first-child {
-            font-size: 12px;
-            opacity: 0.9;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-        .account-card h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        .checking { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .savings { 
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-        .credit { 
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        .balance { 
-            font-size: 48px; 
-            font-weight: 700;
-            margin: 20px 0;
-        }
-        .account-actions { 
-            display: flex; 
-            gap: 12px; 
-            margin-top: 25px; 
-        }
-        .action-btn { 
-            flex: 1; 
-            padding: 14px; 
-            background: rgba(255, 255, 255, 0.25);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .action-btn:hover {
-            background: rgba(255, 255, 255, 0.35);
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-        .modal { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 1000; 
-        }
-        .modal.show { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .modal-content { 
-            background: white; 
-            padding: 40px; 
-            border-radius: 20px; 
-            width: 450px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            animation: slideIn 0.3s ease-out;
-        }
-        .modal-content h2 {
-            color: #2d3748;
-            margin-bottom: 30px;
-            font-size: 28px;
-            font-weight: 700;
-        }
-        .form-group { 
-            margin-bottom: 25px; 
-        }
-        .form-group label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-weight: 600;
-            color: #4a5568;
-            font-size: 14px;
-        }
-        .form-group select, .form-group input { 
-            width: 100%; 
-            padding: 14px; 
-            border: 2px solid #e2e8f0; 
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: #f7fafc;
-        }
-        .form-group select:focus, .form-group input:focus {
-            border-color: #667eea;
-            background: white;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        .detail-card { 
-            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-            padding: 30px; 
-            border-radius: 15px; 
-            margin-bottom: 25px;
-            border-left: 5px solid #667eea;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .detail-card h3 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 20px;
-            font-weight: 700;
-        }
-        .detail-row { 
-            display: flex; 
-            justify-content: space-between; 
-            padding: 15px 0; 
-            border-bottom: 1px solid #e2e8f0;
-            color: #4a5568;
-        }
-        .detail-row:last-child { 
-            border-bottom: none; 
-        }
-        .detail-row span:first-child {
-            font-weight: 600;
-        }
-        .detail-row span:last-child {
-            color: #2d3748;
-        }
-        .score-display { 
-            width: 280px; 
-            height: 280px; 
-            margin: 0 auto 40px; 
-            border-radius: 50%; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            color: white;
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        .score-number { 
-            font-size: 90px; 
-            font-weight: 700;
-            line-height: 1;
-        }
-        .score-display > div:last-child {
-            font-size: 16px;
-            letter-spacing: 2px;
-            margin-top: 10px;
-            opacity: 0.9;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bank Login</title>
+
+  <style>
+    /* =========================
+       GLOBAL RESET + BASE STYLE
+       ========================= */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    /* =========================
+       LOGIN / REGISTER / FORGOT
+       ========================= */
+    .login-box {
+      background: white;
+      width: 450px;
+      margin: 80px auto;
+      padding: 50px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideIn 0.5s ease-out;
+    }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    h1 { color: #2d3748; margin-bottom: 15px; font-size: 32px; font-weight: 700; letter-spacing: 1px; }
+    .user-icon { width: 100px; height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin: 20px auto 30px; display: flex; align-items: center; justify-content: center; font-size: 50px; color: white; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); }
+    .input-container { display: flex; margin-bottom: 25px; border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; background: #f7fafc; }
+    .input-container:focus-within { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); background: white; }
+    .icon-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 15px; width: 60px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
+    input { flex: 1; padding: 15px 20px; border: none; font-size: 16px; outline: none; background: transparent; color: #2d3748; }
+    input::placeholder { color: #a0aec0; }
+    .options { display: flex; justify-content: space-between; margin-bottom: 25px; font-size: 14px; color: #4a5568; }
+    .link { color: #667eea; cursor: pointer; text-decoration: none; font-weight: 600; transition: color 0.3s ease; }
+    .link:hover { color: #764ba2; text-decoration: underline; }
+    button { width: 100%; padding: 18px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 18px; cursor: pointer; font-weight: 700; letter-spacing: 1px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+    button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102,126,234,0.6); }
+    button:active { transform: translateY(0); }
+    .error { color: #e53e3e; margin-top: 15px; display: none; font-weight: 600; }
+    /* =========================
+       MAIN APP PAGES (DASHBOARD)
+       ========================= */
+    .home-box, .application-box, .account-history-box, .credit-score-box {
+      background: white;
+      width: 1000px;
+      margin: 50px auto;
+      padding: 50px;
+      border-radius: 20px;
+      display: none;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideIn 0.5s ease-out;
+    }
+    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #e2e8f0; padding-bottom: 25px; margin-bottom: 40px; }
+    .header h1 { font-size: 36px; color: #2d3748; font-weight: 700; }
+    .header-buttons { display: flex; gap: 15px; }
+    .header-buttons button { padding: 12px 24px; font-size: 15px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: auto; }
+    .logout { background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%); padding: 12px 30px; }
+    .logout:hover { background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); }
+    .account-card { color: white; padding: 35px; margin-bottom: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: all 0.3s ease; }
+    .account-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+    .account-card > div:first-child { font-size: 12px; opacity: 0.9; letter-spacing: 2px; margin-bottom: 10px; }
+    .account-card h2 { font-size: 28px; margin-bottom: 20px; font-weight: 600; }
+    .checking { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .savings { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    .credit  { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .balance { font-size: 48px; font-weight: 700; margin: 20px 0; }
+    .account-actions { display: flex; gap: 12px; margin-top: 25px; }
+    .action-btn { flex: 1; padding: 14px; background: rgba(255, 255, 255, 0.25); border: 2px solid rgba(255, 255, 255, 0.4); border-radius: 10px; font-size: 15px; font-weight: 600; transition: all 0.3s ease; width: auto; }
+    .action-btn:hover { background: rgba(255, 255, 255, 0.35); border-color: rgba(255,255,255,0.6); }
+    /* =========================
+       MODALS (TRANSFER / PAYMENT)
+       ========================= */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 1000; }
+    .modal.show { display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal-content { background: white; padding: 40px; border-radius: 20px; width: 450px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: slideIn 0.3s ease-out; }
+    .modal-content h2 { color: #2d3748; margin-bottom: 30px; font-size: 28px; font-weight: 700; }
+    .form-group { margin-bottom: 25px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568; font-size: 14px; }
+    .form-group select, .form-group input { width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; transition: all 0.3s ease; background: #f7fafc; }
+    .form-group select:focus, .form-group input:focus { border-color: #667eea; background: white; outline: none; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+    /* =========================
+       ACCOUNT HISTORY CARDS
+       ========================= */
+    .detail-card { background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%); padding: 30px; border-radius: 15px; margin-bottom: 25px; border-left: 5px solid #667eea; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .detail-card h3 { color: #667eea; margin-bottom: 20px; font-size: 20px; font-weight: 700; margin-top: 20px; }
+    .detail-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-row span:first-child { font-weight: 600; }
+    .detail-row span:last-child { color: #2d3748; }
+    /* =========================
+       CREDIT SCORE DISPLAY
+       ========================= */
+    .score-display { width: 280px; height: 280px; margin: 0 auto 40px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; box-shadow: 0 20px 60px rgba(102,126,234,0.4); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .score-number { font-size: 90px; font-weight: 700; line-height: 1; }
+    .score-display > div:last-child { font-size: 16px; letter-spacing: 2px; margin-top: 10px; opacity: 0.9; }
+  </style>
 </head>
+
 <body>
 
-    <div id="loginPage" class="login-box">
-        <h1>MEMBER LOGIN</h1>
-        <div class="user-icon">👤</div>
-        <div class="input-container">
-            <div class="icon-box">👤</div>
-            <input type="text" id="username" placeholder="Username">
-        </div>
-        <div class="input-container">
-            <div class="icon-box">🔒</div>
-            <input type="password" id="password" placeholder="Password">
-        </div>
-        <div class="options">
-            <label><input type="checkbox"> Remember me</label>
-            <a href="#" class="link" id="forgotLink">Forgot password?</a>
-        </div>
-        <button id="loginButton">LOGIN</button>
-        <p class="error" id="error">Invalid username or password</p>
-        <p style="margin-top: 20px; font-size: 14px;">
-            Don't have an account? 
-            <a href="#" class="link" id="registerLink">Register here</a>
-        </p>
+  <!-- LOGIN PAGE -->
+  <div id="loginPage" class="login-box">
+    <h1>MEMBER LOGIN</h1>
+    <div class="user-icon">👤</div>
+
+    <div class="input-container">
+      <div class="icon-box">👤</div>
+      <input type="text" id="username" placeholder="Username">
     </div>
 
-    <div id="registerPage" class="login-box" style="display: none;">
-        <h1>CREATE ACCOUNT</h1>
-        <div class="user-icon">👤</div>
-        <div class="input-container">
-            <div class="icon-box">👤</div>
-            <input type="text" id="regUsername" placeholder="Username">
-        </div>
-        <div class="input-container">
-            <div class="icon-box">📧</div>
-            <input type="email" id="regEmail" placeholder="Email">
-        </div>
-        <div class="input-container">
-            <div class="icon-box">🔒</div>
-            <input type="password" id="regPassword" placeholder="Password">
-        </div>
-        <div class="input-container">
-            <div class="icon-box">🔒</div>
-            <input type="password" id="regConfirmPassword" placeholder="Confirm Password">
-        </div>
-        <button id="registerButton">CREATE ACCOUNT</button>
-        <p class="error" id="regError"></p>
-        <p style="margin-top: 20px; font-size: 14px;">
-            Already have an account? 
-            <a href="#" class="link" id="loginLink">Login here</a>
-        </p>
+    <div class="input-container">
+      <div class="icon-box">🔒</div>
+      <input type="password" id="password" placeholder="Password">
     </div>
 
-    <div id="homePage" class="home-box">
-        <div class="header">
-            <h1>My Accounts</h1>
-            <div class="header-buttons">
-                <button id="viewCreditScoreBtn" style="background: #667eea; width: auto; padding: 10px 20px;">Credit Score</button>
-                <button id="viewHistoryBtn" style="background: #5a67d8; width: auto; padding: 10px 20px;">Account History</button>
-                <button id="applyCreditBtn" style="background: #5a67d8; width: auto; padding: 10px 20px;">Apply for Credit</button>
-                <button class="logout" id="logoutButton">Logout</button>
-            </div>
-        </div>
-        <p style="font-size: 18px; margin-bottom: 30px;">Welcome back, <strong id="displayUsername"></strong>!</p>
-        <div class="account-card checking">
-            <div>CHECKING ACCOUNT</div>
-            <h2>Primary Checking</h2>
-            <div class="balance" id="checkingBalance">$0.00</div>
-            <div class="account-actions">
-                <button class="action-btn" id="transferChecking">Transfer</button>
-            </div>
-        </div>
-        <div class="account-card savings">
-            <div>SAVINGS ACCOUNT</div>
-            <h2>Savings</h2>
-            <div class="balance" id="savingsBalance">$0.00</div>
-            <div class="account-actions">
-                <button class="action-btn" id="transferSavings">Transfer</button>
-            </div>
-        </div>
-        <div class="account-card credit" id="creditCard" style="display: none;">
-            <div>CREDIT CARD</div>
-            <h2>Credit</h2>
-            <div class="balance" id="creditBalance">$0.00</div>
-            <div class="account-actions">
-                <button class="action-btn" id="payCardBtn">Pay Card</button>
-            </div>
-        </div>
+    <div class="options">
+      <label><input type="checkbox"> Remember me</label>
+      <a href="#" class="link" id="forgotLink">Forgot password?</a>
     </div>
 
-    <div id="applicationPage" class="application-box">
-        <h1 style="text-align: center; margin-bottom: 30px;">Credit Card Application</h1>
-        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 25px; border-radius: 10px; text-align: center; margin-bottom: 30px;">
-            <h2>Premium Credit Card</h2>
-            <p>Credit Limit: $5,000</p>
-        </div>
-        <div style="display: flex; gap: 15px;">
-            <button id="backToHome" style="flex: 1; background: #e2e8f0; color: #333;">Back</button>
-            <button id="approveApplication" style="flex: 2; background: #48bb78;">Approve Card</button>
-        </div>
+    <button id="loginButton">LOGIN</button>
+    <p class="error" id="error">Invalid username or password</p>
+
+    <p style="margin-top: 20px; font-size: 14px;">
+      Don't have an account?
+      <a href="#" class="link" id="registerLink">Register here</a>
+    </p>
+  </div>
+
+  <!-- REGISTRATION PAGE -->
+  <div id="registerPage" class="login-box" style="display: none;">
+    <h1>CREATE ACCOUNT</h1>
+    <div class="user-icon">👤</div>
+
+    <div class="input-container">
+      <div class="icon-box">👤</div>
+      <input type="text" id="regUsername" placeholder="Username">
     </div>
 
-    <div id="accountHistoryPage" class="account-history-box">
-        <div class="header">
-            <h1>Account History</h1>
-            <button class="logout" id="backFromHistory">Back</button>
-        </div>
-        <div class="detail-card">
-            <h3>Personal Information</h3>
-            <div class="detail-row">
-                <span>Account Holder:</span>
-                <span id="historyUsername"></span>
-            </div>
-            <div class="detail-row">
-                <span>Customer ID:</span>
-                <span id="customerId"></span>
-            </div>
-        </div>
+    <div class="input-container">
+      <div class="icon-box">📧</div>
+      <input type="email" id="regEmail" placeholder="Email">
     </div>
 
-    <div id="creditScorePage" class="credit-score-box">
-        <h1 style="text-align: center; margin-bottom: 30px;">Your Credit Score</h1>
-        <div class="score-display">
-            <div class="score-number" id="creditScoreNumber">750</div>
-            <div>CREDIT SCORE</div>
-        </div>
-        <div style="text-align: center; margin-top: 30px;">
-            <button class="logout" id="backFromCreditScore" style="width: 200px;">Back to Accounts</button>
-        </div>
+    <div class="input-container">
+      <div class="icon-box">🎂</div>
+      <input type="number" id="regAge" placeholder="Age" min="1" max="120">
     </div>
 
-    <div class="modal" id="transferModal">
-        <div class="modal-content">
-            <h2>Transfer Money</h2>
-            <div class="form-group">
-                <label>From:</label>
-                <select id="fromAccount">
-                    <option value="checking">Checking</option>
-                    <option value="savings">Savings</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>To:</label>
-                <select id="toAccount">
-                    <option value="checking">Checking</option>
-                    <option value="savings">Savings</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Amount:</label>
-                <input type="number" id="transferAmount" placeholder="0.00" min="0.01" step="0.01">
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <button id="cancelTransfer" style="background: #e2e8f0; color: #333;">Cancel</button>
-                <button id="confirmTransfer">Transfer</button>
-            </div>
-        </div>
+    <div class="input-container">
+      <div class="icon-box">🔒</div>
+      <input type="password" id="regPassword" placeholder="Password">
     </div>
 
-    <div class="modal" id="payCardModal">
-        <div class="modal-content">
-            <h2>Pay Credit Card</h2>
-            <div class="form-group">
-                <label>From:</label>
-                <select id="payFromAccount">
-                    <option value="checking">Checking</option>
-                    <option value="savings">Savings</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Amount:</label>
-                <input type="number" id="paymentAmount" placeholder="0.00" min="0.01" step="0.01">
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <button id="cancelPayment" style="background: #e2e8f0; color: #333;">Cancel</button>
-                <button id="confirmPayment">Pay Now</button>
-            </div>
-        </div>
+    <div class="input-container">
+      <div class="icon-box">🔒</div>
+      <input type="password" id="regConfirmPassword" placeholder="Confirm Password">
     </div>
 
-    <script>
-        var accounts = {};
-        var users = {demo: 'password123'};
-        var userAccounts = {
-            demo: {checking: 5247.89, savings: 18532.45, credit: -1234.56, hasCredit: true, createdDate: 'Jan 15 2024', customerId: 'CUS-001', creditScore: 750}
-        };
+    <button id="registerButton">CREATE ACCOUNT</button>
+    <p class="error" id="regError"></p>
 
-        window.onload = function() {
-            var loggedIn = localStorage.getItem('loggedIn');
-            var currentUser = localStorage.getItem('username');
-            
-            if (loggedIn === 'true' && currentUser) {
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('homePage').style.display = 'block';
-                document.getElementById('displayUsername').innerHTML = currentUser;
-                
-                accounts = userAccounts[currentUser] || {checking: 0, savings: 0, credit: 0, hasCredit: false, createdDate: new Date().toLocaleDateString(), customerId: 'CUS-' + Date.now(), creditScore: 650};
-                
-                if (accounts.hasCredit) {
-                    document.getElementById('creditCard').style.display = 'block';
-                    document.getElementById('applyCreditBtn').style.display = 'none';
-                    document.getElementById('viewCreditScoreBtn').style.display = 'block';
-                } else {
-                    document.getElementById('viewCreditScoreBtn').style.display = 'none';
-                }
-                
-                updateBalances();
-            }
-            
-            document.getElementById('registerLink').onclick = function(e) { e.preventDefault(); document.getElementById('loginPage').style.display = 'none'; document.getElementById('registerPage').style.display = 'block'; };
-            document.getElementById('loginLink').onclick = function(e) { e.preventDefault(); document.getElementById('registerPage').style.display = 'none'; document.getElementById('loginPage').style.display = 'block'; };
-            document.getElementById('forgotLink').onclick = function(e) { e.preventDefault(); alert('Demo: demo / password123'); };
-            
-            document.getElementById('loginButton').onclick = login;
-            document.getElementById('registerButton').onclick = register;
-            document.getElementById('logoutButton').onclick = logout;
-            document.getElementById('applyCreditBtn').onclick = applyForCredit;
-            document.getElementById('viewHistoryBtn').onclick = viewHistory;
-            document.getElementById('viewCreditScoreBtn').onclick = viewCreditScore;
-            document.getElementById('backFromHistory').onclick = backFromHistory;
-            document.getElementById('backFromCreditScore').onclick = backFromCreditScore;
-            document.getElementById('backToHome').onclick = backToHome;
-            document.getElementById('approveApplication').onclick = approveCredit;
-            
-            document.getElementById('transferChecking').onclick = function() { openTransfer('checking'); };
-            document.getElementById('transferSavings').onclick = function() { openTransfer('savings'); };
-            document.getElementById('payCardBtn').onclick = openPayCard;
-            
-            document.getElementById('cancelTransfer').onclick = closeTransfer;
-            document.getElementById('confirmTransfer').onclick = processTransfer;
-            document.getElementById('cancelPayment').onclick = closePayCard;
-            document.getElementById('confirmPayment').onclick = processPayment;
-        };
+    <p style="margin-top: 20px; font-size: 14px;">
+      Already have an account?
+      <a href="#" class="link" id="loginLink">Login here</a>
+    </p>
+  </div>
 
-        function login() {
-            var user = document.getElementById('username').value;
-            var pass = document.getElementById('password').value;
-            
-            if (user.length < 3 || pass.length < 8) {
-                document.getElementById('error').style.display = 'block';
-                return;
-            }
-            
-            var loginDTO = {username: user, password: pass};
-            var jsonData = JSON.stringify(loginDTO);
-            console.log('Sending Login JSON:', jsonData);
-            
-            sendLoginRequest(jsonData);
-        }
+  <!-- HOME / DASHBOARD -->
+  <div id="homePage" class="home-box">
+    <div class="header">
+      <h1>My Accounts</h1>
+      <div class="header-buttons">
+        <button id="viewCreditScoreBtn" style="background: #667eea;">Credit Score</button>
+        <button id="viewHistoryBtn" style="background: #5a67d8;">Account History</button>
+        <button id="applyCreditBtn" style="background: #5a67d8;">Apply for Credit</button>
+        <button class="logout" id="logoutButton">Logout</button>
+      </div>
+    </div>
 
-        function sendLoginRequest(jsonData) {
-            var button = document.getElementById('loginButton');
-            button.disabled = true;
-            button.innerHTML = 'LOGGING IN...';
-            
-            var parsedData = JSON.parse(jsonData);
-            var username = parsedData.username;
-            var password = parsedData.password;
-            
-            setTimeout(function() {
-                var success = users[username] && users[username] === password;
-                var jsonResponse = JSON.stringify({success: success, message: success ? 'Login successful' : 'Invalid', user: success ? {username: username} : null});
-                console.log('Received Login Response:', jsonResponse);
-                var responseObject = JSON.parse(jsonResponse);
-                
-                if (responseObject.success) {
-                    localStorage.setItem('loggedIn', 'true');
-                    localStorage.setItem('username', responseObject.user.username);
-                    location.reload();
-                } else {
-                    document.getElementById('error').style.display = 'block';
-                    button.disabled = false;
-                    button.innerHTML = 'LOGIN';
-                }
-            }, 1000);
-        }
+    <p style="font-size: 18px; margin-bottom: 30px;">
+      Welcome back, <strong id="displayUsername"></strong>!
+    </p>
 
-        function register() {
-            var user = document.getElementById('regUsername').value;
-            var email = document.getElementById('regEmail').value;
-            var pass = document.getElementById('regPassword').value;
-            var confirm = document.getElementById('regConfirmPassword').value;
-            
-            if (user.length < 3 || pass.length < 8 || pass !== confirm) {
-                document.getElementById('regError').innerHTML = 'Check all fields';
-                document.getElementById('regError').style.display = 'block';
-                return;
-            }
-            
-            if (users[user]) {
-                document.getElementById('regError').innerHTML = 'Username exists';
-                document.getElementById('regError').style.display = 'block';
-                return;
-            }
-            
-            var registerDTO = {username: user, email: email, password: pass};
-            var jsonData = JSON.stringify(registerDTO);
-            console.log('Sending Register JSON:', jsonData);
-            
-            setTimeout(function() {
-                users[user] = pass;
-                userAccounts[user] = {checking: 0, savings: 0, credit: 0, hasCredit: false, createdDate: new Date().toLocaleDateString(), customerId: 'CUS-' + Date.now(), creditScore: 650};
-                alert('Account created!');
-                document.getElementById('registerPage').style.display = 'none';
-                document.getElementById('loginPage').style.display = 'block';
-                document.getElementById('username').value = user;
-            }, 1000);
-        }
+    <div class="account-card checking">
+      <div>CHECKING ACCOUNT</div>
+      <h2>Primary Checking</h2>
+      <div class="balance" id="checkingBalance">$0.00</div>
+      <div class="account-actions">
+        <button class="action-btn" id="transferChecking">Transfer</button>
+      </div>
+    </div>
 
-        function logout() { localStorage.clear(); location.reload(); }
-        
-        function applyForCredit() { document.getElementById('homePage').style.display = 'none'; document.getElementById('applicationPage').style.display = 'block'; }
-        
-        function approveCredit() {
-            var creditAppDTO = {username: localStorage.getItem('username'), applicationType: 'credit_card', limit: 5000};
-            var jsonData = JSON.stringify(creditAppDTO);
-            console.log('Sending Credit App JSON:', jsonData);
-            
-            setTimeout(function() {
-                accounts.hasCredit = true;
-                accounts.credit = 0;
-                accounts.creditScore = 720;
-                userAccounts[localStorage.getItem('username')] = accounts;
-                
-                document.getElementById('applicationPage').style.display = 'none';
-                document.getElementById('homePage').style.display = 'block';
-                document.getElementById('creditCard').style.display = 'block';
-                document.getElementById('applyCreditBtn').style.display = 'none';
-                document.getElementById('viewCreditScoreBtn').style.display = 'block';
-                updateBalances();
-                alert('Credit card approved!');
-            }, 1000);
-        }
-        
-        function backToHome() { document.getElementById('applicationPage').style.display = 'none'; document.getElementById('homePage').style.display = 'block'; }
-        
-        function viewHistory() {
-            var historyDTO = {username: localStorage.getItem('username'), requestType: 'history'};
-            console.log('Sending History Request:', JSON.stringify(historyDTO));
-            
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('accountHistoryPage').style.display = 'block';
-            document.getElementById('historyUsername').innerHTML = localStorage.getItem('username');
-            document.getElementById('customerId').innerHTML = accounts.customerId;
-        }
-        
-        function backFromHistory() { document.getElementById('accountHistoryPage').style.display = 'none'; document.getElementById('homePage').style.display = 'block'; }
-        
-        function viewCreditScore() {
-            var scoreDTO = {username: localStorage.getItem('username'), requestType: 'credit_score'};
-            console.log('Sending Credit Score Request:', JSON.stringify(scoreDTO));
-            
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('creditScorePage').style.display = 'block';
-            document.getElementById('creditScoreNumber').innerHTML = accounts.creditScore || 650;
-        }
-        
-        function backFromCreditScore() { document.getElementById('creditScorePage').style.display = 'none'; document.getElementById('homePage').style.display = 'block'; }
-        
-        function openTransfer(from) { document.getElementById('fromAccount').value = from; document.getElementById('transferModal').classList.add('show'); }
-        function closeTransfer() { document.getElementById('transferModal').classList.remove('show'); }
-        function openPayCard() { document.getElementById('payCardModal').classList.add('show'); }
-        function closePayCard() { document.getElementById('payCardModal').classList.remove('show'); }
-        
-        function processTransfer() {
-            var from = document.getElementById('fromAccount').value;
-            var to = document.getElementById('toAccount').value;
-            var amount = parseFloat(document.getElementById('transferAmount').value);
-            
-            if (!amount || amount <= 0 || from === to || accounts[from] < amount) { alert('Invalid transfer'); return; }
-            
-            var transferDTO = {username: localStorage.getItem('username'), from: from, to: to, amount: amount};
-            console.log('Sending Transfer JSON:', JSON.stringify(transferDTO));
-            
-            setTimeout(function() {
-                accounts[from] -= amount;
-                accounts[to] += amount;
-                userAccounts[localStorage.getItem('username')] = accounts;
-                updateBalances();
-                closeTransfer();
-                alert('Transfer successful!');
-            }, 1000);
-        }
-        
-        function processPayment() {
-            var from = document.getElementById('payFromAccount').value;
-            var amount = parseFloat(document.getElementById('paymentAmount').value);
-            
-            if (!amount || amount <= 0 || accounts[from] < amount) { alert('Invalid payment'); return; }
-            
-            var paymentDTO = {username: localStorage.getItem('username'), from: from, amount: amount};
-            console.log('Sending Payment JSON:', JSON.stringify(paymentDTO));
-            
-            setTimeout(function() {
-                accounts[from] -= amount;
-                accounts.credit += amount;
-                userAccounts[localStorage.getItem('username')] = accounts;
-                updateBalances();
-                closePayCard();
-                alert('Payment successful!');
-            }, 1000);
-        }
-        
-        function updateBalances() {
-            document.getElementById('checkingBalance').innerHTML = '$' + accounts.checking.toFixed(2);
-            document.getElementById('savingsBalance').innerHTML = '$' + accounts.savings.toFixed(2);
-            if (accounts.hasCredit) { document.getElementById('creditBalance').innerHTML = '-$' + Math.abs(accounts.credit).toFixed(2); }
-        }
-    </script>
+    <div class="account-card savings">
+      <div>SAVINGS ACCOUNT</div>
+      <h2>Savings</h2>
+      <div class="balance" id="savingsBalance">$0.00</div>
+      <div class="account-actions">
+        <button class="action-btn" id="transferSavings">Transfer</button>
+      </div>
+    </div>
 
+    <div class="account-card credit" id="creditCard" style="display: none;">
+      <div>CREDIT CARD</div>
+      <h2>Credit</h2>
+      <div class="balance" id="creditBalance">$0.00</div>
+      <div class="account-actions">
+        <button class="action-btn" id="payCardBtn">Pay Card</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSFER MODAL -->
+  <div class="modal" id="transferModal">
+    <div class="modal-content">
+      <h2>Transfer Money</h2>
+
+      <div class="form-group">
+        <label>From:</label>
+        <select id="fromAccount">
+          <option value="checking">Checking</option>
+          <option value="savings">Savings</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>To:</label>
+        <select id="toAccount">
+          <option value="checking">Checking</option>
+          <option value="savings">Savings</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Amount:</label>
+        <input type="number" id="transferAmount" placeholder="0.00" min="0.01" step="0.01">
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button id="cancelTransfer" style="background: #e2e8f0; color: #333;">Cancel</button>
+        <button id="confirmTransfer">Transfer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAY CREDIT CARD MODAL -->
+  <div class="modal" id="payCardModal">
+    <div class="modal-content">
+      <h2>Pay Credit Card</h2>
+
+      <div class="form-group">
+        <label>From:</label>
+        <select id="payFromAccount">
+          <option value="checking">Checking</option>
+          <option value="savings">Savings</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Amount:</label>
+        <input type="number" id="payAmount" placeholder="0.00" min="0.01" step="0.01">
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button id="cancelPay" style="background: #e2e8f0; color: #333;">Cancel</button>
+        <button id="confirmPay">Pay</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===============================
+    // HELPER FUNCTIONS
+    // ===============================
+    function show(element) { element.style.display = 'block'; }
+    function hide(element) { element.style.display = 'none'; }
+    function formatCurrency(amount) { return '$' + Number(amount).toFixed(2); }
+
+    function updateBalances(balances) {
+      document.getElementById('checkingBalance').innerText = formatCurrency(balances.checking);
+      document.getElementById('savingsBalance').innerText = formatCurrency(balances.savings);
+      if (balances.credit) {
+        document.getElementById('creditCard').style.display = 'block';
+        document.getElementById('creditBalance').innerText = formatCurrency(balances.credit);
+      }
+    }
+
+    // ===============================
+    // LOGIN / REGISTER HANDLERS
+    // ===============================
+    const loginPage = document.getElementById('loginPage');
+    const registerPage = document.getElementById('registerPage');
+    const homePage = document.getElementById('homePage');
+
+    document.getElementById('registerLink').onclick = () => { hide(loginPage); show(registerPage); }
+    document.getElementById('loginLink').onclick = () => { hide(registerPage); show(loginPage); }
+
+    document.getElementById('loginButton').onclick = async () => {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('error');
+      errorEl.style.display = 'none';
+      const data = { username, password }; // Matches LoginDTO
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (json.success) {
+          localStorage.setItem('username', username);
+          updateBalances(json.balances);
+          document.getElementById('displayUsername').innerText = username;
+          hide(loginPage); show(homePage);
+        } else {
+          errorEl.innerText = json.message || 'Invalid credentials';
+          errorEl.style.display = 'block';
+        }
+      } catch(err) { console.error(err); errorEl.innerText = 'Server error'; errorEl.style.display = 'block'; }
+    }
+
+    document.getElementById('registerButton').onclick = async () => {
+      const username = document.getElementById('regUsername').value;
+      const email = document.getElementById('regEmail').value;
+      const age = document.getElementById('regAge').value;
+      const password = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regConfirmPassword').value;
+      const errorEl = document.getElementById('regError');
+      errorEl.style.display = 'none';
+      if (password !== confirm) { errorEl.innerText = 'Passwords do not match'; errorEl.style.display = 'block'; return; }
+
+      const data = { username, email, age, password }; // Matches RegisterDTO
+      try {
+        const res = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (json.success) { hide(registerPage); show(loginPage); }
+        else { errorEl.innerText = json.message || 'Registration failed'; errorEl.style.display = 'block'; }
+      } catch(err) { console.error(err); errorEl.innerText = 'Server error'; errorEl.style.display = 'block'; }
+    }
+
+    document.getElementById('logoutButton').onclick = () => {
+      localStorage.clear();
+      hide(homePage); show(loginPage);
+    }
+
+    // ===============================
+    // TRANSFER HANDLERS
+    // ===============================
+    const transferModal = document.getElementById('transferModal');
+    document.getElementById('transferChecking').onclick = () => { show(transferModal); }
+    document.getElementById('transferSavings').onclick = () => { show(transferModal); }
+    document.getElementById('cancelTransfer').onclick = () => { hide(transferModal); }
+    document.getElementById('confirmTransfer').onclick = async () => {
+      const from = document.getElementById('fromAccount').value;
+      const to = document.getElementById('toAccount').value;
+      const amount = parseFloat(document.getElementById('transferAmount').value);
+      if (from === to) { alert('Cannot transfer to the same account'); return; }
+      if (isNaN(amount) || amount <= 0) { alert('Enter a valid amount'); return; }
+      const data = { fromAccount: from, toAccount: to, amount }; // TransferDTO
+
+      try {
+        const res = await fetch('/api/transfer', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (json.success) { updateBalances(json.balances); hide(transferModal); }
+        else { alert(json.message || 'Transfer failed'); }
+      } catch(err) { console.error(err); alert('Server error'); }
+    }
+
+    // ===============================
+    // CREDIT CARD PAY
+    // ===============================
+    const payCardModal = document.getElementById('payCardModal');
+    document.getElementById('payCardBtn').onclick = () => { show(payCardModal); }
+    document.getElementById('cancelPay').onclick = () => { hide(payCardModal); }
+    document.getElementById('confirmPay').onclick = async () => {
+      const from = document.getElementById('payFromAccount').value;
+      const amount = parseFloat(document.getElementById('payAmount').value);
+      if (isNaN(amount) || amount <= 0) { alert('Enter a valid amount'); return; }
+      const data = { fromAccount: from, amount }; // PaymentDTO
+
+      try {
+        const res = await fetch('/api/pay-credit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (json.success) { updateBalances(json.balances); hide(payCardModal); }
+        else { alert(json.message || 'Payment failed'); }
+      } catch(err) { console.error(err); alert('Server error'); }
+    }
+
+    // ===============================
+    // LOAD SESSION
+    // ===============================
+    window.onload = () => {
+      const username = localStorage.getItem('username');
+      if (username) {
+        document.getElementById('displayUsername').innerText = username;
+        // Fetch balances from server
+        fetch('/api/get-balances?username=' + username)
+          .then(res => res.json())
+          .then(json => updateBalances(json.balances))
+          .catch(err => console.error(err));
+        hide(loginPage); show(homePage);
+      }
+    }
+  </script>
 </body>
 </html>
