@@ -1,4 +1,4 @@
-package com.github.novabank.domain.account;
+package com.github.novabank.domain.account.account_creation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
