@@ -1,4 +1,4 @@
-package com.github.novabank.presentation.Docs;
+package com.github.novabank.presentation.docs;
 
 /**
  * API Layer Documentation
