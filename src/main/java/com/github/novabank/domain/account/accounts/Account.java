@@ -1,13 +1,14 @@
 package com.github.novabank.domain.account.accounts;
 
-import com.github.novabank.domain.finance.Finance;
-
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
 
-/**
+import com.github.novabank.domain.finance.finance_accounts.Finance;
+
+/**git status
+
  * Abstract base class for all account types.
  * Immutable after creation - no setters for critical fields.
  * Now depends on primitives instead of AccountInfo (Dependency Inversion)

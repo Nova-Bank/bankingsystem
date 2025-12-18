@@ -59,17 +59,9 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
     public Credit build() {
         validate();
         return new Credit(
-<<<<<<< HEAD
                 creditLimit,
                 creditInterestRate,
                 balance,
-=======
-                creditBalance,
-                creditLimit,
-                creditInterestRate,
-                balance,
-                amountSpentToday,
->>>>>>> origin/main
                 dailyWithdrawalLimit,
                 dailyPurchaseLimit,
                 dailyTransferLimit,
@@ -79,13 +71,7 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
 
     @Override
     public void validate() {
-<<<<<<< HEAD
         
-=======
-        if (creditBalance < 0) {
-            throw new IllegalStateException("creditBalance less than 0");
-        }
->>>>>>> origin/main
         if (balance < 0) {
             throw new IllegalStateException("balance less than 0");
         }
@@ -114,10 +100,6 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
 
     @Override
     public void reset() {
-<<<<<<< HEAD
-=======
-        this.creditBalance = 0;
->>>>>>> origin/main
         this.creditLimit = 0;
         this.creditInterestRate = 0;
         this.balance = 0;
@@ -131,12 +113,7 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
     @Override
     public String toString() {
         return String.format(
-<<<<<<< HEAD
                 "CreditBuilder[creditLimit=%d, creditInterestRate=%.4f, balance=%d, amountSpentToday=%d, dailyWithdrawalLimit=%d, dailyPurchaseLimit=%d, dailyTransferLimit=%d, dailySpendingLimit=%d]",
-=======
-                "CreditBuilder[creditBalance=%d, creditLimit=%d, creditInterestRate=%.4f, balance=%d, amountSpentToday=%d, dailyWithdrawalLimit=%d, dailyPurchaseLimit=%d, dailyTransferLimit=%d, dailySpendingLimit=%d]",
-                creditBalance,
->>>>>>> origin/main
                 creditLimit,
                 creditInterestRate,
                 balance,
