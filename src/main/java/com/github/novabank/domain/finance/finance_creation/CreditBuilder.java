@@ -1,17 +1,9 @@
-<<<<<<< HEAD
 package com.github.novabank.domain.finance.finance_creation;
 
 import com.github.novabank.domain.finance.finance_accounts.Credit;
 
 public class CreditBuilder implements FinanceBuilder<Credit> {
 
-=======
-package com.github.novabank.domain.finance;
-
-public class CreditBuilder implements FinanceBuilder<Credit> {
-
-    private int creditBalance;
->>>>>>> origin/main
     private int creditLimit;
     private double creditInterestRate;
     private int balance;
@@ -21,14 +13,7 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
     private int dailyTransferLimit;
     private int dailySpendingLimit;
 
-<<<<<<< HEAD
     
-=======
-    public CreditBuilder setCreditBalance(int creditBalance) {
-        this.creditBalance = creditBalance;
-        return this;
-    }
->>>>>>> origin/main
 
     public CreditBuilder setCreditLimit(int creditLimit) {
         this.creditLimit = creditLimit;

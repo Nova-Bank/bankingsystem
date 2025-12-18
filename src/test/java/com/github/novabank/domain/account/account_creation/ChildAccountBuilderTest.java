@@ -16,9 +16,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.github.novabank.domain.account.accounts.ChildAccount;
 import com.github.novabank.domain.account.account_creation.ChildAccountBuilder;
-import com.github.novabank.domain.finance.Chequing;
-import com.github.novabank.domain.finance.ChequingBuilder;
- 
+import com.github.novabank.domain.finance.finance_accounts.Chequing;
+import com.github.novabank.domain.finance.finance_creation.ChequingBuilder;
 
 
 
