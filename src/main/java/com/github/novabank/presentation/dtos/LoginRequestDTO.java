@@ -1,11 +1,11 @@
 package com.github.novabank.presentation.dtos;
 
-public class LoginDTO {
+public class LoginRequestDTO {
     private String username;
     private String password;
 
-    public LoginDTO() {}
-    public LoginDTO(String username, String password) {
+    public LoginRequestDTO() {}
+    public LoginRequestDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }
