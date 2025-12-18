@@ -1,4 +1,4 @@
-package com.github.novabank.presentation.dto;
+package com.github.novabank.application.dtos;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
