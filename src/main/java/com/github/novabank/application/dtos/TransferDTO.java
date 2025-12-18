@@ -1,121 +1,77 @@
-package com.github.novabank.presentation.dto;
+package com.github.novabank.application.dtos;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-/**
- * CreditApplicationDTO is a Data Transfer Object used to
- * transfer credit application data from the client to the server.
- *
- * This DTO is typically used when a user applies for a new
- * credit card or requests a change to their credit limit.
- */
-public class CreditApplicationDTO {
+public class TransferDTO {
 
-    /**
-     * The username of the applicant.
-     * <p>
-     * This field is required and cannot be blank.
-     */
-    @NotBlank
-    private String username;
+    private String sourceAccountId;
+    private String targetAccountId;
+    private double amount;
+    private String currency;
+    private LocalDateTime timestamp;
+    private String status;
 
-    /**
-     * The type of credit application being submitted.
-     * <p>
-     * Examples include "New Application" or "Limit Increase".
-     */
-    @NotBlank
-    private String applicationType;
-
-    /**
-     * The credit limit requested by the applicant.
-     * <p>
-     * This value must be positive and cannot be null.
-     */
-    @NotNull
-    @Positive
-    private BigDecimal requestedLimit;
-
-    /**
-     * The type of credit card being requested.
-     * <p>
-     * Examples include "Visa", "Mastercard", or "Student".
-     */
-    @NotBlank
-    private String cardType;
-
-    /**
-     * Returns the username of the applicant.
-     *
-     * @return the username of the applicant
-     */
-    public String getUsername() {
-        return username;
+    public TransferDTO() {
+        // default constructor for serialization
     }
 
-    /**
-     * Sets the username of the applicant.
-     *
-     * @param username the username of the applicant
-     */
-    public void setUsername(String username) {
-        this.username = username;
+    public TransferDTO(String sourceAccountId, String targetAccountId, double amount,
+                       String currency, LocalDateTime timestamp, String status) {
+        this.sourceAccountId = sourceAccountId;
+        this.targetAccountId = targetAccountId;
+        this.amount = amount;
+        this.currency = currency;
+        this.timestamp = timestamp;
+        this.status = status;
     }
 
-    /**
-     * Returns the application type.
-     *
-     * @return the credit application type
-     */
-    public String getApplicationType() {
-        return applicationType;
+    // Getters and setters
+    public String getSourceAccountId() {
+        return sourceAccountId;
     }
 
-    /**
-     * Sets the application type.
-     *
-     * @param applicationType the credit application type
-     */
-    public void setApplicationType(String applicationType) {
-        this.applicationType = applicationType;
+    public void setSourceAccountId(String sourceAccountId) {
+        this.sourceAccountId = sourceAccountId;
     }
 
-    /**
-     * Returns the requested credit limit.
-     *
-     * @return the requested credit limit
-     */
-    public BigDecimal getRequestedLimit() {
-        return requestedLimit;
+    public String getTargetAccountId() {
+        return targetAccountId;
     }
 
-    /**
-     * Sets the requested credit limit.
-     *
-     * @param requestedLimit the requested credit limit
-     */
-    public void setRequestedLimit(BigDecimal requestedLimit) {
-        this.requestedLimit = requestedLimit;
+    public void setTargetAccountId(String targetAccountId) {
+        this.targetAccountId = targetAccountId;
     }
 
-    /**
-     * Returns the credit card type.
-     *
-     * @return the credit card type
-     */
-    public String getCardType() {
-        return cardType;
+    public double getAmount() {
+        return amount;
     }
 
-    /**
-     * Sets the credit card type.
-     *
-     * @param cardType the credit card type
-     */
-    public void setCardType(String cardType) {
-        this.cardType = cardType;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }
