@@ -1,15 +1,22 @@
-package com.github.novabank.domain.finance;
+package com.github.novabank.domain.finance.finance_accounts;
 
+import java.time.LocalDate;
+
+import lombok.Getter;
+import lombok.Setter;
+@Getter 
+@Setter
 public class Credit extends Finance{
-    int creditLimit;
-    double creditInterestRate = 0.21;
-    int maxuimimBalanceWithoutInterest;
+    private int lastMonth = -1;
+     private int  creditLimit;
+    private double creditInterestRate = 0.21;
+    private @Setter int maximumBalanceWithoutInterest;
 
-    public Credit(int creditBalance, int creditLimit, double creditInterestRate, int balance, int amountSpentToday, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
-        super(balance, amountSpentToday, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+    public Credit(int creditLimit, double creditInterestRate, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
+        super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
         this.creditLimit = creditLimit;
         this.creditInterestRate = creditInterestRate;
-        this.maxuimimBalanceWithoutInterest = (int) (creditLimit * 0.10);
+        this.maximumBalanceWithoutInterest = (int) (creditLimit * 0.10);
     }
 
     /** add credit balance
@@ -18,22 +25,26 @@ public class Credit extends Finance{
      * Accept purchase;
      *
      */
-    @Override
-    public void interest() {
-        int lastMonth = -1;
-        int m = java.time.LocalDate.now().getMonthValue();
+  @Override
+public void interest() {
+    // lastMonth should be a field, not local variable
+    int currentMonth = LocalDate.now().getMonthValue();
 
-        if (lastMonth == -1) {
-            lastMonth = m;
-            return;
-        }
-
-        if(m != lastMonth && balance > maxuimimBalanceWithoutInterest) {
-            balance = (int) Math.round(balance*(1+creditInterestRate));
-        }else{
-            balance = 0;
-        }
+    if (lastMonth == -1) {
+        // first time interest is applied
+        lastMonth = currentMonth;
+        return;
     }
+
+    if (currentMonth != lastMonth && balance > maximumBalanceWithoutInterest) {
+        // apply interest only once per month
+        balance = (int) Math.round(balance * (1 + creditInterestRate));
+    }
+
+    // update lastMonth to current month
+    lastMonth = currentMonth;
+}
+
 
     public void purchase(int amount) {
         if  (amount < 0) {
@@ -49,5 +60,7 @@ public class Credit extends Finance{
     public void closeBalance(int amount) {
         balance -= amount;
     }
-
+    public int getMaximumBalanceWithoutInterest(){
+        return maximumBalanceWithoutInterest;
+    }
 }

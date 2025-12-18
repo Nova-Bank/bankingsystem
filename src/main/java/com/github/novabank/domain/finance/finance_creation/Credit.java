@@ -1,14 +1,15 @@
-package com.github.novabank.domain.finance;
+package com.github.novabank.domain.finance.finance_creation;
 
-import java.time.ZoneId;
+
+import com.github.novabank.domain.finance.finance_accounts.Finance;
 
 public class Credit extends Finance{
     int creditBalance;
     public int creditLimit;
     double creditInterestRate = 0.21;
 
-    public Credit(int creditBalance, int creditLimit, double creditInterestRate, int balance, int amountSpentToday, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
-        super(balance, amountSpentToday, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+    public Credit(int creditBalance, int creditLimit, double creditInterestRate, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
+        super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
         this.creditBalance = creditBalance;
         this.creditLimit = 10000;
         this.creditInterestRate = creditInterestRate;

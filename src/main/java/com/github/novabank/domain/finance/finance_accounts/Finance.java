@@ -1,4 +1,4 @@
-package com.github.novabank.domain.finance;
+package com.github.novabank.domain.finance.finance_accounts;
 import java.time.LocalDate;
 
 /**
@@ -11,15 +11,13 @@ import java.time.LocalDate;
  public abstract class Finance {
 
     // All values are in cents not dollar
-    private final int UID;
     protected int balance;
     protected int amountSpentToday;
     protected int dailyWithdrawalLimit;
     protected int dailyPurchaseLimit;
     protected int dailyTransferLimit;
 
-     public Finance(int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
-        this.UID = UID;
+     public Finance(int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
         this.balance = balance;
         this.amountSpentToday = 0;
         this.dailyWithdrawalLimit = dailyWithdrawalLimit;
@@ -27,13 +25,13 @@ import java.time.LocalDate;
         this.dailyTransferLimit = dailyTransferLimit;
     }
 
-    void setAmountSpentToday(int amountSpentToday) {
+    public void setAmountSpentToday(int amountSpentToday) {
         this.amountSpentToday = amountSpentToday;
         if (this.amountSpentToday < 0) {
             throw new IllegalArgumentException("amount spent today can't be negative");
         }
     }
-    void setDailyTransferLimit(int dailyTransferLimit) {
+    public void setDailyTransferLimit(int dailyTransferLimit) {
         //validate if user inputs negative value
         this.dailyTransferLimit = dailyTransferLimit;
         if (this.dailyTransferLimit < 0) {
@@ -42,19 +40,19 @@ import java.time.LocalDate;
     }
     
 
-    void setBalance(int balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
         if (this.balance < 0) {
             throw new IllegalArgumentException("balance can't be negative");
         }
     }
-    void setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
+    public void setDailyWithdrawalLimit(int dailyWithdrawalLimit) {
         this.dailyWithdrawalLimit = dailyWithdrawalLimit;
         if (this.dailyWithdrawalLimit < 0) {
             throw new IllegalArgumentException("daily transfer limit can't be negative");
         }
     }
-    void setDailyPurchaseLimit(int dailyPurchaseLimit) {
+    public void setDailyPurchaseLimit(int dailyPurchaseLimit) {
         this.dailyPurchaseLimit = dailyPurchaseLimit;
         if (this.dailyPurchaseLimit < 0) {
             throw new IllegalArgumentException("daily transfer limit can't be negative");
@@ -80,20 +78,26 @@ import java.time.LocalDate;
 
 
     public int withdraw(int amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("Amount cannot be negative");
-        }
-        if (amount > balance) {
-            throw new IllegalArgumentException("Insufficient balance");
-        }
-        if (amount + dailyWithdrawalLimit > balance) {
-            throw new IllegalArgumentException("You have reached the daily withdrawl limit");
-        }else{
-            balance -= amount;
-            amountSpentToday += amount;
-        }
-        return balance;
+    if (amount < 0) {
+        throw new IllegalArgumentException("Amount cannot be negative");
     }
+
+    if (amount > balance) {
+        throw new IllegalArgumentException("Insufficient balance");
+    }
+
+    // Check daily withdrawal limit
+    if (amount + amountSpentToday > dailyWithdrawalLimit) {
+        throw new IllegalArgumentException("Daily withdrawal limit exceeded");
+    }
+
+    // Subtract amount from balance and track daily spending
+    balance -= amount;
+    amountSpentToday += amount;
+
+    return balance;
+}
+
 
     public int deposit(int amount) {
         if (amount < 0) {

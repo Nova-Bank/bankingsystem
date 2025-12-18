@@ -2,7 +2,7 @@ package com.github.novabank.domain.account.account_creation;
 
 
 import com.github.novabank.domain.account.accounts.Account;
-import com.github.novabank.domain.finance.Finance;
+import com.github.novabank.domain.finance.finance_accounts.Finance;
 
 /**
  * Builder interface for creating Account instances 
