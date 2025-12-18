@@ -16,6 +16,7 @@ import java.time.LocalDate;
     protected int dailyWithdrawalLimit;
     protected int dailyPurchaseLimit;
     protected int dailyTransferLimit;
+    protected LocalDate now = LocalDate.now();
 
      public Finance(int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
         this.balance = balance;
@@ -81,6 +82,9 @@ import java.time.LocalDate;
     if (amount < 0) {
         throw new IllegalArgumentException("Amount cannot be negative");
     }
+    if(LocalDate.now().isAfter(now)) {
+        throw new IllegalArgumentException("date can't be after now");
+    }
 
     if (amount > balance) {
         throw new IllegalArgumentException("Insufficient balance");
@@ -110,6 +114,9 @@ import java.time.LocalDate;
     public boolean transfer(Finance sender,Finance reciever ,int amount, LocalDate date) {
         if (amount < 0) {
             throw new IllegalArgumentException("Amount cannot be negative");
+        }
+        if (!date.equals(LocalDate.now())){
+            throw new IllegalArgumentException("Transfer cannot be for later");
         }
         if(amount > sender.getBalance()) {
             throw new IllegalArgumentException("Insufficient balance");

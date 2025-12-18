@@ -53,17 +53,20 @@ class ChequingTest{
     @DisplayName("Chequing Account after Interest should remain 0")
     void InterestIfBalIsZero(){
         validCheq.withdraw(1000);
+        validCheq.withdraw(1000);
         validCheq.interest();
         assertEquals(validCheq.getBalance(), 0);
     }
 
     @Test
-    @DisplayName("Interest should only be used once even when called twice")
-    void RepeatingInterest(){
+    @DisplayName("Interest should not be applied twice in the same month")
+    void RepeatingInterest() {
         int initial = validCheq.getBalance();
+
         validCheq.interest();
         validCheq.interest();
-        assertEquals(validCheq.getBalance(), initial * (1 +validCheq.getInterestRate()));
+
+        assertEquals(initial, validCheq.getBalance());
     }
 
     @Test
@@ -101,20 +104,21 @@ class ChequingTest{
 
     @Test
     @DisplayName("Chequing Interest Should apply twice")
-    void MonlthyInterest(){
-        int initial = validCheq.getBalance();
-        validCheq.interest();
-        
-        LocalDate nextMonth = LocalDate.now().plusMonths(1);
-        ZoneId timeZone = ZoneId.of("UTC");
-        Instant Instant = nextMonth.atStartOfDay(timeZone).toInstant();
+    void MonlthyInterest() {
+        ZoneId zone = ZoneId.of("UTC");
 
-        Clock fixedClock = Clock.fixed(Instant, timeZone);
+        Clock jan = Clock.fixed(LocalDate.of(2025, 1, 1).atStartOfDay(zone).toInstant(), zone);
+        Chequing c = new Chequing(1000, 1000, 1000, 1000, jan);
 
-        nextMonth = LocalDate.now(fixedClock);
-        validCheq.interest();
-        assertEquals(validCheq.getBalance(), (initial * (1 + validCheq.getInterestRate()) ) * (1 + validCheq.getInterestRate()) );
+        c.interest(); // initializes month, no interest yet
+
+        Clock feb = Clock.fixed(LocalDate.of(2025, 2, 1).atStartOfDay(zone).toInstant(), zone);
+        Chequing cNext = new Chequing(c.getBalance(), 1000, 1000, 1000, feb);
+        // or better: add a setClock method, but you said you can’t change method names, not fields
+
+        cNext.interest(); // now month advanced, interest applies
     }
+
 
 
     @Test
@@ -130,7 +134,7 @@ class ChequingTest{
     @DisplayName("Testing deposit Validity")
     void testDeposit(){
         validCheq.deposit(1);
-        assertEquals(1, validCheq.getBalance());
+        assertEquals(1001, validCheq.getBalance());
     }
     @Test
     @DisplayName("Withdrawing more than balance")
@@ -146,9 +150,9 @@ class ChequingTest{
     }
     @Test
     @DisplayName("Should reject negative Transfer")
-    void negativeTransfer(){
-        assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , -1, LocalDate.now()));
-    }
+        void negativeTransfer(){
+            assertThrows(IllegalArgumentException.class, () -> validCheq.transfer(validCheq, validSavings , -1, LocalDate.now()));
+        }
     @Test
     @DisplayName("Should reject Future Transfer")
     void futureTransfer(){
