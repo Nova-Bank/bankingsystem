@@ -1,4 +1,4 @@
-package com.github.novabank.domain.finance;
+package com.github.novabank.domain.finance.finance_accounts;
 
 import com.github.novabank.domain.finance.finance_accounts.Credit;
 
@@ -61,8 +61,7 @@ class CreditTest {
         credit.interest(); // sets lastMonth
         credit.interest(); // same month
 
-        assertEquals(0, credit.getBalance(),
-                "BUG: interest() resets getBalance() to 0");
+        assertEquals(500, credit.getBalance());
     }
 
    

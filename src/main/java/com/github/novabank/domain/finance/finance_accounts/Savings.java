@@ -1,13 +1,13 @@
 package com.github.novabank.domain.finance.finance_accounts;
 
 import lombok.Getter;
-
+import lombok.Setter;
 
 import java.time.ZoneId;
 import java.time.Year;
-
+@Getter 
+@Setter
 public class Savings extends Finance{
-    @Getter
     private double interestRate;
     private Year lastSeen;
 
@@ -25,6 +25,9 @@ public class Savings extends Finance{
             balance = (int) Math.round((balance)*(1+interestRate));
             lastSeen = now;
         }
+    }
+    public double getInterestRate(){
+        return interestRate;
     }
     
 

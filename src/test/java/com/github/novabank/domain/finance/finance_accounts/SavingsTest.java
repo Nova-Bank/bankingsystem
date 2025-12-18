@@ -1,4 +1,4 @@
-package com.github.novabank.domain.finance;
+package com.github.novabank.domain.finance.finance_accounts;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -8,9 +8,12 @@ import java.time.ZoneId;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mockStatic;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 
 import com.github.novabank.domain.finance.finance_accounts.Savings;
 
@@ -25,7 +28,7 @@ class SavingsTest{
     @BeforeEach
     void setup(){
         //int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit
-        validSavings = new Savings(0, 1000, 1000, 1000, 0.05);
+        validSavings = new Savings(1000, 1001, 1000, 1000, 0.05);
     }
 
     @Test
@@ -34,7 +37,7 @@ class SavingsTest{
         assertNotNull(validSavings);
         assertEquals(1000, validSavings.getBalance());
         assertEquals(0, validSavings.getAmountSpentToday());
-        assertEquals(1000, validSavings.getDailyWithdrawalLimit());
+        assertEquals(1001, validSavings.getDailyWithdrawalLimit());
         assertEquals(1000, validSavings.getDailyPurchaseLimit());
         assertEquals(1000, validSavings.getDailyTransferLimit());
     }
@@ -50,13 +53,17 @@ class SavingsTest{
     }
 
     @Test
-    @DisplayName("Interest should only be used once even when called twice")
-    void RepeatingInterest(){
-        int initial = validSavings.getBalance();
-        validSavings.interest();
-        validSavings.interest();
-        assertEquals(validSavings.getBalance(), initial * (1 +validSavings.getInterestRate()));
-    }
+@DisplayName("Interest should only be used once even when called twice")
+void repeatingInterest() {
+    int initial = validSavings.getBalance();
+
+    validSavings.interest();  // first application
+    validSavings.interest();  // second call in same month does nothing
+
+    int expected = (int) Math.round(initial * (1 + validSavings.getInterestRate()));
+    assertEquals(expected, validSavings.getBalance());
+}
+
 
     @Test
     @DisplayName("Should reject negative AmountSpentToday")
@@ -91,21 +98,27 @@ class SavingsTest{
         assertThrows(IllegalArgumentException.class, () -> validSavings.deposit(-1));
     }
 
-    @Test
-    @DisplayName("Savings Interest Should apply twice")
-    void MonlthyInterest(){
+     @Test
+    @DisplayName("Savings Interest Should Apply Twice")
+    void monthlyInterest() {
         int initial = validSavings.getBalance();
+
+        // First month: normal
         validSavings.interest();
-        
+
+        // Simulate next month
         LocalDate nextMonth = LocalDate.now().plusMonths(1);
-        ZoneId timeZone = ZoneId.of("UTC");
-        Instant Instant = nextMonth.atStartOfDay(timeZone).toInstant();
+        Instant instant = nextMonth.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Clock fixedClock = Clock.fixed(instant, ZoneId.systemDefault());
 
-        Clock fixedClock = Clock.fixed(Instant, timeZone);
+        try (MockedStatic<LocalDate> mockedLocalDate = mockStatic(LocalDate.class)) {
+            mockedLocalDate.when(LocalDate::now).thenReturn(LocalDate.now(fixedClock));
 
-        nextMonth = LocalDate.now(fixedClock);
-        validSavings.interest();
-        assertEquals(validSavings.getBalance(), (initial * (1 + validSavings.getInterestRate()) ) * (1 + validSavings.getInterestRate()) );
+            validSavings.interest();
+        }
+
+        int expected = (int) Math.round(initial * (1 + validSavings.getInterestRate()) * (1 + validSavings.getInterestRate()));
+        assertEquals(expected, validSavings.getBalance());
     }
 
     @Test

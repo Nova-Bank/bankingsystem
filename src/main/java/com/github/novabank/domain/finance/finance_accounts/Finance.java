@@ -78,20 +78,26 @@ import java.time.LocalDate;
 
 
     public int withdraw(int amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("Amount cannot be negative");
-        }
-        if (amount > balance) {
-            throw new IllegalArgumentException("Insufficient balance");
-        }
-        if (amount + dailyWithdrawalLimit > balance) {
-            throw new IllegalArgumentException("You have reached the daily withdrawl limit");
-        }else{
-            balance -= amount;
-            amountSpentToday += amount;
-        }
-        return balance;
+    if (amount < 0) {
+        throw new IllegalArgumentException("Amount cannot be negative");
     }
+
+    if (amount > balance) {
+        throw new IllegalArgumentException("Insufficient balance");
+    }
+
+    // Check daily withdrawal limit
+    if (amount + amountSpentToday > dailyWithdrawalLimit) {
+        throw new IllegalArgumentException("Daily withdrawal limit exceeded");
+    }
+
+    // Subtract amount from balance and track daily spending
+    balance -= amount;
+    amountSpentToday += amount;
+
+    return balance;
+}
+
 
     public int deposit(int amount) {
         if (amount < 0) {

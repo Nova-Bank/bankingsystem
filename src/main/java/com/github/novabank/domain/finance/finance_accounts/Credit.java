@@ -4,12 +4,13 @@ import java.time.LocalDate;
 
 import lombok.Getter;
 import lombok.Setter;
-
+@Getter 
+@Setter
 public class Credit extends Finance{
-
+    private int lastMonth = -1;
      private int  creditLimit;
     private double creditInterestRate = 0.21;
-    private @Getter int maximumBalanceWithoutInterest;
+    private @Getter @Setter int maximumBalanceWithoutInterest;
 
     public Credit(int creditLimit, double creditInterestRate, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
         super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
@@ -24,22 +25,26 @@ public class Credit extends Finance{
      * Accept purchase;
      *
      */
-    @Override
-    public void interest() {
-        int lastMonth = -1; //TODO change this as everytime its called lastMonth resets to -1
-        int m = java.time.LocalDate.now().getMonthValue();
+  @Override
+public void interest() {
+    // lastMonth should be a field, not local variable
+    int currentMonth = LocalDate.now().getMonthValue();
 
-        if (lastMonth == -1) {
-            lastMonth = m;
-            return;
-        }
-
-        if(m != lastMonth && balance > maximumBalanceWithoutInterest) {
-            balance = (int) Math.round(balance*(1+creditInterestRate));
-        }else{
-            balance = 0;
-        }
+    if (lastMonth == -1) {
+        // first time interest is applied
+        lastMonth = currentMonth;
+        return;
     }
+
+    if (currentMonth != lastMonth && balance > maximumBalanceWithoutInterest) {
+        // apply interest only once per month
+        balance = (int) Math.round(balance * (1 + creditInterestRate));
+    }
+
+    // update lastMonth to current month
+    lastMonth = currentMonth;
+}
+
 
     public void purchase(int amount) {
         if  (amount < 0) {
@@ -55,5 +60,7 @@ public class Credit extends Finance{
     public void closeBalance(int amount) {
         balance -= amount;
     }
-
+    public int getMaximumBalanceWithoutInterest(){
+        return maximumBalanceWithoutInterest;
+    }
 }
