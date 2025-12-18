@@ -1,4 +1,4 @@
-package com.github.novabank.domain.account;
+package com.github.novabank.domain.account.account_creation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
