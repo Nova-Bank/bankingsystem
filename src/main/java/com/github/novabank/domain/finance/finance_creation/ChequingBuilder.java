@@ -1,7 +1,8 @@
-package com.github.novabank.domain.finance;
+package com.github.novabank.domain.finance.finance_creation;
+
+import com.github.novabank.domain.finance.finance_accounts.Chequing;
 
 public class ChequingBuilder implements FinanceBuilder<Chequing> {
-    private int UID;
     private int balance;
     private int dailyWithdrawalLimit;
     private int dailyPurchaseLimit;
@@ -24,17 +25,14 @@ public class ChequingBuilder implements FinanceBuilder<Chequing> {
         this.dailyTransferLimit = dailyTransferLimit;
         return this;
     }
-    public ChequingBuilder setUID(int UID) {
-        this.UID = UID;
-        return this;
-    }
+
 
 
 
     @Override
     public Chequing build() {
         validate();
-        return new Chequing(UID, balance,dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+        return new Chequing(balance,dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
     }
 
     @Override
@@ -51,14 +49,11 @@ public class ChequingBuilder implements FinanceBuilder<Chequing> {
         if (dailyTransferLimit <= 0) {
             throw new IllegalStateException("dailyTransferLimit less than 0");
         }
-        if (UID <= 0) {
-            throw new IllegalStateException("UID less than 0");
-        }
+        
     }
 
     @Override
     public void reset() {
-        this.UID = 0;
         this.balance = 0;
         this.dailyWithdrawalLimit = 0;
         this.dailyPurchaseLimit = 0;
@@ -68,6 +63,6 @@ public class ChequingBuilder implements FinanceBuilder<Chequing> {
     @Override
     public String toString() {
         return String.format("ChequingBuilder[ID=%d balance=%d dailyWithdrawlLimit=%d, dailyPurchaseLimits=%d, dailyTransferLimit=%d]",
-                UID, balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+                balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
     }
 }

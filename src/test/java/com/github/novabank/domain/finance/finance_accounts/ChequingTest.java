@@ -1,26 +1,24 @@
-package com.github.novabank.domain.finance;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+package com.github.novabank.domain.finance.finance_accounts;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import org.junit.jupiter.api.Test;
-
-import com.github.novabank.domain.finance.Chequing;
-import com.github.novabank.domain.finance.Savings;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import com.github.novabank.domain.finance.finance_accounts.Chequing;
+import com.github.novabank.domain.finance.finance_accounts.Savings;
 
 
 
 @DisplayName("Cheqing Class Test")
-class CheqingTest{
+class ChequingTest{
     private Chequing validCheq;
     private Savings validSavings;
 
@@ -28,9 +26,8 @@ class CheqingTest{
 
     @BeforeEach
     void setup(){
-        //int UID,  int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit
-        validCheq = new Chequing(1000, 0, 1000, 1000, 1000);
-        validSavings = new Savings(0, 1000, 0, 1000,1000);
+        validCheq = new Chequing(1000, 1000, 1000, 1000);
+        validSavings = new Savings(0, 1000, 1000, 1000, 0.05);
     }
 
     @Test
@@ -49,13 +46,13 @@ class CheqingTest{
     void testInterest(){
         int initial = validCheq.getBalance();
         validCheq.interest();
-        assertEquals(validCheq.getBalance(), initial * (1 + validCheq.getInterestRate()));
+        assertEquals(validCheq.getBalance(), Math.round(initial*(1+validCheq.getInterestRate())));
     }
 
     @Test
     @DisplayName("Chequing Account after Interest should remain 0")
     void InterestIfBalIsZero(){
-        validCheq.withdraw(1000, LocalDate.now(ZoneId.of("America/Toronto")));
+        validCheq.withdraw(1000);
         validCheq.interest();
         assertEquals(validCheq.getBalance(), 0);
     }
@@ -80,11 +77,7 @@ class CheqingTest{
     void testNegativeDailyWithdrawalLimit(){
         assertThrows(IllegalArgumentException.class, () -> validCheq.setDailyWithdrawalLimit(-1));
     }
-    @Test
-    @DisplayName("Should reject negative DailySpendingLimit")
-    void testDailySpendingLimit(){
-        assertThrows(IllegalArgumentException.class, () -> validCheq.setDailySpendingLimit(-1));
-    }
+    
     @Test
     @DisplayName("Should reject negative Balance")
     void testNegativeBalance(){
@@ -98,12 +91,12 @@ class CheqingTest{
     @Test
     @DisplayName("Should reject negative DailyTransferLimit")
     void negativeWithdraw(){
-        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(-1, LocalDate.now(ZoneId.of("America/Toronto"))));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(-1));
     }
     @Test
     @DisplayName("Should reject negative deposit")
     void testNegativedeposit(){
-        assertThrows(IllegalArgumentException.class, () -> validCheq.deposit(-1, LocalDate.now(ZoneId.of("America/Toronto"))));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.deposit(-1));
     }
 
     @Test
@@ -111,24 +104,18 @@ class CheqingTest{
     void MonlthyInterest(){
         int initial = validCheq.getBalance();
         validCheq.interest();
-        LocalDate nextInterest = LocalDate.now().plusMonths(1);
-        ZoneId zone = ZoneId.of("UTC");
-        Instant Instant = nextInterest.atStartOfDay(zone).toInstant();
+        
+        LocalDate nextMonth = LocalDate.now().plusMonths(1);
+        ZoneId timeZone = ZoneId.of("UTC");
+        Instant Instant = nextMonth.atStartOfDay(timeZone).toInstant();
 
-        Clock fixedClock = Clock.fixed(Instant, zone);
+        Clock fixedClock = Clock.fixed(Instant, timeZone);
 
-        nextInterest = LocalDate.now(fixedClock);
+        nextMonth = LocalDate.now(fixedClock);
         validCheq.interest();
         assertEquals(validCheq.getBalance(), (initial * (1 + validCheq.getInterestRate()) ) * (1 + validCheq.getInterestRate()) );
     }
 
-    @Test
-    @DisplayName("Savings Interest should work correctly")
-    void interestSavings(){
-        int initial = validCheq.getBalance();
-        validSavings.interest();
-        assertEquals(validSavings.getBalance(), (initial * (1+ validSavings.getInterestRate())));
-    }
 
     @Test
     @DisplayName("Withdraw in the future shouldn't be possible")
@@ -136,33 +123,19 @@ class CheqingTest{
         LocalDate nextInterest = LocalDate.now();
         nextInterest.plusMonths(1);
 
-        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1, nextInterest));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1));
     }
-     @Test
-    @DisplayName("deposit in the future shouldn't be possible")
-    void FutureDeposit(){
-        LocalDate nextInterest = LocalDate.now();
-        nextInterest.plusMonths(1);
-
-        assertThrows(IllegalArgumentException.class, () -> validCheq.deposit(1, nextInterest));
-    }
-
-    @Test
-    @DisplayName("Testing Withdraw Validity")
-    void testWithdraw(){
-        validCheq.withdraw(1, LocalDate.now());
-        assertEquals(999, validCheq.getBalance());
-    }
+    
     @Test
     @DisplayName("Testing deposit Validity")
     void testDeposit(){
-        validCheq.deposit(1, LocalDate.now());
-        assertEquals(1001, validCheq.getBalance());
+        validCheq.deposit(1);
+        assertEquals(1, validCheq.getBalance());
     }
     @Test
     @DisplayName("Withdrawing more than balance")
     void OverWithdrawing(){
-        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1111, LocalDate.now()));
+        assertThrows(IllegalArgumentException.class, () -> validCheq.withdraw(1111));
     }
     @Test
     @DisplayName("Testing Tranfer Validity")

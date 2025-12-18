@@ -2,7 +2,7 @@ package com.github.novabank.domain.account.account_creation;
 
 
 import com.github.novabank.domain.account.accounts.AdultAccount;
-import com.github.novabank.domain.finance.Finance;
+import com.github.novabank.domain.finance.finance_accounts.Finance;
 
 import java.time.LocalDate;
 import java.time.Period;

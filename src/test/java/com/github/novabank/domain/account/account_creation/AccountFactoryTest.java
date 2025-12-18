@@ -1,7 +1,7 @@
 package com.github.novabank.domain.account.account_creation;
 
 import com.github.novabank.domain.account.accounts.*;
-import com.github.novabank.domain.finance.Finance;
+import com.github.novabank.domain.finance.finance_accounts.Finance;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -102,18 +102,4 @@ class AccountFactoryTest {
         assertInstanceOf(ChildAccount.class, account);
     }
 
-    @Test
-    void addsFinanceProductsToAccount() throws Exception {
-        Finance finance = new Finance(/* mock or real constructor */);
-
-        AccountInfo info = adultInfo();
-
-        Account account = AccountFactory.createAccount(
-                info,
-                List.of(finance),
-                null
-        );
-
-        assertEquals(1, account.getFinanceProducts().size());
-    }
 }

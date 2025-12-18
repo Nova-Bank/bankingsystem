@@ -1,19 +1,18 @@
-package com.github.novabank.domain.finance;
+package com.github.novabank.domain.finance.finance_accounts;
 
 import lombok.Getter;
+import lombok.Setter;
 
-
-import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.Year;
-
+@Getter 
+@Setter
 public class Savings extends Finance{
-    @Getter
     private double interestRate;
     private Year lastSeen;
 
-    public Savings(int UID, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit) {
-        super(UID, balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+    public Savings(int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, double interestRate) {
+        super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
         this.interestRate = interestRate;
         lastSeen = Year.now(ZoneId.of("America/Toronto"));
     }
@@ -30,5 +29,6 @@ public class Savings extends Finance{
     public double getInterestRate(){
         return interestRate;
     }
+    
 
 }

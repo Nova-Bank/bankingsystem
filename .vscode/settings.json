@@ -1,5 +1,10 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
+<<<<<<< HEAD
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.compile.nullAnalysis.mode": "disabled"
+=======
     "java.compile.nullAnalysis.mode": "disabled",
     "java.debug.settings.onBuildFailureProceed": true
+>>>>>>> origin/main
 }

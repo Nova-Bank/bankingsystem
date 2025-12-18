@@ -5,7 +5,7 @@ import com.github.novabank.domain.account.account_creation.AccountInfo;
 import com.github.novabank.domain.account.account_creation.ValidationResult;
 import com.github.novabank.domain.account.accounts.Account;
 import com.github.novabank.domain.account.accounts.AdultAccount;
-import com.github.novabank.domain.finance.Finance;
+import com.github.novabank.domain.finance.finance_accounts.Finance;
 
 import java.util.ArrayList;
 import java.util.List;
