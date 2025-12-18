@@ -2,20 +2,34 @@ package com.github.novabank.application.dtos;
 
 import java.time.LocalDateTime;
 
+/**
+ * TransferDTO represents a money transfer between accounts.
+ */
 public class TransferDTO {
 
-    private String sourceAccountId;
-    private String targetAccountId;
-    private double amount;
-    private String currency;
+    /** UID of the source account */
+    private int sourceAccountId;
+
+    /** UID of the target account */
+    private int targetAccountId;
+
+    /** Amount to transfer */
+    private int amount; // int to match domain logic (Chequing/Credit)
+
+    /** Optional currency, defaults to CAD */
+    private String currency = "CAD";
+
+    /** Timestamp of the transfer */
     private LocalDateTime timestamp;
-    private String status;
+
+    /** Status of the transfer */
+    private String status; // Could be "PENDING", "COMPLETED", "FAILED"
 
     public TransferDTO() {
         // default constructor for serialization
     }
 
-    public TransferDTO(String sourceAccountId, String targetAccountId, double amount,
+    public TransferDTO(int sourceAccountId, int targetAccountId, int amount,
                        String currency, LocalDateTime timestamp, String status) {
         this.sourceAccountId = sourceAccountId;
         this.targetAccountId = targetAccountId;
@@ -25,28 +39,27 @@ public class TransferDTO {
         this.status = status;
     }
 
-    // Getters and setters
-    public String getSourceAccountId() {
+    public int getSourceAccountId() {
         return sourceAccountId;
     }
 
-    public void setSourceAccountId(String sourceAccountId) {
+    public void setSourceAccountId(int sourceAccountId) {
         this.sourceAccountId = sourceAccountId;
     }
 
-    public String getTargetAccountId() {
+    public int getTargetAccountId() {
         return targetAccountId;
     }
 
-    public void setTargetAccountId(String targetAccountId) {
+    public void setTargetAccountId(int targetAccountId) {
         this.targetAccountId = targetAccountId;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
@@ -73,5 +86,4 @@ public class TransferDTO {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }
