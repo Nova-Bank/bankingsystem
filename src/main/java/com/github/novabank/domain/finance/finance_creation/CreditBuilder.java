@@ -1,34 +1,19 @@
-<<<<<<< HEAD
 package com.github.novabank.domain.finance.finance_creation;
 
 import com.github.novabank.domain.finance.finance_accounts.Credit;
 
 public class CreditBuilder implements FinanceBuilder<Credit> {
 
-=======
-package com.github.novabank.domain.finance;
-
-public class CreditBuilder implements FinanceBuilder<Credit> {
-
-    private int creditBalance;
->>>>>>> origin/main
     private int creditLimit;
     private double creditInterestRate;
+
     private int balance;
     private int amountSpentToday;
+
     private int dailyWithdrawalLimit;
     private int dailyPurchaseLimit;
     private int dailyTransferLimit;
     private int dailySpendingLimit;
-
-<<<<<<< HEAD
-    
-=======
-    public CreditBuilder setCreditBalance(int creditBalance) {
-        this.creditBalance = creditBalance;
-        return this;
-    }
->>>>>>> origin/main
 
     public CreditBuilder setCreditLimit(int creditLimit) {
         this.creditLimit = creditLimit;
@@ -74,69 +59,38 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
     public Credit build() {
         validate();
         return new Credit(
-<<<<<<< HEAD
-                creditLimit,
-                creditInterestRate,
-                balance,
-=======
-                creditBalance,
                 creditLimit,
                 creditInterestRate,
                 balance,
                 amountSpentToday,
->>>>>>> origin/main
                 dailyWithdrawalLimit,
                 dailyPurchaseLimit,
-                dailyTransferLimit,
-                dailySpendingLimit
+                dailyTransferLimit
         );
     }
 
     @Override
     public void validate() {
-<<<<<<< HEAD
-        
-=======
-        if (creditBalance < 0) {
-            throw new IllegalStateException("creditBalance less than 0");
-        }
->>>>>>> origin/main
-        if (balance < 0) {
-            throw new IllegalStateException("balance less than 0");
-        }
-        if (creditLimit <= 0) {
-            throw new IllegalStateException("creditLimit less than or equal to 0");
-        }
-        if (creditInterestRate <= 0) {
-            throw new IllegalStateException("creditInterestRate less than or equal to 0");
-        }
-        if (amountSpentToday < 0) {
-            throw new IllegalStateException("amountSpentToday less than 0");
-        }
-        if (dailyWithdrawalLimit <= 0) {
-            throw new IllegalStateException("dailyWithdrawalLimit less than or equal to 0");
-        }
-        if (dailyPurchaseLimit <= 0) {
-            throw new IllegalStateException("dailyPurchaseLimit less than or equal to 0");
-        }
-        if (dailyTransferLimit <= 0) {
-            throw new IllegalStateException("dailyTransferLimit less than or equal to 0");
-        }
-        if (dailySpendingLimit <= 0) {
-            throw new IllegalStateException("dailySpendingLimit less than or equal to 0");
-        }
+        if (balance < 0) throw new IllegalStateException("balance less than 0");
+        if (amountSpentToday < 0) throw new IllegalStateException("amountSpentToday less than 0");
+
+        if (creditLimit <= 0) throw new IllegalStateException("creditLimit less than or equal to 0");
+        if (creditInterestRate <= 0) throw new IllegalStateException("creditInterestRate less than or equal to 0");
+
+        if (dailyWithdrawalLimit <= 0) throw new IllegalStateException("dailyWithdrawalLimit less than or equal to 0");
+        if (dailyPurchaseLimit <= 0) throw new IllegalStateException("dailyPurchaseLimit less than or equal to 0");
+        if (dailyTransferLimit <= 0) throw new IllegalStateException("dailyTransferLimit less than or equal to 0");
+        if (dailySpendingLimit <= 0) throw new IllegalStateException("dailySpendingLimit less than or equal to 0");
     }
 
     @Override
     public void reset() {
-<<<<<<< HEAD
-=======
-        this.creditBalance = 0;
->>>>>>> origin/main
         this.creditLimit = 0;
-        this.creditInterestRate = 0;
+        this.creditInterestRate = 0.0;
+
         this.balance = 0;
         this.amountSpentToday = 0;
+
         this.dailyWithdrawalLimit = 0;
         this.dailyPurchaseLimit = 0;
         this.dailyTransferLimit = 0;
@@ -146,12 +100,7 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
     @Override
     public String toString() {
         return String.format(
-<<<<<<< HEAD
                 "CreditBuilder[creditLimit=%d, creditInterestRate=%.4f, balance=%d, amountSpentToday=%d, dailyWithdrawalLimit=%d, dailyPurchaseLimit=%d, dailyTransferLimit=%d, dailySpendingLimit=%d]",
-=======
-                "CreditBuilder[creditBalance=%d, creditLimit=%d, creditInterestRate=%.4f, balance=%d, amountSpentToday=%d, dailyWithdrawalLimit=%d, dailyPurchaseLimit=%d, dailyTransferLimit=%d, dailySpendingLimit=%d]",
-                creditBalance,
->>>>>>> origin/main
                 creditLimit,
                 creditInterestRate,
                 balance,
