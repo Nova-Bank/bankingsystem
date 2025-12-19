@@ -3,8 +3,9 @@ package com.github.novabank.presentation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.github.novabank")
 public class NovaBankApplication {
 
     public static void main(String[] args) {

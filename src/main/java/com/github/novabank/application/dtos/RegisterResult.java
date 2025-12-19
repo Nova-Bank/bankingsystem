@@ -26,10 +26,6 @@ public class RegisterResult {
     @Min(value = 1, message = "Age must be at least 1")
     private Integer age;
 
-    /** Account type: Adult / Youth */
-    @NotBlank(message = "Account type is required")
-    private String accountType;
-
     public String getFullName() {
         return fullName;
     }
@@ -56,12 +52,5 @@ public class RegisterResult {
     }
     public void setAge(Integer age) {
         this.age = age;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
     }
 }

@@ -37,9 +37,9 @@ public class RegisterApplicationService {
         AccountInfo info = new AccountInfo(
                 request.getEmail(),
                 request.getPassword(),
-                request.getFullName(),
+                request.getUsername(),
                 dateOfBirth,
-                "000-000-0000" // no phone number from front-end request, but it's required
+                request.getPhoneNumber()
         );
 
         // No initial finance products or parent account
@@ -53,7 +53,7 @@ public class RegisterApplicationService {
         result.setEmail(createdAccount.getEmail());
         result.setPassword("[PROTECTED]"); // never return raw password
         result.setAge(request.getAge());
-        result.setAccountType(request.getAccountType()); // keep front-end value
+        // result.setAccountType(request.getAccountType()); // This is now handled by the domain
 
         return result;
     }

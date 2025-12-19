@@ -1,6 +1,9 @@
 package com.github.novabank.presentation.dtos;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 /**
@@ -12,7 +15,8 @@ public class LoginRequest {
     private final String email;
     private final String password;
 
-    public LoginRequest(String email, String password) {
+    @JsonCreator
+    public LoginRequest(@JsonProperty("username") String email, @JsonProperty("password") String password) {
         if (email == null || email.isBlank()) {
             throw new IllegalArgumentException("Email is required");
         }

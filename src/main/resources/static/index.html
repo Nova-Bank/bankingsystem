@@ -157,6 +157,11 @@
     </div>
 
     <div class="input-container">
+      <div class="icon-box">📞</div>
+      <input type="tel" id="regPhoneNumber" placeholder="Phone Number (###-###-####)">
+    </div>
+
+    <div class="input-container">
       <div class="icon-box">🔒</div>
       <input type="password" id="regPassword" placeholder="Password">
     </div>
@@ -334,13 +339,14 @@
       const username = document.getElementById('regUsername').value;
       const email = document.getElementById('regEmail').value;
       const age = document.getElementById('regAge').value;
+      const phoneNumber = document.getElementById('regPhoneNumber').value;
       const password = document.getElementById('regPassword').value;
       const confirm = document.getElementById('regConfirmPassword').value;
       const errorEl = document.getElementById('regError');
       errorEl.style.display = 'none';
       if (password !== confirm) { errorEl.innerText = 'Passwords do not match'; errorEl.style.display = 'block'; return; }
 
-      const data = { username, email, age, password }; // Matches RegisterDTO
+      const data = { username, email, age, password, phoneNumber }; // Matches RegisterDTO
       try {
         const res = await fetch('/api/register', {
           method: 'POST',
