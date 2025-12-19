@@ -97,4 +97,7 @@ public abstract class Account {
                 UID, fullName, email, createdAt
         );
     }
+
+    public void attachFinance(Map<String, Finance> finance) {
+    }
 }
