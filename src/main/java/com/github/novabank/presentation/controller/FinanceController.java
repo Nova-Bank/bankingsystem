@@ -1,8 +1,7 @@
 package com.github.novabank.presentation.controller;
 
-import com.github.novabank.application.dtos.CreditApplicationDTO;
-import com.github.novabank.application.dtos.CreditScoreDTO;
-import com.github.novabank.application.dtos.PaymentDTO;
+import com.github.novabank.presentation.dtos.CreditApplicationDTO;
+import com.github.novabank.presentation.dtos.PaymentDTO;
 import com.github.novabank.infrastructure.CachedSearchService;
 import com.github.novabank.infrastructure.RecentTransactions;
 import com.github.novabank.infrastructure.SearchTransactions;
@@ -11,7 +10,6 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/api/finance")
@@ -51,21 +49,15 @@ public class FinanceController {
 
     @PostMapping("/credit/apply")
     public ResponseEntity<String> applyForCredit(@Valid @RequestBody CreditApplicationDTO dto) {
-        log.info("Credit application by user={} type={} limit={}",
-                dto.getUsername(), dto.getApplicationType(), dto.getRequestedLimit());
+        log.info("Credit application user={} type={} limit={} cardType={}",
+                dto.getUsername(), dto.getApplicationType(), dto.getRequestedLimit(), dto.getCardType());
         return ResponseEntity.ok("Credit application submitted");
-    }
-
-    @PostMapping("/credit/score")
-    public ResponseEntity<String> creditScore(@Valid @RequestBody CreditScoreDTO dto) {
-        log.info("Credit score request user={} type={}", dto.getUsername(), dto.getRequestType());
-        return ResponseEntity.ok("Credit score request submitted");
     }
 
     @PostMapping("/payment")
     public ResponseEntity<String> payment(@Valid @RequestBody PaymentDTO dto) {
-        log.info("Payment request username={} from={} to={} amount={}",
-                dto.getUsername(), dto.getPaymentFrom(), dto.getPaymentTo(), dto.getAmount());
+        log.info("Payment request username={} from={} to={} amount={} type={}",
+                dto.getUsername(), dto.getPaymentFrom(), dto.getPaymentTo(), dto.getAmount(), dto.getPaymentType());
         return ResponseEntity.ok("Payment processed");
     }
 }

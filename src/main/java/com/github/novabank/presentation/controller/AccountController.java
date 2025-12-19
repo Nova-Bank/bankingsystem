@@ -1,7 +1,7 @@
 package com.github.novabank.presentation.controller;
 
+import com.github.novabank.presentation.dtos.TransferDTO;
 import com.github.novabank.application.dtos.AccountHistoryDTO;
-import com.github.novabank.application.dtos.TransferDTO;
 import com.github.novabank.infrastructure.RecentTransactions;
 import com.github.novabank.infrastructure.SearchTransactions;
 import com.github.novabank.utils.LogFactory;
@@ -10,9 +10,6 @@ import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * REST controller responsible for account-related API endpoints.
- */
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
@@ -32,26 +29,21 @@ public class AccountController {
     }
 
     @GetMapping("/{accountId}/transactions")
-    public ResponseEntity<RecentTransactions> getRecentTransactions(
-            @PathVariable String accountId) {
-
+    public ResponseEntity<RecentTransactions> getRecentTransactions(@PathVariable String accountId) {
         log.info("Fetching recent transactions for accountId={}", accountId);
-        RecentTransactions transactions = searchTransactions.search(accountId);
-        return ResponseEntity.ok(transactions);
+        return ResponseEntity.ok(searchTransactions.search(accountId));
     }
 
     @PostMapping("/history")
     public ResponseEntity<String> getAccountHistory(@Valid @RequestBody AccountHistoryDTO dto) {
         log.info("Account history request for username={}", dto.getUsername());
-        // You will later call service.getHistory(dto)
         return ResponseEntity.ok("History for " + dto.getUsername());
     }
 
     @PostMapping("/transfer")
     public ResponseEntity<String> transferFunds(@Valid @RequestBody TransferDTO dto) {
-        log.info("Transfer request from={} to={} amount={}",
-                dto.getSourceAccountId(), dto.getTargetAccountId(), dto.getAmount());
-        // Placeholder
+        log.info("Transfer request username={} from={} to={} amount={}",
+                dto.getUsername(), dto.getFromAccount(), dto.getToAccount(), dto.getAmount());
         return ResponseEntity.ok("Transfer of " + dto.getAmount() + " initiated");
     }
 }
