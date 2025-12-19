@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * RegisterDTO for creating new accounts.
  */
-public class RegisterDTO {
+public class RegisterResult {
 
     /** Full name of the user */
     @NotBlank(message = "Full name is required")

@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotBlank;
  * a credit score check or credit-related action based
  * on a username and request type.
  */
-public class CreditScoreDTO {
+public class CreditScoreResult {
 
     /**
      * The username of the account holder.

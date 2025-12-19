@@ -1,6 +1,7 @@
 package com.github.novabank.presentation.controller;
 
-import com.github.novabank.application.dtos.AccountHistoryDTO;
+import com.github.novabank.application.dtos.AccountHistoryResult;
+import com.github.novabank.application.dtos.TransferResult;
 import com.github.novabank.infrastructure.RecentTransactions;
 import com.github.novabank.infrastructure.SearchTransactions;
 import com.github.novabank.utils.LogFactory;
@@ -34,13 +35,13 @@ public class AccountController {
     }
 
     @PostMapping("/history")
-    public ResponseEntity<String> getAccountHistory(@Valid @RequestBody AccountHistoryDTO dto) {
+    public ResponseEntity<String> getAccountHistory(@Valid @RequestBody AccountHistoryResult dto) {
         log.info("Account history request for username={}", dto.getUsername());
         return ResponseEntity.ok("History for " + dto.getUsername());
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<String> transferFunds(@Valid @RequestBody TransferDTO dto) {
+    public ResponseEntity<String> transferFunds(@Valid @RequestBody TransferResult dto) {
         log.info("Transfer request username={} from={} to={} amount={}",
                 dto.getUsername(), dto.getFromAccount(), dto.getToAccount(), dto.getAmount());
         return ResponseEntity.ok("Transfer of " + dto.getAmount() + " initiated");

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 /**
  * TransferDTO represents a money transfer between accounts.
  */
-public class TransferDTO {
+public class TransferResult {
 
     /** UID of the source account */
     private int sourceAccountId;
@@ -25,11 +25,11 @@ public class TransferDTO {
     /** Status of the transfer */
     private String status; // Could be "PENDING", "COMPLETED", "FAILED"
 
-    public TransferDTO() {
+    public TransferResult() {
         // default constructor for serialization
     }
 
-    public TransferDTO(int sourceAccountId, int targetAccountId, int amount,
+    public TransferResult(int sourceAccountId, int targetAccountId, int amount,
                        String currency, LocalDateTime timestamp, String status) {
         this.sourceAccountId = sourceAccountId;
         this.targetAccountId = targetAccountId;

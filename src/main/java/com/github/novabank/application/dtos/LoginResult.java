@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 /**
  * DTO for login requests.
  */
-public class LoginDTO {
+public class LoginResult {
 
     /**
      * The email of the account.

@@ -48,7 +48,7 @@ public class FinanceController {
     }
 
     @PostMapping("/credit/apply")
-    public ResponseEntity<String> applyForCredit(@Valid @RequestBody CreditApplicationDTO dto) {
+    public ResponseEntity<String> applyForCredit(@Valid @RequestBody CreditApplicationResult dto) {
         log.info("Credit application user={} type={} limit={} cardType={}",
                 dto.getUsername(), dto.getApplicationType(), dto.getRequestedLimit(), dto.getCardType());
         return ResponseEntity.ok("Credit application submitted");

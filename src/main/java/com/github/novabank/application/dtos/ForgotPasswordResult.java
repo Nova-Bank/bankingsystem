@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size;
  * This DTO is typically used when a user has forgotten their
  * password and wants to set a new one by providing their username.
  */
-public class ForgotPasswordDTO {
+public class ForgotPasswordResult {
 
     /**
      * The username of the account requesting a password reset.

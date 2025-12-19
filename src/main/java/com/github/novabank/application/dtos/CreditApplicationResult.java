@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 /**
  * DTO for submitting a credit/credit card application.
  */
-public class CreditApplicationDTO {
+public class CreditApplicationResult {
 
     @NotBlank
     private String username;

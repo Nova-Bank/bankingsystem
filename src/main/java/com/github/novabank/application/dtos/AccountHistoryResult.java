@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
  * This DTO is typically used when the client requests
  * transaction or account activity history based on a username.
  */
-public class AccountHistoryDTO {
+public class AccountHistoryResult {
 
     /**
      * The username of the account holder.

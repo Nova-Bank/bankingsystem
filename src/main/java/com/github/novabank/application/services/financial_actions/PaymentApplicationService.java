@@ -1,4 +1,4 @@
-package com.github.novabank.application.services.financal_actions;
+package com.github.novabank.application.services.financial_actions;
 
 import com.github.novabank.application.dtos.PaymentResult;
 import com.github.novabank.application.financal_actions.MakePayment;
