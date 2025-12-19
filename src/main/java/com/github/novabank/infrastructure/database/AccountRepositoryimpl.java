@@ -161,4 +161,22 @@ public class AccountRepositoryimpl implements AccountRepository {
                     .build();
         }
     }
+
+
+    @Override
+    public Account get(int accountId) throws IOException, ExecutionException, InterruptedException {
+        FirebaseConfig firebaseConfig = new FirebaseConfig();
+        firebaseConfig.initialize();
+        Firestore db = firebaseConfig.getFirestore();
+
+        CollectionReference accounts = db.collection("accounts");
+        Query query = accounts.whereEqualTo("UID", accountId);
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+        if (documents.isEmpty()) {
+            return null;
+        }
+        return documentToAccount(documents.get(0));
+    }
 }

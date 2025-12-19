@@ -1,4 +1,4 @@
-package com.github.novabank.application.services.customer_accounts;
+package com.github.novabank.application.services.financial_actions;
 
 public class PaymentHandler {
     

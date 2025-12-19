@@ -1,6 +1,4 @@
 package com.github.novabank.domain.finance.finance_accounts;
-import com.github.novabank.domain.finance.finance_accounts.CreditScoreRepository;
-import com.github.novabank.domain.finance.finance_accounts.MonthlySnapshot;
 
 import java.time.YearMonth;
 import java.util.HashMap;
