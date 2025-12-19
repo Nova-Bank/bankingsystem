@@ -1,5 +1,8 @@
 package com.github.novabank.application.customer_accounts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.novabank.domain.account.account_creation.AdultAccountBuilder;
 import com.github.novabank.domain.account.account_creation.ChildAccountBuilder;
 import com.github.novabank.domain.account.account_creation.ValidationResult;
@@ -7,9 +10,6 @@ import com.github.novabank.domain.account.accounts.Account;
 import com.github.novabank.domain.account.accounts.AdultAccount;
 import com.github.novabank.domain.account.accounts.ChildAccount;
 import com.github.novabank.infrastructure.database.AccountRepositoryimpl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChangePassword {
 

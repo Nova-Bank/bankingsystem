@@ -20,6 +20,23 @@ import java.util.concurrent.ExecutionException;
 public class AccountRepositoryimpl implements AccountRepository {
 
     @Override
+    public Account findById(int uid) throws IOException, ExecutionException, InterruptedException {
+        FirebaseConfig firebaseConfig = new FirebaseConfig();
+        firebaseConfig.initialize();
+        Firestore db = firebaseConfig.getFirestore();
+
+        CollectionReference accounts = db.collection("accounts");
+        Query query = accounts.whereEqualTo("UID", uid);
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+        if (documents.isEmpty()) {
+            return null;
+        }
+        return documentToAccount(documents.get(0));
+    }
+
+    @Override
     public void create(Account account) {
         try {
             FirebaseConfig firebaseConfig = new FirebaseConfig();
@@ -139,6 +156,11 @@ public class AccountRepositoryimpl implements AccountRepository {
         return List.of();
     }
 
+    @Override
+    public List<Account> loadAll() {
+        return List.of();
+    }
+
     private Account documentToAccount(QueryDocumentSnapshot document) {
         Map<String, Object> data = document.getData();
         boolean isChild = (boolean) data.getOrDefault("child", false);
@@ -160,23 +182,5 @@ public class AccountRepositoryimpl implements AccountRepository {
                     .setPassword((String) data.get("password"))
                     .build();
         }
-    }
-
-
-    @Override
-    public Account get(int accountId) throws IOException, ExecutionException, InterruptedException {
-        FirebaseConfig firebaseConfig = new FirebaseConfig();
-        firebaseConfig.initialize();
-        Firestore db = firebaseConfig.getFirestore();
-
-        CollectionReference accounts = db.collection("accounts");
-        Query query = accounts.whereEqualTo("UID", accountId);
-        ApiFuture<QuerySnapshot> querySnapshot = query.get();
-
-        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
-        if (documents.isEmpty()) {
-            return null;
-        }
-        return documentToAccount(documents.get(0));
     }
 }
