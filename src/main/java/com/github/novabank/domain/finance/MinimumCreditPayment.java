@@ -1,4 +1,4 @@
-package com.github.novabank.application.financal_actions;
+package com.github.novabank.domain.finance;
 
 import com.github.novabank.domain.finance.finance_accounts.Finance;
 import com.github.novabank.domain.finance.finance_accounts.Credit;
