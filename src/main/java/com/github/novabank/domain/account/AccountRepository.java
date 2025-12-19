@@ -22,6 +22,10 @@ Account is the Plug/Contract between the Domain layer & the infrastructure (Data
  */
 public interface AccountRepository {
 
+    Account findByUsername(String username);
+
+    Account findById(int uid);
+
     void create(Account account);
     
     Map<String, Object> read(Account account) throws IOException, InterruptedException, ExecutionException;    
@@ -39,4 +43,6 @@ public interface AccountRepository {
     List<Account> loadAll();
 
     Account get(int accountId);
+
+    void save(Account account);
 }
