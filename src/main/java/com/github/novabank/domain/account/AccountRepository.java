@@ -35,4 +35,6 @@ public interface AccountRepository {
     Account findByPhoneNumber(String phoneNumber) throws IOException, ExecutionException, InterruptedException;
 
     List<Account> findAll();
+
+    List<Account> loadAll();
 }

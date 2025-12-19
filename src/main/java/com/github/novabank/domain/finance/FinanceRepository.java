@@ -1,5 +1,6 @@
 package com.github.novabank.domain.finance;
 
+import java.util.Map;
 import java.util.Optional;
 
 import com.github.novabank.domain.finance.finance_accounts.Finance;
@@ -10,4 +11,6 @@ public interface FinanceRepository {
     Optional<Finance> find(String accountUid, FinanceType type);
     boolean exists(String accountUid, FinanceType type);
     int getNetPositionCentsForAccount(int accountUid);
+
+    Map<String, Finance> loadForAccount(int uid);
 }
