@@ -37,4 +37,6 @@ public interface AccountRepository {
     List<Account> findAll();
 
     List<Account> loadAll();
+
+    Account get(int accountId);
 }
