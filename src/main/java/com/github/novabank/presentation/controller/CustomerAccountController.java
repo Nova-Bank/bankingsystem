@@ -5,6 +5,8 @@ import com.github.novabank.application.dtos.LoginResult;
 import com.github.novabank.application.services.customer_accounts.LoginApplicationService;
 import com.github.novabank.application.services.customer_accounts.RegisterApplicationService;
 import com.github.novabank.application.services.financial_actions.GetBalancesApplicationService;
+import com.github.novabank.application.services.financial_actions.TransferApplicationService;
+import com.github.novabank.presentation.dtos.FrontendTransferRequest;
 import com.github.novabank.presentation.dtos.LoginRequest;
 import com.github.novabank.presentation.dtos.RegisterRequest;
 import org.springframework.http.HttpStatus;
@@ -20,13 +22,16 @@ public class CustomerAccountController {
     private final RegisterApplicationService registerApplicationService;
     private final LoginApplicationService loginApplicationService;
     private final GetBalancesApplicationService getBalancesApplicationService;
+    private final TransferApplicationService transferApplicationService;
 
     public CustomerAccountController(RegisterApplicationService registerApplicationService,
                                      LoginApplicationService loginApplicationService,
-                                     GetBalancesApplicationService getBalancesApplicationService) {
+                                     GetBalancesApplicationService getBalancesApplicationService,
+                                     TransferApplicationService transferApplicationService) {
         this.registerApplicationService = registerApplicationService;
         this.loginApplicationService = loginApplicationService;
         this.getBalancesApplicationService = getBalancesApplicationService;
+        this.transferApplicationService = transferApplicationService;
     }
 
     @PostMapping("/register")
@@ -50,6 +55,35 @@ public class CustomerAccountController {
             return ResponseEntity.ok(new LoginSuccessResponse(true, balances));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(new GenericResponse(false, "Server error: " + e.getMessage()));
+        }
+    }
+
+    @GetMapping("/get-balances")
+    public ResponseEntity<?> getBalances(@RequestParam String username) {
+        try {
+            Map<String, Double> balances = getBalancesApplicationService.execute(username);
+            if (balances == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(new LoginSuccessResponse(true, balances));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new GenericResponse(false, "Server error: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<?> transfer(@RequestBody FrontendTransferRequest request) {
+        try {
+            transferApplicationService.transferBetweenOwnAccounts(
+                    request.getUsername(),
+                    request.getFromAccount(),
+                    request.getToAccount(),
+                    request.getAmount()
+            );
+            Map<String, Double> balances = getBalancesApplicationService.execute(request.getUsername());
+            return ResponseEntity.ok(new LoginSuccessResponse(true, balances));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new GenericResponse(false, "Transfer failed: " + e.getMessage()));
         }
     }
 

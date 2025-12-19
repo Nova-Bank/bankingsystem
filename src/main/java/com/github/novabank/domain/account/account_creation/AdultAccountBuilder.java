@@ -18,6 +18,8 @@ import java.util.Map;
  * @since 2025-11-14
  */
 public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
+    private int uid;
+    private LocalDate createdAt;
     private String email;
     private String password;
     private String fullName;
@@ -25,7 +27,16 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
     private String phoneNumber;
     private Map<String, Finance> financeProducts = new HashMap<>();
 
-    
+    public AdultAccountBuilder setUID(int uid) {
+        this.uid = uid;
+        return this;
+    }
+
+    public AdultAccountBuilder setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
     public AdultAccountBuilder setEmail(String email) {
         this.email = email;
         return this;
@@ -50,7 +61,7 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
     @Override
     // This will need to be changed in the future
     public AccountBuilder<AdultAccount> addFinanceProduct(Finance financeProduct) {
-        this.financeProducts.put(financeProduct.getClass().getSimpleName(), financeProduct);
+        this.financeProducts.put(financeProduct.getClass().getSimpleName().toLowerCase(), financeProduct);
         return this;
     }
 
@@ -60,12 +71,18 @@ public class AdultAccountBuilder implements AccountBuilder<AdultAccount> {
         if (!result.isValid()) {
             throw new IllegalArgumentException("Validation failed: " + String.join(", ", result.getErrors()));
         }
+        if (uid != 0) {
+            return new AdultAccount(uid, createdAt, email, password, fullName,
+                    dateOfBirth, phoneNumber, financeProducts);
+        }
         return new AdultAccount(email, password, fullName,
                 dateOfBirth, phoneNumber, financeProducts);
     }
     
     @Override
     public void reset() {
+        this.uid = 0;
+        this.createdAt = null;
         this.email = null;
         this.password = null;
         this.fullName = null;

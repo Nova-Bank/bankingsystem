@@ -121,14 +121,14 @@ import java.time.LocalDate;
         if(amount > sender.getBalance()) {
             throw new IllegalArgumentException("Insufficient balance");
         }
-        if (amount + dailyTransferLimit > balance)  {
-            throw new IllegalArgumentException("You have reached the daily trasnfer limit");
-        }else{
+        if (amount + sender.getAmountSpentToday() > sender.getDailyTransferLimit())  {
+            throw new IllegalArgumentException("You have reached the daily transfer limit");
+        } else {
             sender.setBalance(sender.getBalance() - amount);
             reciever.setBalance(reciever.getBalance() + amount);
+            sender.setAmountSpentToday(sender.getAmountSpentToday() + amount);
             return true;
         }
-
     }
     /* 
      * add abstract methods, 

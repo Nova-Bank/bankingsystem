@@ -2,6 +2,9 @@ package com.github.novabank.application.services.financial_actions;
 
 import com.github.novabank.application.dtos.TransferResult;
 import com.github.novabank.application.financal_actions.TransferUseCase;
+import com.github.novabank.domain.account.AccountRepository;
+import com.github.novabank.domain.account.accounts.Account;
+import com.github.novabank.domain.finance.finance_accounts.Finance;
 import com.github.novabank.domain.finance.finance_accounts.FinanceType;
 import com.github.novabank.presentation.dtos.TransferRequest;
 import org.springframework.stereotype.Service;
@@ -17,9 +20,39 @@ import java.time.LocalDateTime;
 public class TransferApplicationService {
 
     private final TransferUseCase transferUseCase;
+    private final AccountRepository accountRepository;
 
-    public TransferApplicationService(TransferUseCase transferUseCase) {
+    public TransferApplicationService(TransferUseCase transferUseCase, AccountRepository accountRepository) {
         this.transferUseCase = transferUseCase;
+        this.accountRepository = accountRepository;
+    }
+
+    public void transferBetweenOwnAccounts(String username, String fromAccount, String toAccount, double amount) throws Exception {
+        Account account = accountRepository.findByEmail(username);
+        if (account == null) {
+            throw new IllegalStateException("Account not found for email: " + username);
+        }
+
+        String fromAccountKey = fromAccount.toLowerCase();
+        String toAccountKey = toAccount.toLowerCase();
+
+        Finance from = account.getFinanceProducts().get(fromAccountKey);
+        Finance to = account.getFinanceProducts().get(toAccountKey);
+
+        if (from == null) {
+            throw new IllegalStateException("Source account not found: " + fromAccount);
+        }
+        if (to == null) {
+            throw new IllegalStateException("Destination account not found: " + toAccount);
+        }
+
+        int amountInCents = (int) (amount * 100);
+
+        from.transfer(from, to, amountInCents, LocalDate.now());
+
+        // Update balances in Firestore
+        accountRepository.update(account, "accounts." + fromAccountKey + ".balance", from.getBalance());
+        accountRepository.update(account, "accounts." + toAccountKey + ".balance", to.getBalance());
     }
 
     public TransferResult execute(TransferRequest request) {

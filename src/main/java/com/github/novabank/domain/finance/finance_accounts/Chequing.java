@@ -27,6 +27,10 @@ public class Chequing extends Finance {
         this.lastInterestApplied = null;
     }
 
+    public double getInterestRate() {
+        return this.interestRate;
+    }
+
     // Convenience constructor (used by factory + tests)
     public Chequing(
             int balance,

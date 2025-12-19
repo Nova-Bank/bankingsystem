@@ -232,7 +232,7 @@
       <div class="form-group">
         <label>From:</label>
         <select id="fromAccount">
-          <option value="checking">Checking</option>
+          <option value="chequing">Chequing</option>
           <option value="savings">Savings</option>
         </select>
       </div>
@@ -240,7 +240,7 @@
       <div class="form-group">
         <label>To:</label>
         <select id="toAccount">
-          <option value="checking">Checking</option>
+          <option value="chequing">Chequing</option>
           <option value="savings">Savings</option>
         </select>
       </div>
@@ -291,7 +291,7 @@
     function formatCurrency(amount) { return '$' + Number(amount).toFixed(2); }
 
     function updateBalances(balances) {
-      document.getElementById('checkingBalance').innerText = formatCurrency(balances.checking);
+      document.getElementById('checkingBalance').innerText = formatCurrency(balances.chequing);
       document.getElementById('savingsBalance').innerText = formatCurrency(balances.savings);
       if (balances.credit) {
         document.getElementById('creditCard').style.display = 'block';
@@ -375,9 +375,10 @@
       const from = document.getElementById('fromAccount').value;
       const to = document.getElementById('toAccount').value;
       const amount = parseFloat(document.getElementById('transferAmount').value);
+      const username = localStorage.getItem('username');
       if (from === to) { alert('Cannot transfer to the same account'); return; }
       if (isNaN(amount) || amount <= 0) { alert('Enter a valid amount'); return; }
-      const data = { fromAccount: from, toAccount: to, amount }; // TransferDTO
+      const data = { fromAccount: from, toAccount: to, amount, username }; // TransferDTO
 
       try {
         const res = await fetch('/api/transfer', {

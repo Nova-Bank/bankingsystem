@@ -41,13 +41,13 @@ class ChequingTest{
         assertEquals(1000, validCheq.getDailyTransferLimit());
     }
 
-//     @Test
-//    @DisplayName("Chequing Interest should increase Balance")
-//    void testInterest(){
-//        int initial = validCheq.getBalance();
-//        validCheq.interest();
-//        assertEquals(validCheq.getBalance(), Math.round(initial*(1+validCheq.getInterestRate())));
-//    }
+     @Test
+    @DisplayName("Chequing Interest should increase Balance")
+    void testInterest(){
+        int initial = validCheq.getBalance();
+        validCheq.interest();
+        assertEquals(validCheq.getBalance(), Math.round(initial*(1+validCheq.getInterestRate())));
+    }
 
     @Test
     @DisplayName("Chequing Account after Interest should remain 0")
