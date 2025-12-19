@@ -25,25 +25,32 @@ public class AccountController {
     @GetMapping("/{accountId}")
     public ResponseEntity<String> getAccount(@PathVariable String accountId) {
         log.info("Fetching account details for accountId={}", accountId);
+        // Ideally this should call an AccountService to fetch account info
         return ResponseEntity.ok("Account details for " + accountId);
     }
 
     @GetMapping("/{accountId}/transactions")
     public ResponseEntity<RecentTransactions> getRecentTransactions(@PathVariable String accountId) {
         log.info("Fetching recent transactions for accountId={}", accountId);
-        return ResponseEntity.ok(searchTransactions.search(accountId));
+        RecentTransactions transactions = searchTransactions.search(accountId);
+        return ResponseEntity.ok(transactions);
     }
 
-    @PostMapping("/history")
-    public ResponseEntity<String> getAccountHistory(@Valid @RequestBody AccountHistoryResult dto) {
-        log.info("Account history request for username={}", dto.getUsername());
-        return ResponseEntity.ok("History for " + dto.getUsername());
-    }
+    
 
     @PostMapping("/transfer")
     public ResponseEntity<String> transferFunds(@Valid @RequestBody TransferResult dto) {
-        log.info("Transfer request username={} from={} to={} amount={}",
-                dto.getUsername(), dto.getFromAccount(), dto.getToAccount(), dto.getAmount());
-        return ResponseEntity.ok("Transfer of " + dto.getAmount() + " initiated");
+        log.info("Transfer request from={} to={} amount={} currency={}",
+                dto.getSourceAccountId(),
+                dto.getTargetAccountId(),
+                dto.getAmount(),
+                dto.getCurrency());
+
+        // Here you should call your TransferApplicationService
+        // Example:
+        // TransferResult result = transferService.execute(dto);
+
+        return ResponseEntity.ok("Transfer of " + dto.getAmount() + " from account " +
+                dto.getSourceAccountId() + " to account " + dto.getTargetAccountId() + " initiated");
     }
 }

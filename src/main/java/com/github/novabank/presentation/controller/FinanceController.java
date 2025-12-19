@@ -1,10 +1,9 @@
 package com.github.novabank.presentation.controller;
 
-import com.github.novabank.presentation.dtos.CreditApplicationDTO;
-import com.github.novabank.presentation.dtos.PaymentDTO;
+import com.github.novabank.application.dtos.CreditApplicationResult;
 import com.github.novabank.infrastructure.CachedSearchService;
-import com.github.novabank.infrastructure.RecentTransactions;
 import com.github.novabank.infrastructure.SearchTransactions;
+import com.github.novabank.presentation.dtos.PaymentRequest;
 import com.github.novabank.utils.LogFactory;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -32,32 +31,19 @@ public class FinanceController {
         return ResponseEntity.ok("Financial summary");
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<RecentTransactions> search(@RequestParam String query) {
-        log.info("Searching transactions with query={}", query);
-
-        Object cachedResult = cache.get(query);
-        if (cachedResult != null) {
-            log.info("Returning cached search result");
-            return ResponseEntity.ok((RecentTransactions) cachedResult);
-        }
-
-        RecentTransactions result = searchTransactions.search(query);
-        cache.put(query, result);
-        return ResponseEntity.ok(result);
-    }
-
     @PostMapping("/credit/apply")
     public ResponseEntity<String> applyForCredit(@Valid @RequestBody CreditApplicationResult dto) {
         log.info("Credit application user={} type={} limit={} cardType={}",
                 dto.getUsername(), dto.getApplicationType(), dto.getRequestedLimit(), dto.getCardType());
+
         return ResponseEntity.ok("Credit application submitted");
     }
 
     @PostMapping("/payment")
-    public ResponseEntity<String> payment(@Valid @RequestBody PaymentDTO dto) {
-        log.info("Payment request username={} from={} to={} amount={} type={}",
-                dto.getUsername(), dto.getPaymentFrom(), dto.getPaymentTo(), dto.getAmount(), dto.getPaymentType());
+    public ResponseEntity<String> payment(@Valid @RequestBody PaymentRequest dto) {
+        log.info("Payment request from={} to={} amount={} type={}",
+                dto.getPaymentFrom(), dto.getPaymentTo(), dto.getAmount(), dto.getPaymentType());
+
         return ResponseEntity.ok("Payment processed");
     }
 }
