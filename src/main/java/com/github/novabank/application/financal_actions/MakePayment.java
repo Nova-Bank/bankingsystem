@@ -1,46 +1,47 @@
-package com.github.novabank.application.services;
+package com.github.novabank.application.financal_actions;
 
-import com.github.novabank.application.dtos.PaymentResult;
+import com.github.novabank.domain.finance.FinanceRepository;
+
+import com.github.novabank.domain.finance.finance_accounts.Finance;
 import com.github.novabank.domain.finance.finance_accounts.FinanceType;
-import com.github.novabank.application.financal_actions.MakePayment;
-import com.github.novabank.presentation.dtos.PaymentRequest;
+import com.github.novabank.domain.finance.finance_accounts.Credit;
 
-import java.math.BigDecimal;
+public class MakePayment {
 
-public class PaymentApplicationService {
+    private final FinanceRepository financeRepository;
 
-    private final MakePayment makePayment;
-
-    public PaymentApplicationService(MakePayment makePayment) {
-        this.makePayment = makePayment;
+    public MakePayment(FinanceRepository financeRepository) {
+        this.financeRepository = financeRepository;
     }
 
-    public PaymentResult handle(PaymentRequest request) {
+    public int execute(
+            String payerAccountUid,
+            FinanceType payerType,
+            String creditOwnerAccountUid,
+            int amountCents
+    ) {
+        if (amountCents <= 0) {
+            throw new IllegalStateException("amountCents must be greater than 0");
+        }
 
-        // Convert money safely
-        int amountCents = request.getAmount()
-                .multiply(BigDecimal.valueOf(100))
-                .intValueExact();
+        Finance payer = financeRepository.find(payerAccountUid, payerType)
+                .orElseThrow(() -> new IllegalStateException("Payer finance not found for accountUid=" + payerAccountUid + " type=" + payerType));
 
-        // TEMP assumption: paymentFrom maps to account UID
-        // If this mapping changes later, ONLY this class changes
-        String payerAccountUid = request.getPaymentFrom();
-        String creditOwnerAccountUid = request.getPaymentTo();
+        Finance creditFinance = financeRepository.find(creditOwnerAccountUid, FinanceType.CREDIT)
+                .orElseThrow(() -> new IllegalStateException("Credit finance not found for accountUid=" + creditOwnerAccountUid));
 
-        int updatedCreditBalance = makePayment.execute(
-                payerAccountUid,
-                FinanceType.CHEQUING,
-                creditOwnerAccountUid,
-                amountCents
-        );
+        if (!(creditFinance instanceof Credit)) {
+            throw new IllegalStateException("FinanceType.CREDIT is not a Credit instance");
+        }
 
-        return new PaymentResult(
-                request.getEmail(),
-                request.getPaymentFrom(),
-                request.getPaymentTo(),
-                request.getAmount(),
-                request.getPaymentType(),
-                updatedCreditBalance
-        );
+        Credit credit = (Credit) creditFinance;
+
+        payer.withdraw(amountCents);
+        credit.closeBalance(amountCents);
+
+        financeRepository.save(payerAccountUid, payerType, payer);
+        financeRepository.save(creditOwnerAccountUid, FinanceType.CREDIT, credit);
+
+        return credit.getBalance();
     }
 }
