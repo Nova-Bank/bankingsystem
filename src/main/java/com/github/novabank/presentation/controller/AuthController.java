@@ -1,5 +1,6 @@
 package com.github.novabank.presentation.controller;
 
+import com.github.novabank.application.dtos.ForgotPasswordResult;
 import com.github.novabank.presentation.dtos.LoginRequest;
 import com.github.novabank.presentation.dtos.RegisterRequest;
 import com.github.novabank.presentation.response.ApiError;
