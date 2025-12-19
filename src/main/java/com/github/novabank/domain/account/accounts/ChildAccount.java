@@ -12,6 +12,10 @@ public class ChildAccount extends Account {
 
     private AdultAccount parent;
 
+    public ChildAccount(int uid, LocalDate createdAt, String email, String password, String fullName, LocalDate dateOfBirth, String phoneNumber, Map<String, Finance> financeProducts) {
+        super(uid, createdAt, email, password, fullName, dateOfBirth, phoneNumber, financeProducts);
+    }
+
     public ChildAccount(String email, String password, String fullName, LocalDate dateOfBirth, String phoneNumber, Map<String, Finance> financeProducts) {
         super(email, password, fullName, dateOfBirth, phoneNumber, financeProducts);
     }

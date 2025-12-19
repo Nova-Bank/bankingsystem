@@ -4,12 +4,16 @@ import com.github.novabank.application.customer_accounts.RegisterCustomer;
 import com.github.novabank.application.dtos.RegisterResult;
 import com.github.novabank.domain.account.account_creation.AccountInfo;
 import com.github.novabank.domain.account.accounts.Account;
+import com.github.novabank.domain.finance.finance_accounts.Chequing;
 import com.github.novabank.domain.finance.finance_accounts.Finance;
+import com.github.novabank.domain.finance.finance_accounts.Savings;
+import com.github.novabank.domain.finance.finance_creation.ChequingBuilder;
+import com.github.novabank.domain.finance.finance_creation.SavingsBuilder;
 import com.github.novabank.presentation.dtos.RegisterRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,8 +46,22 @@ public class RegisterApplicationService {
                 request.getPhoneNumber()
         );
 
-        // No initial finance products or parent account
-        List<Finance> initialFinanceProducts = Collections.emptyList();
+        // Create default finance products
+        List<Finance> initialFinanceProducts = new ArrayList<>();
+        initialFinanceProducts.add(new ChequingBuilder()
+                .setBalance(10000)
+                .setDailyWithdrawalLimit(100000)
+                .setDailyPurchaseLimit(250000)
+                .setDailyTransferLimit(500000)
+                .build());
+        initialFinanceProducts.add(new SavingsBuilder()
+                .setBalance(0)
+                .setDailyWithdrawalLimit(100000)
+                .setDailyPurchaseLimit(0)
+                .setDailyTransferLimit(1000000)
+                .setInterestRate(1.5)
+                .build());
+
 
         Account createdAccount = registerCustomer.registerNewCustomer(info, initialFinanceProducts, null);
 

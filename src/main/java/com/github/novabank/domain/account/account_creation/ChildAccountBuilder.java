@@ -18,6 +18,8 @@ import java.util.Map;
  */
 public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
 
+    private int uid;
+    private LocalDate createdAt;
     private String email;   
     private String password; 
     private String fullName;
@@ -25,6 +27,15 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
     private String phoneNumber;
     private Map<String, Finance> financeProducts = new HashMap<>();
 
+    public ChildAccountBuilder setUID(int uid) {
+        this.uid = uid;
+        return this;
+    }
+
+    public ChildAccountBuilder setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
     
     public ChildAccountBuilder setEmail(String email){
         this.email = email;
@@ -49,7 +60,7 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
 
     @Override
     public AccountBuilder<ChildAccount> addFinanceProduct(Finance financeProduct) {
-        this.financeProducts.put(financeProduct.getClass().getSimpleName(), financeProduct);
+        this.financeProducts.put(financeProduct.getClass().getSimpleName().toLowerCase(), financeProduct);
         return this;
     }
 
@@ -59,11 +70,16 @@ public class ChildAccountBuilder implements AccountBuilder<ChildAccount> {
         if (!result.isValid()) {
             throw new IllegalArgumentException("Validation failed: " + String.join(", ", result.getErrors()));
         }
+        if (uid != 0) {
+            return new ChildAccount(uid, createdAt, email, password, fullName, dateOfBirth, phoneNumber, financeProducts);
+        }
         return new ChildAccount(email, password, fullName, dateOfBirth, phoneNumber, financeProducts);
     }
 
     @Override
     public void reset(){
+        this.uid = 0;
+        this.createdAt = null;
         this.email = null;
         this.password = null;
         this.fullName = null;

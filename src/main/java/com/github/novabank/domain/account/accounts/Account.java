@@ -25,6 +25,8 @@ public abstract class Account {
     private final Map<String, Finance> financeProducts;
 
     protected Account(
+            int uid,
+            LocalDate createdAt,
             String email,
             String password,
             String fullName,
@@ -32,9 +34,8 @@ public abstract class Account {
             String phoneNumber,
             Map<String, Finance> financeProducts
     ) {
-        this.UID = generateUID();
-        this.createdAt = LocalDate.now();
-
+        this.UID = uid;
+        this.createdAt = createdAt;
         this.email = email;
         this.password = password;
         this.fullName = fullName;
@@ -43,7 +44,18 @@ public abstract class Account {
         this.financeProducts = financeProducts;
     }
 
-    private int generateUID() {
+    protected Account(
+            String email,
+            String password,
+            String fullName,
+            LocalDate dateOfBirth,
+            String phoneNumber,
+            Map<String, Finance> financeProducts
+    ) {
+        this(generateUID(), LocalDate.now(), email, password, fullName, dateOfBirth, phoneNumber, financeProducts);
+    }
+
+    private static int generateUID() {
         return new Random().nextInt(900_000) + 100_000;
     }
 

@@ -46,13 +46,13 @@ public class SavingsBuilder implements FinanceBuilder<Savings> {
         if (balance < 0) {
             throw new IllegalStateException("balance less than 0");
         }
-        if (dailyWithdrawalLimit <= 0) {
+        if (dailyWithdrawalLimit < 0) {
             throw new IllegalStateException("dailyWithdrawalLimit less than 0");
         }
-        if (dailyPurchaseLimit <= 0) {
+        if (dailyPurchaseLimit < 0) {
             throw new IllegalStateException("dailyPurchaseLimit less than 0");
         }
-        if (dailyTransferLimit <= 0) {
+        if (dailyTransferLimit < 0) {
             throw new IllegalStateException("dailyTransferLimit less than 0");
         }
         if (interestRate <= 0){

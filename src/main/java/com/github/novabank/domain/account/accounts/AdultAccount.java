@@ -20,6 +20,11 @@ public class AdultAccount extends Account {
     
     private final List<ChildAccount> children = new ArrayList<>();
 
+    public AdultAccount(int uid, LocalDate createdAt, String email, String password, String fullName,
+                        LocalDate dateOfBirth, String phoneNumber, Map<String, Finance> financeProducts) {
+        super(uid, createdAt, email, password, fullName, dateOfBirth, phoneNumber, financeProducts);
+    }
+
     public AdultAccount(String email, String password, String fullName,
                         LocalDate dateOfBirth, String phoneNumber, Map<String, Finance> financeProducts) {
         super(email, password, fullName, dateOfBirth, phoneNumber, financeProducts);
