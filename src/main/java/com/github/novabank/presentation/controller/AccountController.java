@@ -1,6 +1,5 @@
 package com.github.novabank.presentation.controller;
 
-import com.github.novabank.presentation.dtos.TransferDTO;
 import com.github.novabank.application.dtos.AccountHistoryDTO;
 import com.github.novabank.infrastructure.RecentTransactions;
 import com.github.novabank.infrastructure.SearchTransactions;
