@@ -9,4 +9,5 @@ public interface FinanceRepository {
     void save(String accountUid, FinanceType type, Finance finance);
     Optional<Finance> find(String accountUid, FinanceType type);
     boolean exists(String accountUid, FinanceType type);
+    int getNetPositionCentsForAccount(int accountUid);
 }

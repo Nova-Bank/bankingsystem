@@ -1,9 +1,10 @@
-package com.github.novabank.application.services;
+package com.github.novabank.application.services.financal_actions;
 
-import com.github.novabank.application.dtos.PaymentResult;
-import com.github.novabank.domain.finance.finance_accounts.FinanceType;
+
 import com.github.novabank.application.financal_actions.MakePayment;
+import com.github.novabank.application.dtos.PaymentResult;
 import com.github.novabank.presentation.dtos.PaymentRequest;
+import com.github.novabank.domain.finance.finance_accounts.FinanceType;
 
 import java.math.BigDecimal;
 
@@ -17,20 +18,14 @@ public class PaymentApplicationService {
 
     public PaymentResult handle(PaymentRequest request) {
 
-        // Convert money safely
         int amountCents = request.getAmount()
                 .multiply(BigDecimal.valueOf(100))
                 .intValueExact();
 
-        // TEMP assumption: paymentFrom maps to account UID
-        // If this mapping changes later, ONLY this class changes
-        String payerAccountUid = request.getPaymentFrom();
-        String creditOwnerAccountUid = request.getPaymentTo();
-
         int updatedCreditBalance = makePayment.execute(
-                payerAccountUid,
-                FinanceType.CHEQUING,
-                creditOwnerAccountUid,
+                request.getPaymentFrom(),       // payer UID
+                FinanceType.CHEQUING,            // payer type
+                request.getPaymentTo(),          // credit owner UID
                 amountCents
         );
 
@@ -40,7 +35,9 @@ public class PaymentApplicationService {
                 request.getPaymentTo(),
                 request.getAmount(),
                 request.getPaymentType(),
+                -1, // payer balance unknown unless domain returns it
                 updatedCreditBalance
         );
     }
 }
+

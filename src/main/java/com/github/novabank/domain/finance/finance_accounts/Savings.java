@@ -3,32 +3,42 @@ package com.github.novabank.domain.finance.finance_accounts;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Clock;
+import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.Year;
-@Getter 
+@Getter
 @Setter
-public class Savings extends Finance{
-    private double interestRate;
-    private Year lastSeen;
+public class Savings extends Finance {
 
-    public Savings(int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, double interestRate) {
+    private final double interestRate;
+    private YearMonth lastInterestApplied;
+    private final Clock clock;
+
+    public Savings(int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, double interestRate, Clock clock) {
         super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
         this.interestRate = interestRate;
-        lastSeen = Year.now(ZoneId.of("America/Toronto"));
+        this.clock = clock;
+        this.lastInterestApplied = null;
     }
 
+    public Savings(int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, double interestRate) {
+        this(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit, interestRate,
+                Clock.system(ZoneId.of("America/Toronto")));
+    }
 
     @Override
     public void interest() {
-        Year now = Year.now(ZoneId.of("America/Toronto"));
-        if(!now.equals(lastSeen)){
-            balance = (int) Math.round((balance)*(1+interestRate));
-            lastSeen = now;
-        }
-    }
-    public double getInterestRate(){
-        return interestRate;
-    }
-    
+        YearMonth now = YearMonth.now(clock);
 
+        if (lastInterestApplied != null && now.equals(lastInterestApplied)) {
+            return;
+        }
+
+        if (balance > 0) {
+            balance = (int) Math.round(balance * (1 + interestRate));
+        }
+
+        lastInterestApplied = now;
+    }
 }
