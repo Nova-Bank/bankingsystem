@@ -21,19 +21,18 @@ public class Credit extends Finance {
             int dailyWithdrawalLimit,
             int dailyPurchaseLimit,
             int dailyTransferLimit,
-            int dailyTransferLimit2
+            int dailyTransferLimit2, Clock clock
     ) {
         super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+        this.clock = clock;
 
         if (creditLimit <= 0) throw new IllegalArgumentException("creditLimit must be > 0");
         if (creditInterestRate <= 0) throw new IllegalArgumentException("creditInterestRate must be > 0");
-        if (dailyTransferLimit2 == null) throw new IllegalArgumentException("clock is required");
 
         this.creditLimit = creditLimit;
         this.creditInterestRate = creditInterestRate;
         this.maximumBalanceWithoutInterest = (int) Math.round(creditLimit * 0.10);
 
-        this.clock = dailyTransferLimit2;
         this.lastInterestApplied = null;
     }
 

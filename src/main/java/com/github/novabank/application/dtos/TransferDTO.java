@@ -86,4 +86,13 @@ public class TransferResult {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public Object getUsername() {
+    }
+
+    public Object getFromAccount() {
+    }
+
+    public Object getToAccount() {
+    }
 }

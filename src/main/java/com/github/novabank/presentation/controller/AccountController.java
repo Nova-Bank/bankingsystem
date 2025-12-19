@@ -1,7 +1,7 @@
 package com.github.novabank.presentation.controller;
 
-import com.github.novabank.application.dtos.AccountHistoryResult;
-import com.github.novabank.application.dtos.TransferResult;
+import com.github.novabank.application.dtos.AccountHistoryDTO;
+import com.github.novabank.application.dtos.TransferDTO;
 import com.github.novabank.infrastructure.RecentTransactions;
 import com.github.novabank.infrastructure.SearchTransactions;
 import com.github.novabank.utils.LogFactory;
@@ -25,32 +25,25 @@ public class AccountController {
     @GetMapping("/{accountId}")
     public ResponseEntity<String> getAccount(@PathVariable String accountId) {
         log.info("Fetching account details for accountId={}", accountId);
-        // Ideally this should call an AccountService to fetch account info
         return ResponseEntity.ok("Account details for " + accountId);
     }
 
     @GetMapping("/{accountId}/transactions")
     public ResponseEntity<RecentTransactions> getRecentTransactions(@PathVariable String accountId) {
         log.info("Fetching recent transactions for accountId={}", accountId);
-        RecentTransactions transactions = searchTransactions.search(accountId);
-        return ResponseEntity.ok(transactions);
+        return ResponseEntity.ok(searchTransactions.search(accountId));
     }
 
-    
+    @PostMapping("/history")
+    public ResponseEntity<String> getAccountHistory(@Valid @RequestBody AccountHistoryDTO dto) {
+        log.info("Account history request for username={}", dto.getUsername());
+        return ResponseEntity.ok("History for " + dto.getUsername());
+    }
 
     @PostMapping("/transfer")
-    public ResponseEntity<String> transferFunds(@Valid @RequestBody TransferResult dto) {
-        log.info("Transfer request from={} to={} amount={} currency={}",
-                dto.getSourceAccountId(),
-                dto.getTargetAccountId(),
-                dto.getAmount(),
-                dto.getCurrency());
-
-        // Here you should call your TransferApplicationService
-        // Example:
-        // TransferResult result = transferService.execute(dto);
-
-        return ResponseEntity.ok("Transfer of " + dto.getAmount() + " from account " +
-                dto.getSourceAccountId() + " to account " + dto.getTargetAccountId() + " initiated");
+    public ResponseEntity<String> transferFunds(@Valid @RequestBody TransferDTO dto) {
+        log.info("Transfer request username={} from={} to={} amount={}",
+                dto.getUsername(), dto.getFromAccount(), dto.getToAccount(), dto.getAmount());
+        return ResponseEntity.ok("Transfer of " + dto.getAmount() + " initiated");
     }
 }
