@@ -1,8 +1,8 @@
-package com.github.novabank.application.services.financal_actions;
+package com.github.novabank.application.services;
 
-
-import com.github.novabank.application.financal_actions.MakePayment;
 import com.github.novabank.application.dtos.PaymentResult;
+import com.github.novabank.application.dtos.TransferResultDTO;
+import com.github.novabank.application.financal_actions.MakePayment;
 import com.github.novabank.presentation.dtos.PaymentRequest;
 import com.github.novabank.domain.finance.finance_accounts.FinanceType;
 
@@ -18,26 +18,30 @@ public class PaymentApplicationService {
 
     public PaymentResult handle(PaymentRequest request) {
 
+        // Convert the BigDecimal amount to cents for the domain use case
         int amountCents = request.getAmount()
                 .multiply(BigDecimal.valueOf(100))
                 .intValueExact();
 
-        int updatedCreditBalance = makePayment.execute(
-                request.getPaymentFrom(),       // payer UID
-                FinanceType.CHEQUING,            // payer type
-                request.getPaymentTo(),          // credit owner UID
+        // You’re intentionally choosing CHEQUING for payer (per your current logic)
+        String payerUid = request.getPaymentFrom();
+        String creditOwnerUid = request.getPaymentTo();
+
+        int updatedCreditBalanceCents = makePayment.execute(
+                payerUid,
+                FinanceType.CHEQUING, // payer account type
+                creditOwnerUid,
                 amountCents
         );
 
+        // Build and return a presentation/output DTO
         return new PaymentResult(
                 request.getEmail(),
                 request.getPaymentFrom(),
                 request.getPaymentTo(),
                 request.getAmount(),
                 request.getPaymentType(),
-                -1, // payer balance unknown unless domain returns it
-                updatedCreditBalance
+                updatedCreditBalanceCents
         );
     }
 }
-

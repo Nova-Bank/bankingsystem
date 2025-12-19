@@ -3,7 +3,8 @@ package com.github.novabank.presentation.dtos;
 import java.util.Objects;
 
 /**
- * Represents a registration request in the application layer.
+ * RegisterRequest represents a new account registration request
+ * coming from the front-end.
  */
 public class RegisterRequest {
 
@@ -13,18 +14,23 @@ public class RegisterRequest {
     private final int age;
     private final String accountType;
 
-    public RegisterRequest(String fullName, String email, String password, int age, String accountType) {
+    public RegisterRequest(String fullName,
+                           String email,
+                           String password,
+                           int age,
+                           String accountType) {
+
         if (fullName == null || fullName.isBlank()) {
             throw new IllegalArgumentException("Full name is required");
         }
         if (email == null || email.isBlank() || !email.contains("@")) {
             throw new IllegalArgumentException("Valid email is required");
         }
-        if (password == null || password.isBlank() || password.length() < 8) {
-            throw new IllegalArgumentException("Password is required and must be at least 8 characters");
+        if (password == null || password.length() < 8) {
+            throw new IllegalArgumentException("Password must be at least 8 characters");
         }
-        if (age < 1) {
-            throw new IllegalArgumentException("Age must be at least 1");
+        if (age <= 0) {
+            throw new IllegalArgumentException("Age must be positive");
         }
         if (accountType == null || accountType.isBlank()) {
             throw new IllegalArgumentException("Account type is required");
@@ -63,10 +69,10 @@ public class RegisterRequest {
         if (!(o instanceof RegisterRequest)) return false;
         RegisterRequest that = (RegisterRequest) o;
         return age == that.age &&
-                fullName.equals(that.fullName) &&
-                email.equals(that.email) &&
-                password.equals(that.password) &&
-                accountType.equals(that.accountType);
+               fullName.equals(that.fullName) &&
+               email.equals(that.email) &&
+               password.equals(that.password) &&
+               accountType.equals(that.accountType);
     }
 
     @Override
@@ -79,6 +85,7 @@ public class RegisterRequest {
         return "RegisterRequest{" +
                 "fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
+                ", password='[PROTECTED]'" +
                 ", age=" + age +
                 ", accountType='" + accountType + '\'' +
                 '}';

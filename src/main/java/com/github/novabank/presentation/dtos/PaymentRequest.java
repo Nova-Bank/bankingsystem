@@ -1,4 +1,4 @@
-package com.github.novabank.application.request;
+package com.github.novabank.presentation.dtos;
 
 import java.math.BigDecimal;
 import java.util.Objects;
