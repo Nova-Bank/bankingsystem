@@ -2,10 +2,13 @@ package com.github.novabank.application;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Service;
+
 import com.github.novabank.domain.finance.FinanceRepository;
 import com.github.novabank.domain.finance.finance_accounts.Finance;
 import com.github.novabank.domain.finance.finance_accounts.FinanceType;
 
+@Service
 public class FinanceService {
 
     private final FinanceRepository financeRepository;
@@ -16,7 +19,9 @@ public class FinanceService {
 
     private Finance mustGet(String accountUid, FinanceType type) {
         return financeRepository.find(accountUid, type)
-                .orElseThrow(() -> new IllegalStateException("Finance not found for accountUid=" + accountUid + " type=" + type));
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "Finance not found for accountUid=" + accountUid + " type=" + type));
     }
 
     public int deposit(String accountUid, FinanceType type, int amountCents) {

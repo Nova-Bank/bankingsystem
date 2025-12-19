@@ -13,4 +13,6 @@ public interface FinanceRepository {
     int getNetPositionCentsForAccount(int accountUid);
 
     Map<String, Finance> loadForAccount(int uid);
+
+    void save(int accountId, String key, Finance finance);
 }
