@@ -1,10 +1,10 @@
-package com.github.novabank.application.services;
+package com.github.novabank.application.services.financal_actions;
 
 import com.github.novabank.application.dtos.PaymentResult;
-import com.github.novabank.application.dtos.TransferResultDTO;
 import com.github.novabank.application.financal_actions.MakePayment;
-import com.github.novabank.presentation.dtos.PaymentRequest;
 import com.github.novabank.domain.finance.finance_accounts.FinanceType;
+import com.github.novabank.presentation.dtos.PaymentRequest;
+import com.github.novabank.application.dtos.PaymentResult;
 
 import java.math.BigDecimal;
 
@@ -41,7 +41,7 @@ public class PaymentApplicationService {
                 request.getPaymentTo(),
                 request.getAmount(),
                 request.getPaymentType(),
-                updatedCreditBalanceCents
+                updatedCreditBalanceCents, updatedCreditBalanceCents
         );
     }
 }
