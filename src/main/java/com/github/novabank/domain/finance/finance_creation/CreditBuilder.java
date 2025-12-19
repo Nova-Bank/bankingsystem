@@ -16,6 +16,7 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
     private int dailyWithdrawalLimit;
     private int dailyPurchaseLimit;
     private int dailyTransferLimit;
+    private int dailySpendingLimit;
 
     private Clock clock = Clock.system(ZoneId.of("America/Toronto"));
 
@@ -54,6 +55,10 @@ public class CreditBuilder implements FinanceBuilder<Credit> {
         return this;
     }
 
+    public CreditBuilder setDailySpendingLimit(int dailySpendingLimit) {
+        this.dailySpendingLimit = dailySpendingLimit;
+        return this;
+    }
     public CreditBuilder setClock(Clock clock) {
         this.clock = clock;
         return this;

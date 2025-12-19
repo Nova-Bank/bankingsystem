@@ -1,11 +1,12 @@
 package com.github.novabank.application.services.customer_accounts;
 
+import com.github.novabank.application.customer_accounts.RegisterCustomer;
 import com.github.novabank.application.dtos.RegisterResult;
-import com.github.novabank.presentation.dtos.RegisterRequest;
-import com.github.novabank.domain.account.account_creation.AccountFactory;
 import com.github.novabank.domain.account.account_creation.AccountInfo;
 import com.github.novabank.domain.account.accounts.Account;
 import com.github.novabank.domain.finance.finance_accounts.Finance;
+import com.github.novabank.presentation.dtos.RegisterRequest;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -15,7 +16,14 @@ import java.util.List;
  * Application service wrapping the customer registration process.
  * Accepts a front-end RegisterRequest and returns a RegisterResult DTO.
  */
+@Service
 public class RegisterApplicationService {
+
+    private final RegisterCustomer registerCustomer;
+
+    public RegisterApplicationService(RegisterCustomer registerCustomer) {
+        this.registerCustomer = registerCustomer;
+    }
 
     public RegisterResult execute(RegisterRequest request) throws Exception {
         if (request == null) {
@@ -31,13 +39,13 @@ public class RegisterApplicationService {
                 request.getPassword(),
                 request.getFullName(),
                 dateOfBirth,
-                null // no phone number from front-end request
+                "000-000-0000" // no phone number from front-end request, but it's required
         );
 
         // No initial finance products or parent account
         List<Finance> initialFinanceProducts = Collections.emptyList();
 
-        Account createdAccount = AccountFactory.createAccount(info, initialFinanceProducts, null);
+        Account createdAccount = registerCustomer.registerNewCustomer(info, initialFinanceProducts, null);
 
         // Map domain Account -> back-end DTO
         RegisterResult result = new RegisterResult();

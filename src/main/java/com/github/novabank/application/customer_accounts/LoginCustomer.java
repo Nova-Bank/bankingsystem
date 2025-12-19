@@ -1,19 +1,21 @@
 package com.github.novabank.application.customer_accounts;
 
+import com.github.novabank.domain.account.AccountRepository;
 import com.github.novabank.domain.account.accounts.Account;
-import com.github.novabank.infrastructure.database.AccountRepositoryimpl;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutionException;
 
 /**
  * Application service for handling customer login.
  */
+@Service
 public class LoginCustomer {
 
-    private final AccountRepositoryimpl repository;
+    private final AccountRepository repository;
 
-    public LoginCustomer() {
-        this.repository = new AccountRepositoryimpl();
+    public LoginCustomer(AccountRepository repository) {
+        this.repository = repository;
     }
 
     /**

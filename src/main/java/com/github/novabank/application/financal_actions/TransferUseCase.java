@@ -1,11 +1,13 @@
 package com.github.novabank.application.financal_actions;
 
-import java.time.LocalDate;
-
 import com.github.novabank.domain.finance.FinanceRepository;
 import com.github.novabank.domain.finance.finance_accounts.Finance;
 import com.github.novabank.domain.finance.finance_accounts.FinanceType;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
+@Service
 public class TransferUseCase {
 
     private final FinanceRepository financeRepository;
@@ -30,8 +32,10 @@ public class TransferUseCase {
 
         boolean ok = from.transfer(from, to, amountCents, date);
 
-        financeRepository.save(fromAccountUid, fromType, from);
-        financeRepository.save(toAccountUid, toType, to);
+        if (ok) {
+            financeRepository.save(fromAccountUid, fromType, from);
+            financeRepository.save(toAccountUid, toType, to);
+        }
 
         return ok;
     }

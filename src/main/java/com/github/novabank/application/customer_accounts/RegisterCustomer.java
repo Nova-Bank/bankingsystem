@@ -1,11 +1,13 @@
 package com.github.novabank.application.customer_accounts;
 
+import com.github.novabank.domain.account.AccountRepository;
 import com.github.novabank.domain.account.account_creation.AccountFactory;
 import com.github.novabank.domain.account.account_creation.AccountInfo;
 import com.github.novabank.domain.account.account_creation.ValidationResult;
 import com.github.novabank.domain.account.accounts.Account;
 import com.github.novabank.domain.account.accounts.AdultAccount;
 import com.github.novabank.domain.finance.finance_accounts.Finance;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,14 @@ import java.util.List;
 /**
  * Application service for handling new customer registration.
  */
+@Service
 public class RegisterCustomer {
+
+    private final AccountRepository accountRepository;
+
+    public RegisterCustomer(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
     /**
      * Registers a new customer by creating an account.
@@ -31,7 +40,9 @@ public class RegisterCustomer {
             throw new IllegalArgumentException("Invalid registration details: " + String.join(", ", validation.getErrors()));
         }
 
-        return AccountFactory.createAccount(info, financeProducts, parent);
+        Account account = AccountFactory.createAccount(info, financeProducts, parent);
+        accountRepository.create(account);
+        return account;
     }
 
     /**

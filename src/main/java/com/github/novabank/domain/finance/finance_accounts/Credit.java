@@ -14,6 +14,14 @@ public class Credit extends Finance {
     private YearMonth lastInterestApplied;
     private final Clock clock;
 
+    public double getCreditInterestRate() {
+        return this.creditInterestRate;
+    }
+
+    public int getCreditLimit() {
+        return this.creditLimit;
+    }
+
     public Credit(
             int creditLimit,
             double creditInterestRate,
@@ -21,7 +29,7 @@ public class Credit extends Finance {
             int dailyWithdrawalLimit,
             int dailyPurchaseLimit,
             int dailyTransferLimit,
-            int dailyTransferLimit2, Clock clock
+            Clock clock
     ) {
         super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
         this.clock = clock;
@@ -61,4 +69,6 @@ public class Credit extends Finance {
         balance -= amount;
         if (balance < 0) balance = 0;
     }
+
+
 }

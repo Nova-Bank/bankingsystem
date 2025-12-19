@@ -4,17 +4,19 @@ import com.github.novabank.application.customer_accounts.LoginCustomer;
 import com.github.novabank.application.dtos.LoginResult;
 import com.github.novabank.presentation.dtos.LoginRequest;
 import com.github.novabank.domain.account.accounts.Account;
+import org.springframework.stereotype.Service;
 
 /**
  * Application service wrapping the login process.
  * Accepts a front-end LoginRequest and returns a LoginResult.
  */
+@Service
 public class LoginApplicationService {
 
     private final LoginCustomer loginCustomer;
 
-    public LoginApplicationService() {
-        this.loginCustomer = new LoginCustomer();
+    public LoginApplicationService(LoginCustomer loginCustomer) {
+        this.loginCustomer = loginCustomer;
     }
 
     /**

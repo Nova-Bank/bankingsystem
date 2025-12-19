@@ -27,6 +27,10 @@ public class Savings extends Finance {
                 Clock.system(ZoneId.of("America/Toronto")));
     }
 
+    public double getInterestRate() {
+        return this.interestRate;
+    }
+
     @Override
     public void interest() {
         YearMonth now = YearMonth.now(clock);

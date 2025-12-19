@@ -6,6 +6,9 @@ import com.github.novabank.domain.finance.FinanceRepository;
 import com.github.novabank.domain.finance.finance_accounts.Finance;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
 @Service
 public class AccountService {
 
@@ -18,8 +21,8 @@ public class AccountService {
         this.financeRepo = financeRepo;
     }
 
-    public void deposit(int accountId, String productKey, int amount) {
-        Account account = accountRepo.get(accountId);
+    public void deposit(int accountId, String productKey, int amount) throws IOException, ExecutionException, InterruptedException {
+        Account account = accountRepo.findById(accountId);
         Finance finance = account.getFinanceProducts().get(productKey);
 
         finance.deposit(amount);

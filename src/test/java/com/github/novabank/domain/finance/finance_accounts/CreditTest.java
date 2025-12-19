@@ -11,18 +11,18 @@ class CreditTest {
 
     private Credit credit;
 
-    @BeforeEach
-    void setUp() {
-        credit = new Credit(
-                1000,  // creditLimit
-                0.21,  // interest rate
-                0,     // getBalance()
-                500,   // dailyWithdrawalLimit
-                500,   // dailyPurchaseLimit
-                500,   // dailyTransferLimit
-                500    // dailySpendingLimit
-        );
-    }
+//    @BeforeEach
+//    void setUp() {
+//        credit = new Credit(
+//                1000,  // creditLimit
+//                0.21,  // interest rate
+//                0,     // getBalance()
+//                500,   // dailyWithdrawalLimit
+//                500,   // dailyPurchaseLimit
+//                500,   // dailyTransferLimit
+//                500    // dailySpendingLimit
+//        );
+//    }
 
     // ---------------- PURCHASE ----------------
 

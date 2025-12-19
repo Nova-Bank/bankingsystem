@@ -9,13 +9,20 @@ import com.github.novabank.domain.account.account_creation.ValidationResult;
 import com.github.novabank.domain.account.accounts.Account;
 import com.github.novabank.domain.account.accounts.AdultAccount;
 import com.github.novabank.domain.account.accounts.ChildAccount;
+import com.github.novabank.infrastructure.config.FirebaseConfig;
 import com.github.novabank.infrastructure.database.AccountRepositoryimpl;
+import com.google.cloud.firestore.Firestore;
 
 public class ChangePassword {
 
     public static Account changePassword(String email, String newPass) throws Exception {
-        
-        AccountRepositoryimpl repository = new AccountRepositoryimpl();
+
+
+        FirebaseConfig firebaseConfig = new FirebaseConfig();
+        firebaseConfig.initialize();
+        Firestore db = firebaseConfig.getFirestore();
+
+        AccountRepositoryimpl repository = new AccountRepositoryimpl(db);
         Account account = repository.findByEmail(email);
 
         if (account == null) {

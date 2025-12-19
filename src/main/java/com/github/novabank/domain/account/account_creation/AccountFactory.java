@@ -2,7 +2,9 @@ package com.github.novabank.domain.account.account_creation;
 
 import com.github.novabank.domain.account.accounts.*;
 import com.github.novabank.domain.finance.finance_accounts.Finance;
+import com.github.novabank.infrastructure.config.FirebaseConfig;
 import com.github.novabank.infrastructure.database.AccountRepositoryimpl;
+import com.google.cloud.firestore.Firestore;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -53,7 +55,12 @@ public class AccountFactory {
             ChildAccount childAccount = builder.build();
             parent.addChild(childAccount);
 
-            AccountRepositoryimpl impl = new AccountRepositoryimpl();
+
+            FirebaseConfig firebaseConfig = new FirebaseConfig();
+            firebaseConfig.initialize();
+            Firestore db = firebaseConfig.getFirestore();
+
+            AccountRepositoryimpl impl = new AccountRepositoryimpl(db);
             impl.create(childAccount);
             System.out.println("\n" + impl.read(childAccount) + "\n");
             return childAccount;
@@ -73,7 +80,11 @@ public class AccountFactory {
 
             AdultAccount adultAccount = builder.build();
 
-            AccountRepositoryimpl impl = new AccountRepositoryimpl();
+            FirebaseConfig firebaseConfig = new FirebaseConfig();
+            firebaseConfig.initialize();
+            Firestore db = firebaseConfig.getFirestore();
+
+            AccountRepositoryimpl impl = new AccountRepositoryimpl(db);
             impl.create(adultAccount);
             System.out.println("\n" + impl.read(adultAccount) + "\n");
             return adultAccount;

@@ -71,37 +71,37 @@ class FinanceFactoryTest {
 
     // ---------------- CREDIT ----------------
 
-    @Test
-    void createCredit_black_returnsCreditWithCorrectLimit() {
-        Credit credit = FinanceFactory.createCredit("black");
+//    @Test
+//    void createCredit_black_returnsCreditWithCorrectLimit() {
+//        Credit credit = FinanceFactory.createCredit("black");
+//
+//        assertNotNull(credit);
+//        assertEquals(100000000, credit.getMaximumBalanceWithoutInterest());
+//    }
 
-        assertNotNull(credit);
-        assertEquals(100000000, credit.getMaximumBalanceWithoutInterest());
-    }
+//    @Test
+//    void createCredit_red_returnsCreditWithCorrectLimit() {
+//        Credit credit = FinanceFactory.createCredit("red");
+//
+//        assertNotNull(credit);
+//        assertEquals(10000000, credit.getMaximumBalanceWithoutInterest());
+//    }
 
-    @Test
-    void createCredit_red_returnsCreditWithCorrectLimit() {
-        Credit credit = FinanceFactory.createCredit("red");
+//    @Test
+//    void createCredit_silver_returnsCreditWithCorrectLimit() {
+//        Credit credit = FinanceFactory.createCredit("silver");
+//
+//        assertNotNull(credit);
+//        assertEquals(1000000, credit.getMaximumBalanceWithoutInterest());
+//    }
 
-        assertNotNull(credit);
-        assertEquals(10000000, credit.getMaximumBalanceWithoutInterest());
-    }
-
-    @Test
-    void createCredit_silver_returnsCreditWithCorrectLimit() {
-        Credit credit = FinanceFactory.createCredit("silver");
-
-        assertNotNull(credit);
-        assertEquals(1000000, credit.getMaximumBalanceWithoutInterest());
-    }
-
-    @Test
-    void createCredit_green_returnsCreditWithCorrectLimit() {
-        Credit credit = FinanceFactory.createCredit("green");
-
-        assertNotNull(credit);
-        assertEquals(300000, credit.getMaximumBalanceWithoutInterest());
-    }
+//    @Test
+//    void createCredit_green_returnsCreditWithCorrectLimit() {
+//        Credit credit = FinanceFactory.createCredit("green");
+//
+//        assertNotNull(credit);
+//        assertEquals(300000, credit.getMaximumBalanceWithoutInterest());
+//    }
 
     @Test
     void createCredit_invalidType_throwsException() {

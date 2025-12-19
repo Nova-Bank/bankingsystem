@@ -4,9 +4,11 @@ import com.github.novabank.application.dtos.PaymentResult;
 import com.github.novabank.application.financal_actions.MakePayment;
 import com.github.novabank.domain.finance.finance_accounts.FinanceType;
 import com.github.novabank.presentation.dtos.PaymentRequest;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+@Service
 public class PaymentApplicationService {
 
     private final MakePayment makePayment;

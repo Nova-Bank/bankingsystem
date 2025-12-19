@@ -35,4 +35,14 @@ public class InMemoryFinanceRepository implements FinanceRepository {
     public int getNetPositionCentsForAccount(int accountUid) {
         return 0;
     }
+
+    @Override
+    public Map<String, Finance> loadForAccount(int uid) {
+        return Map.of();
+    }
+
+    @Override
+    public void save(int accountId, String key, Finance finance) {
+
+    }
 }

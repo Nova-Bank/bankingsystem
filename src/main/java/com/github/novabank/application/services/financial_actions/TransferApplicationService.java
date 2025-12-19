@@ -1,10 +1,10 @@
 package com.github.novabank.application.services.financial_actions;
 
-import com.github.novabank.presentation.dtos.TransferRequest;
 import com.github.novabank.application.dtos.TransferResult;
 import com.github.novabank.application.financal_actions.TransferUseCase;
-import com.github.novabank.domain.finance.FinanceRepository;
 import com.github.novabank.domain.finance.finance_accounts.FinanceType;
+import com.github.novabank.presentation.dtos.TransferRequest;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,12 +13,13 @@ import java.time.LocalDateTime;
  * Application service wrapping the transfer use case.
  * Accepts TransferRequest from the front-end and returns TransferResult DTO.
  */
+@Service
 public class TransferApplicationService {
 
     private final TransferUseCase transferUseCase;
 
-    public TransferApplicationService(FinanceRepository financeRepository) {
-        this.transferUseCase = new TransferUseCase(financeRepository);
+    public TransferApplicationService(TransferUseCase transferUseCase) {
+        this.transferUseCase = transferUseCase;
     }
 
     public TransferResult execute(TransferRequest request) {
