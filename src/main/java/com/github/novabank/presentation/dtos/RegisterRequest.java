@@ -1,93 +1,66 @@
 package com.github.novabank.presentation.dtos;
 
-import java.util.Objects;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-/**
- * RegisterRequest represents a new account registration request
- * coming from the front-end.
- */
 public class RegisterRequest {
 
-    private final String fullName;
-    private final String email;
-    private final String password;
-    private final int age;
-    private final String accountType;
+    @NotBlank(message = "Username is required")
+    private String username;
 
-    public RegisterRequest(String fullName,
-                           String email,
-                           String password,
-                           int age,
-                           String accountType) {
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
+    private String email;
 
-        if (fullName == null || fullName.isBlank()) {
-            throw new IllegalArgumentException("Full name is required");
-        }
-        if (email == null || email.isBlank() || !email.contains("@")) {
-            throw new IllegalArgumentException("Valid email is required");
-        }
-        if (password == null || password.length() < 8) {
-            throw new IllegalArgumentException("Password must be at least 8 characters");
-        }
-        if (age <= 0) {
-            throw new IllegalArgumentException("Age must be positive");
-        }
-        if (accountType == null || accountType.isBlank()) {
-            throw new IllegalArgumentException("Account type is required");
-        }
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, message = "Password must be at least 8 characters")
+    private String password;
 
-        this.fullName = fullName;
-        this.email = email;
-        this.password = password;
-        this.age = age;
-        this.accountType = accountType;
+    @Min(value = 1, message = "Age must be at least 1")
+    private int age;
+
+    @NotBlank(message = "Phone number is required")
+    private String phoneNumber;
+
+    public String getUsername() {
+        return username;
     }
 
-    public String getFullName() {
-        return fullName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getAge() {
         return age;
     }
 
-    public String getAccountType() {
-        return accountType;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RegisterRequest)) return false;
-        RegisterRequest that = (RegisterRequest) o;
-        return age == that.age &&
-               fullName.equals(that.fullName) &&
-               email.equals(that.email) &&
-               password.equals(that.password) &&
-               accountType.equals(that.accountType);
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(fullName, email, password, age, accountType);
-    }
-
-    @Override
-    public String toString() {
-        return "RegisterRequest{" +
-                "fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='[PROTECTED]'" +
-                ", age=" + age +
-                ", accountType='" + accountType + '\'' +
-                '}';
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
