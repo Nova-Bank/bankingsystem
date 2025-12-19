@@ -27,7 +27,6 @@ class CreditBuilderTest {
                 .setDailyWithdrawalLimit(500)
                 .setDailyPurchaseLimit(500)
                 .setDailyTransferLimit(500)
-                .setDailySpendingLimit(1000)
                 .build();
 
         assertNotNull(credit);
@@ -45,8 +44,7 @@ class CreditBuilderTest {
                 .setAmountSpentToday(0)
                 .setDailyWithdrawalLimit(100)
                 .setDailyPurchaseLimit(100)
-                .setDailyTransferLimit(100)
-                .setDailySpendingLimit(100);
+                .setDailyTransferLimit(100);
 
         IllegalStateException ex =
                 assertThrows(IllegalStateException.class, builder::build);
@@ -63,8 +61,7 @@ class CreditBuilderTest {
                 .setAmountSpentToday(0)
                 .setDailyWithdrawalLimit(100)
                 .setDailyPurchaseLimit(100)
-                .setDailyTransferLimit(100)
-                .setDailySpendingLimit(100);
+                .setDailyTransferLimit(100);
 
         assertThrows(IllegalStateException.class, builder::build);
     }
@@ -78,8 +75,7 @@ class CreditBuilderTest {
                 .setAmountSpentToday(0)
                 .setDailyWithdrawalLimit(100)
                 .setDailyPurchaseLimit(100)
-                .setDailyTransferLimit(100)
-                .setDailySpendingLimit(100);
+                .setDailyTransferLimit(100);
 
         assertThrows(IllegalStateException.class, builder::build);
     }
@@ -93,8 +89,7 @@ class CreditBuilderTest {
                 .setAmountSpentToday(-10)
                 .setDailyWithdrawalLimit(100)
                 .setDailyPurchaseLimit(100)
-                .setDailyTransferLimit(100)
-                .setDailySpendingLimit(100);
+                .setDailyTransferLimit(100);
 
         assertThrows(IllegalStateException.class, builder::build);
     }
@@ -108,8 +103,7 @@ class CreditBuilderTest {
                 .setAmountSpentToday(0)
                 .setDailyWithdrawalLimit(0)
                 .setDailyPurchaseLimit(0)
-                .setDailyTransferLimit(0)
-                .setDailySpendingLimit(0);
+                .setDailyTransferLimit(0);
 
         assertThrows(IllegalStateException.class, builder::build);
     }
@@ -125,8 +119,7 @@ class CreditBuilderTest {
                 .setAmountSpentToday(50)
                 .setDailyWithdrawalLimit(100)
                 .setDailyPurchaseLimit(100)
-                .setDailyTransferLimit(100)
-                .setDailySpendingLimit(100);
+                .setDailyTransferLimit(100);
 
         builder.reset();
 
@@ -145,8 +138,7 @@ class CreditBuilderTest {
                 .setAmountSpentToday(0)
                 .setDailyWithdrawalLimit(100)
                 .setDailyPurchaseLimit(100)
-                .setDailyTransferLimit(100)
-                .setDailySpendingLimit(100);
+                .setDailyTransferLimit(100);
 
         assertSame(builder, returned);
     }
@@ -162,8 +154,7 @@ class CreditBuilderTest {
                 .setAmountSpentToday(20)
                 .setDailyWithdrawalLimit(100)
                 .setDailyPurchaseLimit(200)
-                .setDailyTransferLimit(300)
-                .setDailySpendingLimit(400);
+                .setDailyTransferLimit(300);
 
         String result = builder.toString();
 

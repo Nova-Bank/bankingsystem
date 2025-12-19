@@ -134,6 +134,11 @@ public class AccountRepositoryimpl implements AccountRepository {
         return documentToAccount(documents.get(0));
     }
 
+    @Override
+    public List<Account> findAll() {
+        return List.of();
+    }
+
     private Account documentToAccount(QueryDocumentSnapshot document) {
         Map<String, Object> data = document.getData();
         boolean isChild = (boolean) data.getOrDefault("child", false);

@@ -126,7 +126,7 @@ class ChequingBuilderTest {
         String result = builder.toString();
 
         assertTrue(result.contains("balance=50"));
-        assertTrue(result.contains("dailyWithdrawlLimit=10"));
+        assertTrue(result.contains("dailyWithdrawalLimit=10"));
         assertTrue(result.contains("dailyPurchaseLimits=20"));
         assertTrue(result.contains("dailyTransferLimit=30"));
     }

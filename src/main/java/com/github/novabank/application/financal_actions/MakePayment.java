@@ -1,47 +1,46 @@
-package com.github.novabank.application.financal_actions;
+package com.github.novabank.application.services;
 
-import com.github.novabank.domain.finance.FinanceRepository;
-
-import com.github.novabank.domain.finance.finance_accounts.Finance;
+import com.github.novabank.application.dtos.PaymentResult;
 import com.github.novabank.domain.finance.finance_accounts.FinanceType;
-import com.github.novabank.domain.finance.finance_accounts.Credit;
+import com.github.novabank.application.financal_actions.MakePayment;
+import com.github.novabank.presentation.dtos.PaymentRequest;
 
-public class MakePayment {
+import java.math.BigDecimal;
 
-    private final FinanceRepository financeRepository;
+public class PaymentApplicationService {
 
-    public MakePayment(FinanceRepository financeRepository) {
-        this.financeRepository = financeRepository;
+    private final MakePayment makePayment;
+
+    public PaymentApplicationService(MakePayment makePayment) {
+        this.makePayment = makePayment;
     }
 
-    public int execute(
-            String payerAccountUid,
-            FinanceType payerType,
-            String creditOwnerAccountUid,
-            int amountCents
-    ) {
-        if (amountCents <= 0) {
-            throw new IllegalStateException("amountCents must be greater than 0");
-        }
+    public PaymentResult handle(PaymentRequest request) {
 
-        Finance payer = financeRepository.find(payerAccountUid, payerType)
-                .orElseThrow(() -> new IllegalStateException("Payer finance not found for accountUid=" + payerAccountUid + " type=" + payerType));
+        // Convert money safely
+        int amountCents = request.getAmount()
+                .multiply(BigDecimal.valueOf(100))
+                .intValueExact();
 
-        Finance creditFinance = financeRepository.find(creditOwnerAccountUid, FinanceType.CREDIT)
-                .orElseThrow(() -> new IllegalStateException("Credit finance not found for accountUid=" + creditOwnerAccountUid));
+        // TEMP assumption: paymentFrom maps to account UID
+        // If this mapping changes later, ONLY this class changes
+        String payerAccountUid = request.getPaymentFrom();
+        String creditOwnerAccountUid = request.getPaymentTo();
 
-        if (!(creditFinance instanceof Credit)) {
-            throw new IllegalStateException("FinanceType.CREDIT is not a Credit instance");
-        }
+        int updatedCreditBalance = makePayment.execute(
+                payerAccountUid,
+                FinanceType.CHEQUING,
+                creditOwnerAccountUid,
+                amountCents
+        );
 
-        Credit credit = (Credit) creditFinance;
-
-        payer.withdraw(amountCents);
-        credit.closeBalance(amountCents);
-
-        financeRepository.save(payerAccountUid, payerType, payer);
-        financeRepository.save(creditOwnerAccountUid, FinanceType.CREDIT, credit);
-
-        return credit.getBalance();
+        return new PaymentResult(
+                request.getEmail(),
+                request.getPaymentFrom(),
+                request.getPaymentTo(),
+                request.getAmount(),
+                request.getPaymentType(),
+                updatedCreditBalance
+        );
     }
 }

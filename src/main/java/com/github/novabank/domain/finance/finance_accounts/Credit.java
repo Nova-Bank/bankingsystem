@@ -1,66 +1,65 @@
 package com.github.novabank.domain.finance.finance_accounts;
 
-import java.time.LocalDate;
+import java.time.Clock;
+import java.time.YearMonth;
 
 import lombok.Getter;
-import lombok.Setter;
-@Getter 
-@Setter
-public class Credit extends Finance{
-    private int lastMonth = -1;
-     private int  creditLimit;
-    private double creditInterestRate = 0.21;
-    private @Setter int maximumBalanceWithoutInterest;
 
-    public Credit(int creditLimit, double creditInterestRate, int balance, int dailyWithdrawalLimit, int dailyPurchaseLimit, int dailyTransferLimit, int dailySpendingLimit) {
+@Getter
+public class Credit extends Finance {
+    private final int creditLimit;
+    private final double creditInterestRate;
+    private final int maximumBalanceWithoutInterest;
+
+    private YearMonth lastInterestApplied;
+    private final Clock clock;
+
+    public Credit(
+            int creditLimit,
+            double creditInterestRate,
+            int balance,
+            int dailyWithdrawalLimit,
+            int dailyPurchaseLimit,
+            int dailyTransferLimit,
+            int dailyTransferLimit2
+    ) {
         super(balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+
+        if (creditLimit <= 0) throw new IllegalArgumentException("creditLimit must be > 0");
+        if (creditInterestRate <= 0) throw new IllegalArgumentException("creditInterestRate must be > 0");
+        if (dailyTransferLimit2 == null) throw new IllegalArgumentException("clock is required");
+
         this.creditLimit = creditLimit;
         this.creditInterestRate = creditInterestRate;
-        this.maximumBalanceWithoutInterest = (int) (creditLimit * 0.10);
+        this.maximumBalanceWithoutInterest = (int) Math.round(creditLimit * 0.10);
+
+        this.clock = dailyTransferLimit2;
+        this.lastInterestApplied = null;
     }
 
-    /** add credit balance
-     * Pyrchase -> if cost of purchase + credit balance > limit DENY transaction-> else
-     * credit balance += Purchaseprice;
-     * Accept purchase;
-     *
-     */
-  @Override
-public void interest() {
-    // lastMonth should be a field, not local variable
-    int currentMonth = LocalDate.now().getMonthValue();
 
-    if (lastMonth == -1) {
-        // first time interest is applied
-        lastMonth = currentMonth;
-        return;
+    @Override
+    public void interest() {
+        YearMonth now = YearMonth.now(clock);
+
+        if (lastInterestApplied != null && now.equals(lastInterestApplied)) return;
+
+        if (balance > maximumBalanceWithoutInterest) {
+            balance = (int) Math.round(balance * (1 + creditInterestRate));
+        }
+
+        lastInterestApplied = now;
     }
-
-    if (currentMonth != lastMonth && balance > maximumBalanceWithoutInterest) {
-        // apply interest only once per month
-        balance = (int) Math.round(balance * (1 + creditInterestRate));
-    }
-
-    // update lastMonth to current month
-    lastMonth = currentMonth;
-}
-
 
     public void purchase(int amount) {
-        if  (amount < 0) {
-            throw new IllegalStateException("amount less than 0");
-        }
-        if (amount + balance > creditLimit) {
-            throw new IllegalStateException("Credit limit exceeded");
-
-        }
+        if (amount <= 0) throw new IllegalArgumentException("amount must be > 0");
+        if (balance + amount > creditLimit) throw new IllegalStateException("Credit limit exceeded");
         balance += amount;
     }
 
     public void closeBalance(int amount) {
+        if (amount <= 0) throw new IllegalArgumentException("amount must be > 0");
         balance -= amount;
-    }
-    public int getMaximumBalanceWithoutInterest(){
-        return maximumBalanceWithoutInterest;
+        if (balance < 0) balance = 0;
     }
 }

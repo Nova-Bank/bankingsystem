@@ -62,7 +62,9 @@ public class ChequingBuilder implements FinanceBuilder<Chequing> {
 
     @Override
     public String toString() {
-        return String.format("ChequingBuilder[ID=%d balance=%d dailyWithdrawlLimit=%d, dailyPurchaseLimits=%d, dailyTransferLimit=%d]",
-                balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit);
+        return String.format(
+                "ChequingBuilder[balance=%d dailyWithdrawalLimit=%d, dailyPurchaseLimits=%d, dailyTransferLimit=%d]",
+                balance, dailyWithdrawalLimit, dailyPurchaseLimit, dailyTransferLimit
+        );
     }
 }
